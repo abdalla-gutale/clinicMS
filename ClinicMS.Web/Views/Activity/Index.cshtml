@@ -1,0 +1,308 @@
+@{
+    ViewData["Title"] = "Activity Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Activity Logs";
+}
+
+@section styles {
+<style>
+    
+
+/* ── KPI STAT CARDS ── */
+.al-kpi-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    padding: 20px 20px 14px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s, box-shadow .18s;
+}
+.al-kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(15,23,42,.10); }
+.al-kpi-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+}
+.al-kpi-card.c-teal::before  { background: linear-gradient(90deg,#0d9488,#14b8a6); }
+.al-kpi-card.c-green::before { background: linear-gradient(90deg,#16a34a,#22c55e); }
+.al-kpi-card.c-amber::before { background: linear-gradient(90deg,#d97706,#f59e0b); }
+.al-kpi-card.c-red::before   { background: linear-gradient(90deg,#dc2626,#f87171); }
+
+.al-kpi-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.al-kpi-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+}
+.al-kpi-icon.c-teal  { background: rgba(13,148,136,.1);  color: #0d9488; }
+.al-kpi-icon.c-green { background: rgba(22,163,74,.1);   color: #16a34a; }
+.al-kpi-icon.c-amber { background: rgba(217,119,6,.1);   color: #d97706; }
+.al-kpi-icon.c-red   { background: rgba(220,38,38,.1);   color: #dc2626; }
+
+.al-kpi-val { font-size: 2rem; font-weight: 900; line-height: 1; letter-spacing: -.03em; }
+.al-kpi-val.c-teal  { color: #0d9488; }
+.al-kpi-val.c-green { color: #16a34a; }
+.al-kpi-val.c-amber { color: #d97706; }
+.al-kpi-val.c-red   { color: #dc2626; }
+.al-kpi-lbl { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #94a3b8; margin-top: 4px; }
+
+/* Sparkline bars */
+.al-sparkline { display: flex; align-items: flex-end; gap: 3px; height: 32px; margin-top: 14px; }
+.al-spark-bar { flex: 1; border-radius: 3px 3px 0 0; min-height: 4px; transition: opacity .15s; }
+.al-spark-bar:hover { opacity: .75; }
+
+/* ── SECTION LABEL ── */
+.al-section-lbl {
+    font-size: .65rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .12em; color: #94a3b8; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+}
+.al-section-lbl::after { content:""; flex:1; height:1px; background:#f1f5f9; }
+
+/* ── FEED CARD ── */
+.al-card {
+    background: #fff; border-radius: 16px;
+    border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    overflow: hidden; height: 100%;
+}
+.al-card-head {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.al-card-title { font-size: 1rem; font-weight: 800; color: #1e293b; margin: 0; }
+.al-card-sub   { font-size: .76rem; color: #94a3b8; margin: 3px 0 0; }
+
+/* Filter tabs */
+.al-filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; padding: 12px 20px; border-bottom: 1px solid #f1f5f9; }
+.al-filter-tab {
+    padding: 5px 14px; border-radius: 999px;
+    border: 1.5px solid #e2e8f0; background: #f8fafc;
+    font-size: .72rem; font-weight: 700; color: #64748b;
+    cursor: pointer; transition: all .15s; letter-spacing: .04em;
+}
+.al-filter-tab:hover { border-color: #0d9488; color: #0d9488; background: #f0fdfa; }
+.al-filter-tab.active { background: #0d9488; border-color: #0d9488; color: #fff; }
+
+/* Feed items */
+.al-feed { padding: 6px 0; }
+.al-feed-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 13px 20px; border-bottom: 1px solid #f8fafc;
+    transition: background .14s;
+}
+.al-feed-item:hover { background: #f8fafc; }
+.al-feed-item:last-child { border-bottom: none; }
+
+.al-feed-avatar {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 2px;
+}
+.al-feed-body { flex: 1; min-width: 0; }
+.al-feed-user { font-size: .875rem; font-weight: 700; color: #1e293b; }
+.al-feed-role { font-size: .76rem; color: #94a3b8; font-weight: 500; margin-left: 6px; }
+.al-feed-ip   { font-size: .72rem; color: #cbd5e1; margin-left: 4px; }
+.al-feed-msg  { font-size: .82rem; color: #64748b; margin-top: 4px; }
+.al-feed-time { text-align: right; flex-shrink: 0; }
+.al-feed-date { font-size: .76rem; color: #64748b; font-weight: 600; }
+.al-feed-hour { font-size: .72rem; color: #94a3b8; margin-top: 2px; }
+
+/* Action badge */
+.al-action-badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 9px; border-radius: 6px;
+    font-size: .65rem; font-weight: 800; letter-spacing: .06em;
+    text-transform: uppercase; margin-right: 6px;
+}
+.al-action-login  { background: #dbeafe; color: #1d4ed8; }
+.al-action-create { background: #dcfce7; color: #15803d; }
+.al-action-update { background: #fef9c3; color: #a16207; }
+.al-action-delete { background: #fee2e2; color: #b91c1c; }
+.al-action-otp    { background: #ede9fe; color: #6d28d9; }
+.al-action-view   { background: #f0fdfa; color: #0f766e; }
+
+/* ── DISTRIBUTION CARD ── */
+.al-dist-card {
+    background: #fff; border-radius: 16px;
+    border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(15,23,42,.06);
+}
+.al-dist-head { padding: 18px 20px 14px; border-bottom: 1px solid #f1f5f9; }
+.al-dist-body { padding: 20px; }
+
+.al-donut-wrap { position: relative; display: flex; justify-content: center; margin-bottom: 20px; }
+.al-donut-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); text-align: center; pointer-events: none;
+}
+.al-donut-center .dv { font-size: 1.5rem; font-weight: 900; color: #1e293b; line-height: 1; }
+.al-donut-center .dl { font-size: .62rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+
+.al-dist-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid #f8fafc;
+}
+.al-dist-row:last-child { border-bottom: none; }
+.al-dist-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.al-dist-lbl  { font-size: .82rem; font-weight: 600; color: #475569; flex: 1; }
+.al-dist-bar-wrap { width: 80px; height: 6px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
+.al-dist-bar  { height: 100%; border-radius: 999px; }
+.al-dist-pct  { font-size: .78rem; font-weight: 800; color: #1e293b; min-width: 34px; text-align: right; }
+
+/* Pagination */
+.al-pagination { display:flex; align-items:center; justify-content:space-between; padding:12px 20px; border-top:1px solid #f1f5f9; flex-wrap:wrap; gap:8px; }
+.al-page-info { font-size:.76rem; color:#64748b; }
+.al-page-btns { display:flex; gap:4px; }
+.al-page-btn  { width:30px; height:30px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.76rem; font-weight:700; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
+.al-page-btn.active, .al-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+
+/* Search in feed */
+.al-feed-search { padding: 10px 20px; border-bottom: 1px solid #f1f5f9; }
+.al-feed-search input { width:100%; height:36px; padding:0 12px 0 36px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.82rem; outline:none; }
+.al-feed-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.al-feed-search-wrap { position:relative; }
+.al-feed-search-wrap i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:.9rem; }
+</style>
+}
+
+<div class="gp-page">
+
+    <!-- ── KPI CARDS ── -->
+    <div class="al-section-lbl mb-3">Summary</div>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="al-kpi-card c-teal">
+                <div class="al-kpi-top">
+                    <div class="al-kpi-icon c-teal"><i class="ri-pulse-line"></i></div>
+                    <span style="font-size:.7rem;font-weight:700;color:#94a3b8;">Recent</span>
+                </div>
+                <div class="al-kpi-val c-teal" id="kpiTotal">1,000</div>
+                <div class="al-kpi-lbl">Total Logs</div>
+                <div class="al-sparkline" id="sparkTotal"></div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="al-kpi-card c-green">
+                <div class="al-kpi-top">
+                    <div class="al-kpi-icon c-green"><i class="ri-add-circle-line"></i></div>
+                    <span style="font-size:.7rem;font-weight:700;color:#94a3b8;">Actions</span>
+                </div>
+                <div class="al-kpi-val c-green" id="kpiCreate">70</div>
+                <div class="al-kpi-lbl">Create</div>
+                <div class="al-sparkline" id="sparkCreate"></div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="al-kpi-card c-amber">
+                <div class="al-kpi-top">
+                    <div class="al-kpi-icon c-amber"><i class="ri-edit-line"></i></div>
+                    <span style="font-size:.7rem;font-weight:700;color:#94a3b8;">Actions</span>
+                </div>
+                <div class="al-kpi-val c-amber" id="kpiUpdate">118</div>
+                <div class="al-kpi-lbl">Update</div>
+                <div class="al-sparkline" id="sparkUpdate"></div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="al-kpi-card c-red">
+                <div class="al-kpi-top">
+                    <div class="al-kpi-icon c-red"><i class="ri-delete-bin-line"></i></div>
+                    <span style="font-size:.7rem;font-weight:700;color:#94a3b8;">Actions</span>
+                </div>
+                <div class="al-kpi-val c-red" id="kpiDelete">19</div>
+                <div class="al-kpi-lbl">Delete</div>
+                <div class="al-sparkline" id="sparkDelete"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── ACTIVITY FEED ── -->
+    <div class="al-section-lbl mb-3">Activity Feed</div>
+    <div class="row g-3">
+
+        <!-- Feed -->
+        <div class="col-12 col-xl-8">
+            <div class="al-card">
+                <div class="al-card-head">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="al-card-title">System Activity History</div>
+                            <div class="al-card-sub">All recorded user and system actions</div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm" style="background:#f0fdfa;color:#0d9488;border:1.5px solid #a7f3d0;font-weight:700;border-radius:8px;font-size:.76rem;" onclick="exportLogs()">
+                                <i class="ri-download-line me-1"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter tabs -->
+                <div class="al-filter-tabs">
+                    <button class="al-filter-tab active" data-filter="all">All</button>
+                    <button class="al-filter-tab" data-filter="create">Create</button>
+                    <button class="al-filter-tab" data-filter="update">Update</button>
+                    <button class="al-filter-tab" data-filter="delete">Delete</button>
+                    <button class="al-filter-tab" data-filter="login">Login</button>
+                </div>
+
+                <!-- Search -->
+                <div class="al-feed-search">
+                    <div class="al-feed-search-wrap">
+                        <i class="ri-search-line"></i>
+                        <input type="text" id="logSearch" placeholder="Search by user, action, IP…" oninput="filterLogs()">
+                    </div>
+                </div>
+
+                <!-- Feed list -->
+                <div class="al-feed" id="activityFeed"></div>
+
+                <!-- Pagination -->
+                <div class="al-pagination">
+                    <span class="al-page-info" id="feedPageInfo"></span>
+                    <div class="al-page-btns" id="feedPageBtns"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution -->
+        <div class="col-12 col-xl-4">
+            <div class="al-dist-card mb-3">
+                <div class="al-dist-head">
+                    <div class="al-card-title">Action Distribution</div>
+                    <div class="al-card-sub">Breakdown by action type</div>
+                </div>
+                <div class="al-dist-body">
+                    <div class="al-donut-wrap">
+                        <canvas id="distChart" width="180" height="180"></canvas>
+                        <div class="al-donut-center">
+                            <div class="dv">1,000</div>
+                            <div class="dl">Total</div>
+                        </div>
+                    </div>
+                    <div id="distLegend"></div>
+                </div>
+            </div>
+
+            <!-- Top Users -->
+            <div class="al-dist-card">
+                <div class="al-dist-head">
+                    <div class="al-card-title">Top Active Users</div>
+                    <div class="al-card-sub">Most actions this month</div>
+                </div>
+                <div class="al-dist-body" id="topUsersList"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var AUDIT_TRAIL_DATA = @Html.Raw(ViewBag.AuditTrailJson);
+    var USER_LOGS_DATA = @Html.Raw(ViewBag.UserLogsJson);
+    var USERNAMES_BY_ID = @Html.Raw(ViewBag.UsernamesJson);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/scripts/Features/activity.js"></script>
+}

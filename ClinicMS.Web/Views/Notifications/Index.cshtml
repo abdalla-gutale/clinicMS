@@ -1,0 +1,185 @@
+@{
+    ViewData["Title"] = "Notifications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Notifications";
+}
+
+@section styles {
+<style>
+    
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-stat-card { background:#fff; border-radius:14px; border:1px solid #e2e8f0; padding:18px 20px; }
+.gp-stat-val { font-size:1.6rem; font-weight:900; line-height:1; }
+.gp-stat-lbl { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; margin-top:4px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-select { height:38px; padding:0 10px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; color:#475569; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-green { background:#dcfce7; color:#15803d; }
+.gp-badge-red { background:#fee2e2; color:#b91c1c; }
+.gp-badge-yellow { background:#fef9c3; color:#a16207; }
+.gp-badge-blue { background:#dbeafe; color:#1d4ed8; }
+.gp-badge-purple { background:#ede9fe; color:#6d28d9; }
+.gp-badge-teal { background:#ccfbf1; color:#0f766e; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-view { background:#eff6ff; color:#2563eb; }
+.gp-btn-view:hover { background:#2563eb; color:#fff; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.msg-preview { max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Notifications</h4>
+            <p class="gp-sub">Send SMS and Email notifications</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+            <i class="ri-send-plane-line me-1"></i> Send Notification
+        </button>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#16a34a;" id="statSent">0</div>
+                <div class="gp-stat-lbl">Sent</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#dc2626;" id="statFailed">0</div>
+                <div class="gp-stat-lbl">Failed</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#d97706;" id="statPending">0</div>
+                <div class="gp-stat-lbl">Pending</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search notifications..." oninput="handleSearch(this.value)">
+            </div>
+            <select class="gp-select" id="typeFilter" onchange="handleFilter()">
+                <option value="">All Types</option>
+                <option>WhatsApp</option><option>Email</option>
+            </select>
+            <select class="gp-select" id="statusFilter" onchange="handleFilter()">
+                <option value="">All Status</option>
+                <option>Sent</option><option>Failed</option>
+            </select>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Recipient</th>
+                        <th>Title</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Sent At</th>
+                    </tr>
+                </thead>
+                <tbody id="notifTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Send Modal -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Send Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Type</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check"><input class="form-check-input" type="radio" name="nType" id="nWhatsApp" value="WhatsApp" checked><label class="form-check-label" for="nWhatsApp">WhatsApp</label></div>
+                        <div class="form-check"><input class="form-check-input" type="radio" name="nType" id="nEmail" value="Email"><label class="form-check-label" for="nEmail">Email</label></div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Recipients (Patients)</label>
+                    <select class="form-select" id="fRecipients" multiple style="height:100px;"></select>
+                    <small class="text-muted">Hold Ctrl to select multiple — one message is sent per patient</small>
+                </div>
+                <div class="mb-3" id="titleWrap">
+                    <label class="form-label">Subject <small class="text-muted">(Email only)</small></label>
+                    <input type="text" class="form-control" id="fTitle" placeholder="Notification subject">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control" id="fMessage" rows="4" placeholder="Notification message..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="sendNotifBtn" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="sendNotification()">
+                    <i class="ri-send-plane-line me-1"></i> Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div class="modal fade" id="viewNotifModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Notification Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="notifDetails"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var PATIENTS_DATA = @Html.Raw(ViewBag.PatientsJson);
+</script>
+<script src="~/scripts/Features/notifications.js"></script>
+}

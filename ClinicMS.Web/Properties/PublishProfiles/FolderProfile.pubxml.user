@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\publish</_PublishTargetUrl>
+    <History>True|2025-10-09T11:13:07.8332541Z||;True|2025-10-09T11:22:41.7145998+05:00||;False|2025-10-09T11:22:01.7141640+05:00||;True|2025-10-07T11:43:16.4459445+05:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=132.32.8.7%3bInitial Catalog=Archive%3bUser ID=BillingUser%3bPassword=BillingUser!%40#%3bTrustServerCertificate=True</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="Archive.Infrastructure.Persistence.AppDbContext">
+      <Value>Data Source=132.32.8.7%3bInitial Catalog=Archive%3bUser ID=BillingUser%3bPassword=BillingUser!%40#%3bTrustServerCertificate=True</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

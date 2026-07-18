@@ -1,0 +1,327 @@
+@{
+    ViewData["Title"] = "SMS Broadcast";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "SMS Broadcast";
+}
+
+@section styles {
+<style>
+.sms-wrap { padding: 24px; }
+
+/* ── Cards ── */
+.sms-card {
+    background: #fff; border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    overflow: hidden; margin-bottom: 20px;
+}
+.sms-card-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 22px; border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+}
+.sms-card-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(13,148,136,.1); color: #0d9488;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+}
+.sms-card-title { font-size: .9rem; font-weight: 800; color: #1e293b; margin: 0; }
+.sms-card-sub   { font-size: .74rem; color: #94a3b8; margin-top: 2px; }
+.sms-card-body  { padding: 22px; }
+
+/* ── Form labels ── */
+.sms-label { font-size: .78rem; font-weight: 700; color: #475569; margin-bottom: 5px; display: block; }
+.sms-select, .sms-textarea {
+    width: 100%; border-radius: 10px; border: 1.5px solid #e2e8f0;
+    font-size: .875rem; color: #1e293b; padding: 9px 12px;
+    background: #fff; transition: border-color .18s, box-shadow .18s; outline: none;
+}
+.sms-select:focus, .sms-textarea:focus {
+    border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,.1);
+}
+.sms-textarea { resize: none; height: 130px; line-height: 1.6; }
+
+/* Counter */
+.sms-counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.sms-counter { font-size: .74rem; color: #94a3b8; }
+.sms-counter span { font-weight: 700; color: #475569; }
+.sms-counter.warn span { color: #d97706; }
+.sms-counter.over span { color: #dc2626; }
+.sms-parts  { font-size: .74rem; color: #94a3b8; }
+
+/* Send button */
+.sms-send-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 28px; border-radius: 12px;
+    background: linear-gradient(135deg, #0d9488, #0891b2);
+    color: #fff; font-size: .875rem; font-weight: 700;
+    border: none; cursor: pointer; transition: opacity .18s, transform .15s;
+    box-shadow: 0 4px 14px rgba(13,148,136,.3);
+}
+.sms-send-btn:hover { opacity: .9; transform: translateY(-1px); }
+.sms-send-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* Recipient count badge */
+.sms-recip-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 8px;
+    background: rgba(13,148,136,.08); border: 1px solid rgba(13,148,136,.2);
+    font-size: .78rem; font-weight: 700; color: #0d9488; margin-top: 8px;
+}
+
+/* ── Phone preview ── */
+.phone-wrap { display: flex; justify-content: center; padding: 10px 0 20px; }
+.phone-shell {
+    width: 240px;
+    background: #1e293b;
+    border-radius: 36px;
+    padding: 14px 10px;
+    box-shadow: 0 20px 60px rgba(15,23,42,.3), inset 0 0 0 2px #334155;
+    position: relative;
+}
+.phone-notch {
+    width: 70px; height: 18px; background: #1e293b;
+    border-radius: 0 0 12px 12px;
+    margin: 0 auto 10px; position: relative; z-index: 2;
+}
+.phone-screen {
+    background: #f1f5f9; border-radius: 26px;
+    min-height: 360px; overflow: hidden; padding: 12px 10px 16px;
+    display: flex; flex-direction: column;
+}
+.phone-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 4px; }
+.phone-status-time { font-size: .6rem; font-weight: 800; color: #1e293b; }
+.phone-status-icons { display: flex; gap: 4px; font-size: .55rem; color: #475569; }
+.phone-sms-header {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 8px 8px; background: #fff;
+    border-radius: 12px 12px 0 0; margin-bottom: 2px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.phone-avatar {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg,#0d9488,#0891b2);
+    color: #fff; font-size: .6rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.phone-sender-name { font-size: .62rem; font-weight: 800; color: #1e293b; }
+.phone-sender-num  { font-size: .55rem; color: #94a3b8; }
+.phone-bubble-wrap { flex: 1; padding: 10px 6px; display: flex; flex-direction: column; justify-content: flex-end; }
+.phone-bubble {
+    background: #e2e8f0; border-radius: 14px 14px 14px 2px;
+    padding: 10px 12px; font-size: .62rem; line-height: 1.55;
+    color: #1e293b; max-width: 90%; word-break: break-word;
+    box-shadow: 0 2px 6px rgba(15,23,42,.08);
+    white-space: pre-wrap;
+}
+.phone-bubble.empty { color: #94a3b8; font-style: italic; }
+.phone-bubble-time { font-size: .52rem; color: #94a3b8; margin-top: 5px; text-align: left; padding-left: 2px; }
+.phone-home-bar { width: 60px; height: 4px; background: #475569; border-radius: 2px; margin: 10px auto 0; }
+
+/* ── Templates ── */
+.tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tpl-card {
+    background: #f8fafc; border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    padding: 14px 16px; cursor: pointer;
+    transition: all .16s; position: relative;
+}
+.tpl-card:hover { border-color: #0d9488; background: #f0fdfa; }
+.tpl-card-icon { font-size: 1.2rem; margin-bottom: 8px; }
+.tpl-card-name { font-size: .8rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+.tpl-card-desc { font-size: .72rem; color: #64748b; line-height: 1.4; }
+.tpl-use-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 10px; padding: 4px 10px; border-radius: 6px;
+    background: rgba(13,148,136,.1); color: #0d9488;
+    font-size: .7rem; font-weight: 700; border: none; cursor: pointer;
+    transition: background .15s;
+}
+.tpl-use-btn:hover { background: rgba(13,148,136,.2); }
+
+/* ── Stats bar ── */
+.sms-stats { display: flex; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.sms-stat {
+    flex: 1; min-width: 100px; background: #fff; border-radius: 12px;
+    border: 1px solid #e2e8f0; padding: 14px 18px;
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
+}
+.sms-stat-val { font-size: 1.5rem; font-weight: 900; color: #1e293b; line-height: 1; }
+.sms-stat-lbl { font-size: .68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+.sms-stat.c-teal .sms-stat-val  { color: #0d9488; }
+.sms-stat.c-green .sms-stat-val { color: #16a34a; }
+.sms-stat.c-amber .sms-stat-val { color: #d97706; }
+</style>
+}
+
+<div class="sms-wrap">
+
+    <!-- Stats bar -->
+    <div class="sms-stats">
+        <div class="sms-stat c-teal">
+            <div class="sms-stat-val">1,248</div>
+            <div class="sms-stat-lbl">Total Sent</div>
+        </div>
+        <div class="sms-stat c-green">
+            <div class="sms-stat-val">98.2%</div>
+            <div class="sms-stat-lbl">Delivery Rate</div>
+        </div>
+        <div class="sms-stat c-amber">
+            <div class="sms-stat-val">14</div>
+            <div class="sms-stat-lbl">Failed</div>
+        </div>
+        <div class="sms-stat">
+            <div class="sms-stat-val">342</div>
+            <div class="sms-stat-lbl">This Month</div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- ── LEFT: Compose + Templates ── -->
+        <div class="col-12 col-lg-7">
+
+            <!-- Compose -->
+            <div class="sms-card">
+                <div class="sms-card-head">
+                    <div class="sms-card-icon"><i class="ri-send-plane-line"></i></div>
+                    <div>
+                        <div class="sms-card-title">Compose Message</div>
+                        <div class="sms-card-sub">Select recipients and write your message</div>
+                    </div>
+                </div>
+                <div class="sms-card-body">
+                    <div class="row g-3">
+
+                        <!-- Recipient type -->
+                        <div class="col-12">
+                            <label class="sms-label">Send To</label>
+                            <select class="sms-select" id="recipientType" onchange="onRecipientChange()">
+                                <option value="all">All — Members &amp; Employees</option>
+                                <option value="members">All Members</option>
+                                <option value="employees">All Employees</option>
+                                <option value="individual">Individual</option>
+                            </select>
+                            <div class="sms-recip-badge" id="recipBadge">
+                                <i class="ri-group-line"></i>
+                                <span id="recipCount">248 recipients</span>
+                            </div>
+                        </div>
+
+                        <!-- Individual picker (hidden by default) -->
+                        <div class="col-12" id="individualWrap" style="display:none;">
+                            <label class="sms-label">Select Person</label>
+                            <select class="sms-select" id="individualPicker" onchange="onIndividualChange()">
+                                <option value="">— Choose a person —</option>
+                            </select>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="col-12">
+                            <label class="sms-label">Message</label>
+                            <textarea class="sms-textarea" id="smsText" placeholder="Type your message here…" oninput="onMessageInput()"></textarea>
+                            <div class="sms-counter-row">
+                                <div class="sms-counter" id="charCounter"><span id="charCount">0</span> / 160 characters</div>
+                                <div class="sms-parts" id="smsParts">1 SMS</div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-12 d-flex align-items-center justify-content-between flex-wrap gap-2 mt-1">
+                            <button type="button" class="btn btn-sm" style="border:1.5px solid #e2e8f0;color:#64748b;border-radius:9px;font-weight:600;padding:7px 16px;" onclick="clearCompose()">
+                                <i class="ri-delete-bin-line me-1"></i> Clear
+                            </button>
+                            <button type="button" class="sms-send-btn" id="sendBtn" onclick="sendSms()">
+                                <i class="ri-send-plane-fill"></i> Send SMS
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Templates -->
+            <div class="sms-card">
+                <div class="sms-card-head">
+                    <div class="sms-card-icon"><i class="ri-file-text-line"></i></div>
+                    <div>
+                        <div class="sms-card-title">SMS Templates</div>
+                        <div class="sms-card-sub">Click a template to load it into the composer</div>
+                    </div>
+                </div>
+                <div class="sms-card-body">
+                    <div class="tpl-grid" id="templateGrid"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── RIGHT: Phone Preview ── -->
+        <div class="col-12 col-lg-5">
+            <div class="sms-card" style="position:sticky;top:80px;">
+                <div class="sms-card-head">
+                    <div class="sms-card-icon"><i class="ri-smartphone-line"></i></div>
+                    <div>
+                        <div class="sms-card-title">Live Preview</div>
+                        <div class="sms-card-sub">How the message looks on a phone</div>
+                    </div>
+                </div>
+                <div class="sms-card-body">
+                    <div class="phone-wrap">
+                        <div class="phone-shell">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="phone-status">
+                                    <span class="phone-status-time">9:41</span>
+                                    <span class="phone-status-icons">
+                                        <i class="ri-signal-wifi-3-line"></i>
+                                        <i class="ri-battery-line"></i>
+                                    </span>
+                                </div>
+                                <div class="phone-sms-header">
+                                    <div class="phone-avatar">GP</div>
+                                    <div>
+                                        <div class="phone-sender-name">GymPro</div>
+                                        <div class="phone-sender-num">+20 100 123 4567</div>
+                                    </div>
+                                </div>
+                                <div class="phone-bubble-wrap">
+                                    <div class="phone-bubble empty" id="previewBubble">Your message will appear here…</div>
+                                    <div class="phone-bubble-time" id="previewTime" style="display:none;">Now</div>
+                                </div>
+                            </div>
+                            <div class="phone-home-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recipient summary -->
+                    <div style="background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;padding:14px 16px;">
+                        <div style="font-size:.72rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Send Summary</div>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <div style="display:flex;justify-content:space-between;font-size:.82rem;">
+                                <span style="color:#64748b;font-weight:600;">Recipients</span>
+                                <span style="font-weight:800;color:#1e293b;" id="summaryRecip">248</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.82rem;">
+                                <span style="color:#64748b;font-weight:600;">SMS Parts</span>
+                                <span style="font-weight:800;color:#1e293b;" id="summaryParts">1</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.82rem;">
+                                <span style="color:#64748b;font-weight:600;">Total Messages</span>
+                                <span style="font-weight:800;color:#0d9488;" id="summaryTotal">248</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var SMS_TEMPLATES_DATA = @Html.Raw(ViewBag.TemplatesJson);
+</script>
+<script src="~/scripts/Features/sms.js"></script>
+}

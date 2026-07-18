@@ -1,0 +1,504 @@
+@{
+    ViewData["Title"] = "General Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "General Settings";
+}
+
+@section styles {
+<style>
+.settings-wrap { padding: 24px; }
+
+/* ── Left Nav ── */
+.settings-nav {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    overflow: hidden;
+    position: sticky;
+    top: 80px;
+}
+.settings-nav-header {
+    padding: 18px 20px 12px;
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    border-bottom: 1px solid #f1f5f9;
+}
+.settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all .16s;
+    text-decoration: none;
+    color: #475569;
+    font-size: .875rem;
+    font-weight: 600;
+    border-bottom: 1px solid #f8fafc;
+}
+.settings-nav-item:last-child { border-bottom: none; }
+.settings-nav-item:hover { background: #f0fdfa; color: #0d9488; border-left-color: #a7f3d0; }
+.settings-nav-item.active { background: #f0fdfa; color: #0d9488; border-left-color: #0d9488; font-weight: 700; }
+.settings-nav-item i { font-size: 1.05rem; width: 20px; text-align: center; flex-shrink: 0; }
+.settings-nav-item .nav-desc { font-size: .72rem; color: #94a3b8; font-weight: 500; margin-top: 1px; }
+
+/* ── Right Content ── */
+.settings-panel { display: none; }
+.settings-panel.active { display: block; }
+
+.settings-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.settings-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+}
+.settings-card-header-icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: rgba(13,148,136,.1);
+    color: #0d9488;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+.settings-card-title { font-size: .9rem; font-weight: 800; color: #1e293b; margin: 0; }
+.settings-card-sub   { font-size: .76rem; color: #94a3b8; margin: 2px 0 0; }
+.settings-card-body  { padding: 24px; }
+
+.form-label { font-size: .8rem; font-weight: 700; color: #475569; margin-bottom: 5px; }
+.form-control, .form-select {
+    border-radius: 10px; border: 1.5px solid #e2e8f0;
+    font-size: .875rem; padding: 9px 12px;
+    transition: border-color .18s;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,.1);
+}
+
+/* Logo upload */
+.logo-upload-area {
+    width: 96px; height: 96px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer; overflow: hidden;
+    transition: border-color .18s, background .18s;
+}
+.logo-upload-area:hover { border-color: #0d9488; background: #f0fdfa; }
+.logo-upload-area img { width:100%; height:100%; object-fit:contain; display:none; }
+.logo-upload-area i  { font-size: 1.6rem; color: #94a3b8; }
+.logo-upload-area small { font-size: .62rem; color: #94a3b8; margin-top: 4px; }
+
+/* SMS key toggle */
+.input-eye-wrap { position: relative; }
+.input-eye-wrap .form-control { padding-right: 40px; }
+.input-eye-btn {
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; color: #94a3b8;
+    cursor: pointer; font-size: 1rem; padding: 0;
+}
+.input-eye-btn:hover { color: #0d9488; }
+
+/* Save bar */
+.settings-save-bar {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
+}
+.settings-save-hint { font-size: .82rem; color: #94a3b8; }
+</style>
+}
+
+<div class="settings-wrap">
+    <div class="row g-4">
+
+        <!-- ── LEFT NAV ── -->
+        <div class="col-12 col-lg-3">
+            <div class="settings-nav">
+                <div class="settings-nav-header">Settings</div>
+
+                <a class="settings-nav-item active" data-panel="gym" href="#">
+                    <i class="ri-building-2-line"></i>
+                    <div>
+                        <div>Gym Information</div>
+                        <div class="nav-desc">Name, logo, contact details</div>
+                    </div>
+                </a>
+                <a class="settings-nav-item" data-panel="sms" href="#">
+                    <i class="ri-message-2-line"></i>
+                    <div>
+                        <div>SMS Settings</div>
+                        <div class="nav-desc">Provider, API key, sender</div>
+                    </div>
+                </a>
+                <a class="settings-nav-item" data-panel="system" href="#">
+                    <i class="ri-settings-3-line"></i>
+                    <div>
+                        <div>System Preferences</div>
+                        <div class="nav-desc">Currency, timezone, language</div>
+                    </div>
+                </a>
+                <a class="settings-nav-item" data-panel="notifications" href="#">
+                    <i class="ri-notification-3-line"></i>
+                    <div>
+                        <div>Notification Rules</div>
+                        <div class="nav-desc">Auto alerts, reminders</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- ── RIGHT CONTENT ── -->
+        <div class="col-12 col-lg-9">
+
+            <!-- PANEL: Gym Information -->
+            <div class="settings-panel active" id="panel-gym">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-building-2-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Gym Information</div>
+                            <div class="settings-card-sub">Basic details about your gym</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="row g-3">
+                            <div class="col-12 d-flex align-items-start gap-4 mb-2">
+                                <div>
+                                    <label class="form-label">Gym Logo</label>
+                                    <div class="logo-upload-area" onclick="document.getElementById('logoInput').click()">
+                                        <img id="logoPreview">
+                                        <i class="ri-image-line" id="logoIcon"></i>
+                                        <small>Upload</small>
+                                    </div>
+                                    <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="previewLogo(this)">
+                                </div>
+                                <div class="flex-grow-1 row g-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Clinic Name</label>
+                                        <input type="text" class="form-control" id="gymName">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="gymPhone">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="gymEmail">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Address</label>
+                                <textarea class="form-control" id="gymAddress" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-save-bar">
+                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Changes will apply immediately across all branches.</span>
+                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
+                        <i class="ri-save-line me-1"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <!-- PANEL: SMS Settings -->
+            <div class="settings-panel" id="panel-sms">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-message-2-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">SMS Settings</div>
+                            <div class="settings-card-sub">Configure your SMS gateway provider</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">API Key</label>
+                                <div class="input-eye-wrap">
+                                    <input type="password" class="form-control" id="smsApiKey" value="sk_live_xxxxxxxxxxxxxxxx">
+                                    <button class="input-eye-btn" onclick="toggleApiKey()" type="button"><i class="ri-eye-line" id="eyeIcon"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">API Secret</label>
+                                <div class="input-eye-wrap">
+                                    <input type="password" class="form-control" id="smsSecret" value="secret_xxxxxxxxxxxxxxxx">
+                                    <button class="input-eye-btn" onclick="toggleSecret()" type="button"><i class="ri-eye-line" id="eyeIconSecret"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                    <div>
+                                        <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Test SMS Connection</div>
+                                        <div style="font-size:.76rem;color:#94a3b8;">Send a test message to verify configuration</div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm" style="background:#f0fdfa;color:#0d9488;border:1.5px solid #a7f3d0;font-weight:700;border-radius:8px;" onclick="testSms()">
+                                        <i class="ri-send-plane-line me-1"></i> Send Test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-save-bar">
+                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Keep API keys secure — never share them.</span>
+                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
+                        <i class="ri-save-line me-1"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <!-- PANEL: System Preferences -->
+            <div class="settings-panel" id="panel-system">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-settings-3-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">System Preferences</div>
+                            <div class="settings-card-sub">Regional and display settings</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Currency</label>
+                                <select class="form-select" id="currency">
+                                    <option selected>EGP - Egyptian Pound</option>
+                                    <option>USD - US Dollar</option>
+                                    <option>EUR - Euro</option>
+                                    <option>SAR - Saudi Riyal</option>
+                                    <option>AED - UAE Dirham</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Timezone</label>
+                                <select class="form-select" id="timezone">
+                                    <option selected>Africa/Cairo (UTC+2)</option>
+                                    <option>UTC</option>
+                                    <option>America/New_York (UTC-5)</option>
+                                    <option>Europe/London (UTC+0)</option>
+                                    <option>Asia/Riyadh (UTC+3)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Language</label>
+                                <select class="form-select" id="language">
+                                    <option selected>English</option>
+                                    <option>Arabic</option>
+                                    <option>French</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Date Format</label>
+                                <select class="form-select" id="dateFormat">
+                                    <option selected>DD/MM/YYYY</option>
+                                    <option>MM/DD/YYYY</option>
+                                    <option>YYYY-MM-DD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-save-bar">
+                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Regional settings affect all users in this branch.</span>
+                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
+                        <i class="ri-save-line me-1"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <!-- PANEL: Notification Rules -->
+            <div class="settings-panel" id="panel-notifications">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-notification-3-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Notification Rules</div>
+                            <div class="settings-card-sub">Configure automatic alerts and reminders</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                <div>
+                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Subscription expiry reminder</div>
+                                    <div style="font-size:.76rem;color:#94a3b8;">Send SMS 3 days before subscription expires</div>
+                                </div>
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                <div>
+                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Welcome message</div>
+                                    <div style="font-size:.76rem;color:#94a3b8;">Send SMS when a new member subscribes</div>
+                                </div>
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                <div>
+                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Payment received</div>
+                                    <div style="font-size:.76rem;color:#94a3b8;">Notify member when a payment is recorded</div>
+                                </div>
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" type="checkbox" style="width:42px;height:22px;cursor:pointer;">
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                                <div>
+                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Birthday greeting</div>
+                                    <div style="font-size:.76rem;color:#94a3b8;">Auto-send birthday SMS to members</div>
+                                </div>
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-save-bar">
+                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Requires SMS settings to be configured.</span>
+                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
+                        <i class="ri-save-line me-1"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+
+        </div><!-- col right -->
+    </div><!-- row -->
+</div>
+
+@section Scripts {
+<script>
+var CLINIC_SETTINGS = @Html.Raw(ViewBag.SettingsJson ?? "null");
+var LOGO_PREVIEW_URL = @Html.Raw(ViewBag.LogoPreviewUrl is not null ? $"\"{ViewBag.LogoPreviewUrl}\"" : "null");
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (!CLINIC_SETTINGS) return;
+    document.getElementById('gymName').value    = CLINIC_SETTINGS.clinicName || '';
+    document.getElementById('gymPhone').value   = CLINIC_SETTINGS.phone || '';
+    document.getElementById('gymEmail').value   = CLINIC_SETTINGS.email || '';
+    document.getElementById('gymAddress').value = CLINIC_SETTINGS.address || '';
+    if (LOGO_PREVIEW_URL) {
+        document.getElementById('logoPreview').src = LOGO_PREVIEW_URL;
+        document.getElementById('logoPreview').style.display = 'block';
+        document.getElementById('logoIcon').style.display = 'none';
+    }
+});
+
+// ── Tab switching ──
+document.querySelectorAll('.settings-nav-item').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.settings-nav-item').forEach(function(i) { i.classList.remove('active'); });
+        document.querySelectorAll('.settings-panel').forEach(function(p) { p.classList.remove('active'); });
+        item.classList.add('active');
+        var panel = document.getElementById('panel-' + item.dataset.panel);
+        if (panel) panel.classList.add('active');
+    });
+});
+
+// ── Logo preview ──
+function previewLogo(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('logoPreview').src = e.target.result;
+            document.getElementById('logoPreview').style.display = 'block';
+            document.getElementById('logoIcon').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// ── Toggle API key visibility ──
+function toggleApiKey() {
+    var inp = document.getElementById('smsApiKey');
+    var ico = document.getElementById('eyeIcon');
+    if (inp.type === 'password') { inp.type = 'text'; ico.className = 'ri-eye-off-line'; }
+    else { inp.type = 'password'; ico.className = 'ri-eye-line'; }
+}
+function toggleSecret() {
+    var inp = document.getElementById('smsSecret');
+    var ico = document.getElementById('eyeIconSecret');
+    if (inp.type === 'password') { inp.type = 'text'; ico.className = 'ri-eye-off-line'; }
+    else { inp.type = 'password'; ico.className = 'ri-eye-line'; }
+}
+
+// ── Save ──
+function saveSettings() {
+    var activePanel = document.querySelector('.settings-panel.active');
+    if (!activePanel || activePanel.id !== 'panel-gym') {
+        if (typeof toastr !== 'undefined') toastr.info('This section is not yet connected to a saved setting.', 'Not available');
+        return;
+    }
+
+    var body = {
+        clinicName: document.getElementById('gymName').value.trim(),
+        logoIconUrl: CLINIC_SETTINGS ? CLINIC_SETTINGS.logoIconUrl : null,
+        logoUrl: CLINIC_SETTINGS ? CLINIC_SETTINGS.logoUrl : null,
+        sidebarLogoUrl: CLINIC_SETTINGS ? CLINIC_SETTINGS.sidebarLogoUrl : null,
+        reportLogoUrl: CLINIC_SETTINGS ? CLINIC_SETTINGS.reportLogoUrl : null,
+        phone: document.getElementById('gymPhone').value.trim() || null,
+        email: document.getElementById('gymEmail').value.trim() || null,
+        address: document.getElementById('gymAddress').value.trim() || null,
+        vatPercentage: CLINIC_SETTINGS ? CLINIC_SETTINGS.vatPercentage : 0,
+        isVatEnabled: CLINIC_SETTINGS ? CLINIC_SETTINGS.isVatEnabled : false,
+        currencySymbol: CLINIC_SETTINGS ? CLINIC_SETTINGS.currencySymbol : '$'
+    };
+
+    if (!body.clinicName) { toastr.error('Clinic name is required'); return; }
+
+    fetch('/Settings/SaveGeneral', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save settings'); return; }
+        CLINIC_SETTINGS = result.data;
+        toastr.success('Settings saved successfully.', 'Saved');
+    });
+}
+
+// ── Test SMS ──
+function testSms() {
+    if (typeof toastr !== 'undefined') {
+        toastr.info('Test SMS sent to your registered phone number.', 'SMS Test');
+    }
+}
+
+// ── Select2 ──
+if (typeof $ !== 'undefined' && $.fn && $.fn.select2) {
+    $('select.form-select').select2({ theme: 'default', width: '100%' });
+}
+</script>
+}

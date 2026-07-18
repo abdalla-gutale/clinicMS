@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-layout="vertical" data-sidebar="dark" data-sidebar-size="lg" data-preloader="disable" data-theme="default" data-topbar="light" data-bs-theme="light">
+
+<head>
+    <partial name="_title_meta" />
+    @RenderSection("styles", false)
+    <partial name="_head_css" />
+</head>
+
+<body data-sidebar="dark">
+
+    <div id="layout-wrapper">
+        <partial name="_topbar" />
+        <partial name="_sidebar" />
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @Html.Partial("~/Views/Shared/_page_title.cshtml")
+                    @RenderBody()
+                </div>
+            </div>
+            <partial name="_footer" />
+        </div>
+    </div>
+
+    <partial name="_vendor_scripts" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+
+</html>

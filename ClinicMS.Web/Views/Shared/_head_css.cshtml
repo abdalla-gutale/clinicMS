@@ -1,0 +1,211 @@
+﻿<script src="/assets/js/layout.js" asp-append-version="true"></script>
+<!-- Bootstrap Css -->
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" asp-append-version="true">
+<!-- Icons Css -->
+<link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" asp-append-version="true">
+<!-- App Css-->
+<link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" asp-append-version="true">
+<!-- custom Css-->
+<link href="/assets/css/custom.min.css" rel="stylesheet" type="text/css" asp-append-version="true">
+<link href="/assets/libs/toastify-js/src/toastify.css" rel="stylesheet" type="text/css" asp-append-version="true">
+
+<style>
+    .navbar-menu .logo-lg img {
+        height: 60px !important;
+    }
+    :root {
+        --tb-primary: #0d9488;
+        --tb-primary-rgb: 13, 148, 136;
+        --tb-primary-bg-subtle: rgba(13, 148, 136, 0.12);
+        --tb-primary-border-subtle: rgba(13, 148, 136, 0.28);
+        --tb-primary-text-emphasis: #0f766e;
+        --tb-link-color: #0d9488;
+        --tb-link-hover-color: #0f766e;
+    }
+
+    .btn-primary {
+        --tb-btn-bg: #0d9488;
+        --tb-btn-border-color: #0d9488;
+        --tb-btn-hover-bg: #0f766e;
+        --tb-btn-hover-border-color: #0f766e;
+        --tb-btn-active-bg: #115e59;
+        --tb-btn-active-border-color: #115e59;
+    }
+
+    .btn {
+        border-radius: 50px !important;
+    }
+
+    /* ── Sidebar width ── */
+    :root { --tb-vertical-menu-width: 270px; }
+
+    .navbar-menu {
+        background: #ffffff !important;
+        border-right: 1px solid #e9ecef !important;
+        width: var(--tb-vertical-menu-width) !important;
+    }
+
+    /* ── Main content offset (desktop only) ── */
+    @@media (min-width: 1025px) {
+        .main-content { margin-left: var(--tb-vertical-menu-width) !important; }
+    }
+    @@media (max-width: 1024px) {
+        .main-content { margin-left: 0 !important; }
+        .navbar-menu { transform: translateX(-100%); transition: transform .25s ease; }
+        .navbar-menu.show { transform: translateX(0); }
+    }
+
+    /* ── Topbar ── */
+    #page-topbar {
+        left: var(--tb-vertical-menu-width) !important;
+        width: calc(100% - var(--tb-vertical-menu-width)) !important;
+    }
+    @@media (max-width: 1024px) {
+        #page-topbar { left: 0 !important; width: 100% !important; }
+    }
+
+    /* ── Footer ── */
+    .footer {
+        left: var(--tb-vertical-menu-width) !important;
+    }
+    @@media (max-width: 1024px) {
+        .footer { left: 0 !important; }
+    }
+
+    [data-sidebar="dark"] {
+        --tb-vertical-menu-bg: #ffffff !important;
+        --tb-vertical-menu-item-color: #4a5568 !important;
+        --tb-vertical-menu-item-hover-bg: rgba(13, 148, 136, 0.08) !important;
+        --tb-vertical-menu-item-active-bg: rgba(13, 148, 136, 0.12) !important;
+        --tb-vertical-menu-item-hover-color: #0d9488 !important;
+        --tb-vertical-menu-item-active-color: #0d9488 !important;
+        --tb-vertical-menu-sub-item-color: #64748b !important;
+        --tb-vertical-menu-sub-item-hover-color: #0d9488 !important;
+        --tb-vertical-menu-sub-item-active-color: #0d9488 !important;
+        --tb-vertical-menu-title-color: #94a3b8 !important;
+    }
+
+    [data-sidebar="dark"] .navbar-nav .nav-link:hover,
+    [data-sidebar="dark"] .navbar-nav .nav-link.active {
+        background-color: rgba(13, 148, 136, 0.10) !important;
+        color: #0d9488 !important;
+    }
+
+    [data-sidebar="dark"] .navbar-nav .nav-link.active .nav-icon,
+    [data-sidebar="dark"] .navbar-nav .nav-link:hover .nav-icon,
+    [data-sidebar="dark"] .navbar-nav .nav-link.active i,
+    [data-sidebar="dark"] .navbar-nav .nav-link:hover i {
+        color: #0d9488 !important;
+    }
+
+    #scrollbar::-webkit-scrollbar { width: 4px; }
+    #scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+    /* ClinicMS-Style Modal Enhancements */
+    .modal-header { background: #f8fafc !important; padding: 1.25rem 1.5rem; border-bottom: 1px solid #eff2f7; }
+    .modal-header-icon {
+        width: 40px; height: 40px; background: rgba(9, 132, 252, 0.1); border-radius: 8px;
+        display: flex; align-items: center; justify-content: center; margin-right: 15px;
+        color: #0984FC; font-size: 20px;
+    }
+    .modal-subtitle { color: #878a99 !important; font-size: 0.8125rem; margin-top: 2px; }
+    .modal-inner-content { background-color: #f8fafc; border-radius: 12px; padding: 1.25rem; }
+
+    /* ClinicMS-Style Permissions Grid */
+    .permissions-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+    .module-card { border: 1px solid #e9ebec; border-radius: 12px; overflow: hidden; background: #fff; margin-bottom: 0; }
+    .module-header { background: #f8fafc; padding: 1rem 1.25rem; display: flex; align-items: center; cursor: pointer; border-bottom: 1px solid #eff2f7; }
+    .module-title { font-weight: 700; font-size: 0.95rem; color: #495057; flex-grow: 1; margin: 0; }
+    .submodule-item { padding: 1.25rem; border-bottom: 1px solid #f1f5f9; }
+    .submodule-header { display: flex; align-items: center; margin-bottom: 1rem; }
+    .submodule-title { font-weight: 600; font-size: 0.9rem; color: #495057; flex-grow: 1; margin: 0; }
+    .actions-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; padding-left: 2rem; }
+    .action-item { background: #f8fafc; padding: 0.6rem 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; border: 1px solid transparent; }
+    .action-label { font-size: 0.85rem; color: #6c757d; display: flex; align-items: center; margin: 0; }
+    .icon-view { color: #299cdb; }
+    .icon-create { color: #0ab39c; }
+    .icon-edit { color: #f7b84b; }
+    .icon-delete { color: #f06548; }
+
+    /* Full-Width Layout Utilities */
+    .container-fluid-full { max-width: 100% !important; padding: 0 1.5rem; }
+
+    /* Sticky Sidebar */
+    .app-menu {
+        position: fixed !important;
+        top: 0;
+        bottom: 0;
+        z-index: 1001;
+    }
+
+    /* Logo Positioning */
+    .navbar-brand-box {
+        padding: 0 1.5rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navbar-menu .logo-lg img {
+        height: 28px !important;
+    }
+
+    /* ── Select2 theme override ── */
+    .select2-container--default .select2-selection--single {
+        height: 38px !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        background: #f8fafc !important;
+        display: flex; align-items: center;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #334155; font-size: .875rem; line-height: 36px !important; padding-left: 12px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px !important; right: 8px;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--single,
+    .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: #0d9488 !important;
+        box-shadow: 0 0 0 3px rgba(13,148,136,.1) !important;
+        background: #fff !important;
+    }
+    .select2-dropdown {
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 24px rgba(15,23,42,.10) !important;
+        overflow: hidden;
+    }
+    .select2-container--default .select2-results__option--highlighted {
+        background-color: #0d9488 !important;
+    }
+    .select2-search--dropdown .select2-search__field {
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 6px 10px; font-size: .875rem; outline: none;
+    }
+    .select2-search--dropdown .select2-search__field:focus { border-color: #0d9488 !important; }
+
+    /* ── Select2 inside filter rows — don't expand to full width ── */
+    .gp-filters .select2-container {
+        min-width: 150px !important;
+        max-width: 220px !important;
+        width: auto !important;
+    }
+    .gp-filters .select2-container--default .select2-selection--single {
+        background: #f8fafc !important;
+    }
+
+    /* ── Form Validations */
+    .form-control.is-invalid {
+        border-color: #f06548 !important;
+        background-image: none !important;
+        box-shadow: 0 0 0 0.25rem rgba(240, 101, 72, 0.25) !important;
+    }
+
+    .form-control.is-valid {
+        border-color: #0ab39c !important;
+        background-image: none !important;
+        box-shadow: 0 0 0 0.25rem rgba(10, 179, 156, 0.25) !important;
+    }
+</style>

@@ -1,0 +1,277 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\account\\otp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\account\\otp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\expenses\\categories.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\expenses\\categories.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\wwwroot\\scripts\\features\\branches.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\wwwroot\\scripts\\features\\branches.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\settings\\branches.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\settings\\branches.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\shared\\_head_css.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\shared\\_head_css.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\shared\\components\\sidebar\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\shared\\components\\sidebar\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\views\\shared\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\views\\shared\\_sidebar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\viewcomponents\\sidebarviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\viewcomponents\\sidebarviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|c:\\users\\e-abdalla-sdd\\desktop\\ict\\clinic\\demo.web\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|Demo.Web\\Demo.Web.csproj|solutionrelative:demo.web\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Demo.Web\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Demo.Web\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T13:21:25.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Demo.Web\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Demo.Web\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T13:21:25.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAABcBAAAAAAAAAIAwwCMBAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Otp.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Account\\Otp.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Account\\Otp.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Account\\Otp.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Account\\Otp.cshtml",
+              "ViewState": "AgIAAAYBAAAAAAAAAADgvwYBAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.809Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Categories.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Expenses\\Categories.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Expenses\\Categories.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Expenses\\Categories.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Expenses\\Categories.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.824Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "branches.js",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\wwwroot\\scripts\\Features\\branches.js",
+              "RelativeDocumentMoniker": "Demo.Web\\wwwroot\\scripts\\Features\\branches.js",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\wwwroot\\scripts\\Features\\branches.js",
+              "RelativeToolTip": "Demo.Web\\wwwroot\\scripts\\Features\\branches.js",
+              "ViewState": "AgIAACIAAAAAAAAAAAAAACIAAAC1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-07-18T13:21:25.827Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Branches.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Settings\\Branches.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Settings\\Branches.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Settings\\Branches.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Settings\\Branches.cshtml",
+              "ViewState": "AgIAADwAAAAAAAAAAAAQwFAAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_head_css.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\_head_css.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Shared\\_head_css.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\_head_css.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Shared\\_head_css.cshtml",
+              "ViewState": "AgIAALMAAAAAAAAAAAAUwNAAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\Components\\Sidebar\\Default.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Shared\\Components\\Sidebar\\Default.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\Components\\Sidebar\\Default.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Shared\\Components\\Sidebar\\Default.cshtml",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.835Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_sidebar.cshtml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\_sidebar.cshtml",
+              "RelativeDocumentMoniker": "Demo.Web\\Views\\Shared\\_sidebar.cshtml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Views\\Shared\\_sidebar.cshtml",
+              "RelativeToolTip": "Demo.Web\\Views\\Shared\\_sidebar.cshtml",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T13:21:25.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "FolderProfile.pubxml",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "RelativeDocumentMoniker": "Demo.Web\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "RelativeToolTip": "Demo.Web\\Properties\\PublishProfiles\\FolderProfile.pubxml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-07-18T13:21:25.84Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Demo.Web\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Demo.Web\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-18T13:21:25.842Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SidebarViewComponent.cs",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\ViewComponents\\SidebarViewComponent.cs",
+              "RelativeDocumentMoniker": "Demo.Web\\ViewComponents\\SidebarViewComponent.cs",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\ViewComponents\\SidebarViewComponent.cs",
+              "RelativeToolTip": "Demo.Web\\ViewComponents\\SidebarViewComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T13:21:25.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\appsettings.json",
+              "RelativeDocumentMoniker": "Demo.Web\\appsettings.json",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\appsettings.json",
+              "RelativeToolTip": "Demo.Web\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-18T13:21:25.85Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Program.cs",
+              "RelativeDocumentMoniker": "Demo.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\Program.cs",
+              "RelativeToolTip": "Demo.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T13:21:25.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "web.config",
+              "DocumentMoniker": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\web.config",
+              "RelativeDocumentMoniker": "Demo.Web\\web.config",
+              "ToolTip": "C:\\Users\\E-Abdalla-SDD\\Desktop\\ICT\\Clinic\\Demo.Web\\web.config",
+              "RelativeToolTip": "Demo.Web\\web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-07-18T13:21:25.856Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

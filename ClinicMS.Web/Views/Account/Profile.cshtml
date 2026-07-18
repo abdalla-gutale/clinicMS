@@ -1,0 +1,471 @@
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "My Profile";
+}
+
+@section styles {
+<style>
+.gp-page { padding: 24px; }
+
+/* ── Profile hero card ── */
+.prof-hero {
+    background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+    border-radius: 20px 20px 0 0;
+    padding: 36px 36px 70px;
+    position: relative; overflow: hidden;
+}
+.prof-hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+.prof-hero::after {
+    content: "";
+    position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: rgba(255,255,255,.06); pointer-events: none;
+}
+.prof-hero-label { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.6); margin-bottom: 8px; }
+.prof-hero-name  { font-size: 2rem; font-weight: 900; color: #fff; margin: 0 0 6px; letter-spacing: -.03em; position: relative; z-index: 1; }
+.prof-hero-meta  { font-size: .875rem; color: rgba(255,255,255,.75); display: flex; align-items: center; gap: 8px; position: relative; z-index: 1; }
+.prof-hero-dot   { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); }
+
+/* ── Avatar bar (sits over hero bottom) ── */
+.prof-avatar-bar {
+    background: #fff;
+    border-radius: 0 0 20px 20px;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    box-shadow: 0 4px 16px rgba(15,23,42,.08);
+    padding: 0 32px 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.prof-avatar-row {
+    display: flex; align-items: center; gap: 20px;
+    padding-top: 0; margin-top: -48px;
+}
+.prof-avatar-wrap {
+    width: 96px; height: 96px; border-radius: 22px;
+    background: linear-gradient(135deg, #0d9488, #0891b2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 900; color: #fff;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 24px rgba(13,148,136,.3);
+    flex-shrink: 0;
+}
+.prof-name-block { padding-top: 52px; }
+.prof-display-name { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin: 0; }
+.prof-display-role { font-size: .82rem; color: #64748b; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.prof-avatar-actions { margin-left: auto; padding-top: 52px; display: flex; gap: 8px; }
+
+/* ── Tabs ── */
+.prof-tabs { display: flex; gap: 4px; border-bottom: 2px solid #f1f5f9; margin-bottom: 24px; padding: 0 4px; }
+.prof-tab {
+    padding: 10px 20px; border-radius: 10px 10px 0 0;
+    font-size: .83rem; font-weight: 700; color: #64748b;
+    cursor: pointer; border: none; background: none;
+    transition: color .15s, background .15s;
+    display: flex; align-items: center; gap: 7px;
+    position: relative; bottom: -2px;
+}
+.prof-tab:hover { color: #0d9488; background: #f0fdfa; }
+.prof-tab.active { color: #0d9488; border-bottom: 2px solid #0d9488; background: #f0fdfa; }
+
+/* ── Pagination ── */
+.al-pagination { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.al-page-info  { font-size:.76rem; color:#64748b; }
+.al-page-btns  { display:flex; gap:4px; }
+.al-page-btn   { width:30px; height:30px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.76rem; font-weight:700; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
+.al-page-btn.active, .al-page-btn:hover:not([disabled]) { border-color:#0d9488; background:#0d9488; color:#fff; }
+
+/* ── Cards ── */
+.prof-card {
+    background: #fff; border-radius: 16px;
+    border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    margin-bottom: 20px;
+}
+.prof-card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px 14px; border-bottom: 1px solid #f1f5f9;
+}
+.prof-card-title { font-size: .95rem; font-weight: 800; color: #1e293b; margin: 0; }
+.prof-card-sub   { font-size: .76rem; color: #94a3b8; margin-top: 2px; }
+.prof-card-body  { padding: 22px; }
+
+/* ── Info rows ── */
+.info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.info-item {}
+.info-label { font-size: .72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
+.info-val   { font-size: .9rem; font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 7px; }
+.info-val i { color: #0d9488; font-size: .95rem; }
+
+/* ── Stats row ── */
+.prof-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.prof-stat-card {
+    background: #fff; border-radius: 14px; border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(15,23,42,.05);
+    padding: 16px 18px; text-align: center;
+    position: relative; overflow: hidden;
+}
+.prof-stat-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 14px 14px 0 0;
+}
+.prof-stat-card.c-teal::before  { background: linear-gradient(90deg,#0d9488,#14b8a6); }
+.prof-stat-card.c-blue::before  { background: linear-gradient(90deg,#3b82f6,#0ea5e9); }
+.prof-stat-card.c-green::before { background: linear-gradient(90deg,#16a34a,#22c55e); }
+.prof-stat-card.c-amber::before { background: linear-gradient(90deg,#d97706,#f59e0b); }
+.prof-stat-val  { font-size: 1.6rem; font-weight: 900; color: #1e293b; line-height: 1; }
+.prof-stat-lbl  { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #94a3b8; margin-top: 4px; }
+
+/* ── Activity feed ── */
+.prof-activity-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 13px 0; border-bottom: 1px solid #f8fafc;
+}
+.prof-activity-item:last-child { border-bottom: none; }
+.prof-act-dot {
+    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: .9rem;
+}
+.prof-act-dot.c-teal  { background: #f0fdfa; color: #0d9488; }
+.prof-act-dot.c-green { background: #dcfce7; color: #16a34a; }
+.prof-act-dot.c-amber { background: #fef9c3; color: #d97706; }
+.prof-act-dot.c-red   { background: #fee2e2; color: #dc2626; }
+.prof-act-dot.c-blue  { background: #dbeafe; color: #2563eb; }
+.prof-act-body { flex: 1; }
+.prof-act-msg  { font-size: .855rem; font-weight: 600; color: #334155; }
+.prof-act-time { font-size: .76rem; color: #94a3b8; margin-top: 2px; }
+
+/* ── Edit form ── */
+.prof-field { margin-bottom: 18px; }
+.prof-label { font-size: .78rem; font-weight: 700; color: #475569; margin-bottom: 6px; display: block; }
+.prof-input {
+    width: 100%; height: 40px; padding: 0 12px;
+    border: 1.5px solid #e2e8f0; border-radius: 10px;
+    background: #f8fafc; font-size: .875rem; color: #1e293b;
+    outline: none; font-family: inherit;
+    transition: border-color .15s, box-shadow .15s;
+}
+.prof-input:focus { border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,.1); background: #fff; }
+
+/* ── Permissions display ── */
+.perm-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 8px;
+    background: #f0fdfa; color: #0f766e;
+    font-size: .74rem; font-weight: 700;
+    border: 1px solid #a7f3d0; margin: 3px;
+}
+
+/* Tab panels */
+.prof-panel { display: none; }
+.prof-panel.active { display: block; }
+</style>
+}
+
+<div class="gp-page">
+
+    <!-- Hero + Avatar wrapper -->
+    <div style="margin-bottom:20px;">
+        <!-- Hero banner -->
+        <div class="prof-hero">
+            <div class="prof-hero-label">My Account</div>
+            <h1 class="prof-hero-name" id="heroName">Ahmed Hassan</h1>
+            <div class="prof-hero-meta">
+                <span id="heroRole">Admin</span>
+                <div class="prof-hero-dot"></div>
+                <span id="heroBranch">Main Branch</span>
+            </div>
+        </div>
+
+        <!-- Avatar bar -->
+        <div class="prof-avatar-bar">
+            <div class="prof-avatar-row">
+                <div class="prof-avatar-wrap" id="profAvatar">AH</div>
+                <div class="prof-name-block">
+                    <div class="prof-display-name" id="profDisplayName">Ahmed Hassan</div>
+                    <div class="prof-display-role">
+                        <span id="profRoleBadge" class="gp-badge gp-badge-purple">Admin</span>
+                        <span style="color:#cbd5e1;">·</span>
+                        <span id="profBranch">Main Branch</span>
+                    </div>
+                </div>
+                <div class="prof-avatar-actions">
+                    <button class="btn btn-sm px-3" style="background:#f0fdfa;color:#0d9488;border:1.5px solid #a7f3d0;font-weight:700;border-radius:10px;" onclick="switchTab('edit')">
+                        <i class="ri-pencil-line me-1"></i> Edit Profile
+                    </button>
+                    <a href="/Account/Login" class="btn btn-sm px-3" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;font-weight:700;border-radius:10px;">
+                        <i class="ri-logout-box-r-line me-1"></i> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="prof-stats">
+        <div class="prof-stat-card c-teal">
+            <div class="prof-stat-val" id="statLogins">48</div>
+            <div class="prof-stat-lbl">Total Logins</div>
+        </div>
+        <div class="prof-stat-card c-blue">
+            <div class="prof-stat-val" id="statActions">312</div>
+            <div class="prof-stat-lbl">Actions Done</div>
+        </div>
+        <div class="prof-stat-card c-green">
+            <div class="prof-stat-val" id="statDays">28</div>
+            <div class="prof-stat-lbl">Active Days</div>
+        </div>
+        <div class="prof-stat-card c-amber">
+            <div class="prof-stat-val" id="statLast">Today</div>
+            <div class="prof-stat-lbl">Last Login</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="prof-tabs">
+        <button class="prof-tab active" onclick="switchTab('info')" id="tab-info">
+            <i class="ri-user-line"></i> Information
+        </button>
+        <button class="prof-tab" onclick="switchTab('activity')" id="tab-activity">
+            <i class="ri-pulse-line"></i> My Activity
+        </button>
+        <button class="prof-tab" onclick="switchTab('perms')" id="tab-perms">
+            <i class="ri-shield-keyhole-line"></i> Permissions
+        </button>
+        <button class="prof-tab" onclick="switchTab('edit')" id="tab-edit">
+            <i class="ri-settings-3-line"></i> Edit Profile
+        </button>
+    </div>
+
+    <!-- ══ TAB: Information ══ -->
+    <div class="prof-panel active" id="panel-info">
+        <div class="row g-3">
+            <div class="col-12 col-lg-6">
+                <div class="prof-card">
+                    <div class="prof-card-head">
+                        <div>
+                            <div class="prof-card-title">Personal Information</div>
+                            <div class="prof-card-sub">Account details and linked employee record</div>
+                        </div>
+                    </div>
+                    <div class="prof-card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Full Name</div>
+                                <div class="info-val"><i class="ri-user-line"></i><span id="infoName">Ahmed Hassan</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Username</div>
+                                <div class="info-val"><i class="ri-at-line"></i><span id="infoUsername">admin</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Email</div>
+                                <div class="info-val"><i class="ri-mail-line"></i><span id="infoEmail">ahmed.h@gym.com</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Role</div>
+                                <div class="info-val"><i class="ri-shield-user-line"></i><span id="infoRole">Admin</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Branch</div>
+                                <div class="info-val"><i class="ri-building-line"></i><span id="infoBranch">Main Branch</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Status</div>
+                                <div class="info-val"><span class="gp-badge gp-badge-green">Active</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Last Login</div>
+                                <div class="info-val"><i class="ri-time-line"></i><span id="infoLastLogin">Today, 09:15</span></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Member Since</div>
+                                <div class="info-val"><i class="ri-calendar-line"></i><span>Jan 2024</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="prof-card h-100">
+                    <div class="prof-card-head">
+                        <div>
+                            <div class="prof-card-title">Security</div>
+                            <div class="prof-card-sub">Password and two-factor authentication</div>
+                        </div>
+                    </div>
+                    <div class="prof-card-body">
+                        <div style="display:flex;flex-direction:column;gap:14px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;">
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:#f0fdfa;display:flex;align-items:center;justify-content:center;color:#0d9488;font-size:1rem;">
+                                        <i class="ri-lock-password-line"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Password</div>
+                                        <div style="font-size:.76rem;color:#94a3b8;">Last changed 30 days ago</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm" style="background:#f0fdfa;color:#0d9488;border:1.5px solid #a7f3d0;font-weight:700;font-size:.75rem;border-radius:8px;" onclick="toastr.info('Password change feature coming soon')">Change</button>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;">
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:#dcfce7;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:1rem;">
+                                        <i class="ri-shield-check-line"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Two-Factor Authentication</div>
+                                        <div style="font-size:.76rem;color:#16a34a;font-weight:600;"><i class="ri-check-line"></i> Enabled via OTP</div>
+                                    </div>
+                                </div>
+                                <span class="gp-badge gp-badge-green">On</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;">
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <div style="width:36px;height:36px;border-radius:10px;background:#dbeafe;display:flex;align-items:center;justify-content:center;color:#2563eb;font-size:1rem;">
+                                        <i class="ri-device-line"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Active Sessions</div>
+                                        <div style="font-size:.76rem;color:#94a3b8;">1 device — this browser</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;font-weight:700;font-size:.75rem;border-radius:8px;" onclick="toastr.success('All other sessions revoked')">Revoke All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ TAB: Activity ══ -->
+    <div class="prof-panel" id="panel-activity">
+        <div class="row g-3">
+            <div class="col-12 col-lg-8">
+                <div class="prof-card" style="height:auto;">
+                    <div class="prof-card-head">
+                        <div>
+                            <div class="prof-card-title">Recent Activity</div>
+                            <div class="prof-card-sub">Your last 20 actions in the system</div>
+                        </div>
+                    </div>
+                    <div style="padding:8px 20px;">
+                        <div id="myActivityFeed"></div>
+                    </div>
+                    <div id="activityPagination" class="al-pagination" style="border-top:1px solid #f1f5f9;padding:12px 20px;"></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="prof-card mb-3">
+                    <div class="prof-card-head">
+                        <div class="prof-card-title">Action Breakdown</div>
+                    </div>
+                    <div class="prof-card-body">
+                        <canvas id="myActionChart" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="prof-card">
+                    <div class="prof-card-head">
+                        <div class="prof-card-title">Login History</div>
+                    </div>
+                    <div class="prof-card-body" style="padding:8px 22px;" id="loginHistory"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ TAB: Permissions ══ -->
+    <div class="prof-panel" id="panel-perms">
+        <div class="prof-card">
+            <div class="prof-card-head">
+                <div>
+                    <div class="prof-card-title">My Permissions</div>
+                    <div class="prof-card-sub">Access rights granted to your role</div>
+                </div>
+                <span class="gp-badge gp-badge-purple" id="totalPermsCount">22 permissions</span>
+            </div>
+            <div class="prof-card-body">
+                <div id="permsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ TAB: Edit Profile ══ -->
+    <div class="prof-panel" id="panel-edit">
+        <div class="row g-3">
+            <div class="col-12 col-lg-6">
+                <div class="prof-card">
+                    <div class="prof-card-head">
+                        <div class="prof-card-title">Edit Information</div>
+                    </div>
+                    <div class="prof-card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="prof-label">Full Name</label>
+                                <input class="prof-input" id="editName" type="text">
+                            </div>
+                            <div class="col-12">
+                                <label class="prof-label">Email</label>
+                                <input class="prof-input" id="editEmail" type="email">
+                            </div>
+                            <div class="col-6">
+                                <label class="prof-label">Role</label>
+                                <input class="prof-input" id="editRole" type="text" disabled style="opacity:.6;cursor:not-allowed;">
+                            </div>
+                            <div class="col-6">
+                                <label class="prof-label">Branch</label>
+                                <input class="prof-input" id="editBranch" type="text" disabled style="opacity:.6;cursor:not-allowed;">
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;display:flex;gap:10px;">
+                            <button class="btn btn-sm px-4" style="background:#0d9488;color:#fff;border-radius:10px;font-weight:700;" onclick="saveProfile()">
+                                <i class="ri-save-line me-1"></i> Save Changes
+                            </button>
+                            <button class="btn btn-sm px-3 btn-light" onclick="switchTab('info')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="prof-card">
+                    <div class="prof-card-head">
+                        <div class="prof-card-title">Change Password</div>
+                    </div>
+                    <div class="prof-card-body">
+                        <div style="display:flex;flex-direction:column;gap:14px;">
+                            <div>
+                                <label class="prof-label">Current Password</label>
+                                <input class="prof-input" type="password" id="curPw" placeholder="••••••••">
+                            </div>
+                            <div>
+                                <label class="prof-label">New Password</label>
+                                <input class="prof-input" type="password" id="newPw" placeholder="••••••••">
+                            </div>
+                            <div>
+                                <label class="prof-label">Confirm New Password</label>
+                                <input class="prof-input" type="password" id="confPw" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <button class="btn btn-sm px-4" style="background:#0d9488;color:#fff;border-radius:10px;font-weight:700;" onclick="changePassword()">
+                                <i class="ri-lock-line me-1"></i> Update Password
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/scripts/Features/profile.js"></script>
+}

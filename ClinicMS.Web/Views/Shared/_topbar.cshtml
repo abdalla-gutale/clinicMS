@@ -1,0 +1,227 @@
+@using System.Security.Claims
+@{
+    var principal = Context?.User;
+    var fullName =
+        principal?.Identity?.Name
+        ?? principal?.FindFirstValue(ClaimTypes.Name)
+        ?? principal?.FindFirstValue("name")
+        ?? principal?.FindFirstValue("preferred_username")
+        ?? principal?.FindFirstValue(ClaimTypes.Email)
+        ?? "User";
+
+    var givenName = principal?.FindFirstValue(ClaimTypes.GivenName)
+        ?? principal?.FindFirstValue("given_name");
+
+    var firstName = !string.IsNullOrWhiteSpace(givenName)
+        ? givenName
+        : fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "User";
+
+    var role = principal?.FindFirstValue(ClaimTypes.Role)
+        ?? principal?.FindFirstValue("role")
+        ?? principal?.FindFirstValue("roles")
+        ?? "User";
+
+    var avatarLetter = firstName.Substring(0, 1).ToUpperInvariant();
+}
+
+<style>
+/* ══════════════════════════════════════
+   TOPBAR — REDESIGN
+══════════════════════════════════════ */
+#page-topbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e9ecef !important;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06) !important;
+}
+
+.tb-search-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 420px;
+}
+.tb-search-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px 0 42px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: .875rem;
+    color: #1e293b;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s;
+}
+.tb-search-input::placeholder { color: #94a3b8; }
+.tb-search-input:focus {
+    border-color: #0d9488;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+}
+.tb-search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1rem;
+    pointer-events: none;
+}
+.tb-search-input:focus ~ .tb-search-icon { color: #0d9488; }
+
+/* action buttons */
+.tb-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all .16s;
+    flex-shrink: 0;
+}
+.tb-btn:hover { border-color: #0d9488; color: #0d9488; background: #f0fdfa; }
+
+/* language pill */
+.tb-lang-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: .78rem; font-weight: 600; color: #475569;
+    cursor: pointer;
+    transition: all .16s;
+    flex-shrink: 0;
+}
+.tb-lang-btn:hover { border-color: #0d9488; color: #0d9488; background: #f0fdfa; }
+
+/* divider */
+.tb-divider { width: 1px; height: 24px; background: #e2e8f0; flex-shrink: 0; }
+
+/* user chip */
+.tb-user-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 5px 14px 5px 6px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all .16s;
+    flex-shrink: 0;
+}
+.tb-user-btn:hover { border-color: #0d9488; background: #f0fdfa; }
+.tb-user-avatar {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, #0d9488, #0891b2);
+    color: #fff; font-size: .8rem; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.tb-user-name { font-size: .82rem; font-weight: 700; color: #1e293b; }
+.tb-user-role { font-size: .7rem; color: #94a3b8; line-height: 1; margin-top: 1px; }
+.tb-user-chevron { color: #94a3b8; font-size: .78rem; margin-left: 2px; }
+
+/* breadcrumb row */
+.tb-breadcrumb-bar {
+    background: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 7px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.tb-page-title { font-size: .82rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: .06em; }
+.tb-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: #94a3b8; }
+.tb-breadcrumb a { color: #64748b; text-decoration: none; font-weight: 600; }
+.tb-breadcrumb a:hover { color: #0d9488; }
+.tb-breadcrumb-sep { color: #cbd5e1; font-size: .7rem; }
+
+@@media (max-width: 768px) {
+    .tb-search-wrap { max-width: 200px; }
+    .tb-user-name, .tb-user-role { display: none; }
+    .tb-lang-label { display: none; }
+}
+</style>
+
+<header id="page-topbar">
+    <div class="layout-width">
+        <div class="navbar-header" style="padding: 0 24px; height: 60px; display:flex; align-items:center; gap:12px;">
+
+            <!-- Hamburger (mobile) -->
+            <button type="button"
+                    class="btn btn-sm px-2 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none d-lg-none"
+                    id="topnav-hamburger-icon"
+                    style="border:none;background:transparent;color:#64748b;flex-shrink:0;">
+                <span class="hamburger-icon"><span></span><span></span><span></span></span>
+            </button>
+
+            <!-- Search -->
+            <div class="tb-search-wrap">
+                <i class="ri-search-line tb-search-icon"></i>
+                <input type="text" class="tb-search-input" placeholder="Search members, classes, trainers…">
+            </div>
+
+            <!-- Right actions -->
+            <div class="d-flex align-items-center gap-2 ms-auto flex-nowrap">
+
+                <!-- Language -->
+                <div class="dropdown">
+                    <button class="tb-lang-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="border:1.5px solid #e2e8f0;background:#f8fafc;outline:none;">
+                        <img id="header-lang-img" src="/assets/images/flags/us.svg" alt="Lang" height="16" class="rounded" style="flex-shrink:0;">
+                        <span class="tb-lang-label">EN</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" style="min-width:160px;border-radius:14px;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.10);padding:8px;">
+                        <a href="javascript:void(0);" class="dropdown-item rounded-2 py-2" data-lang="en">
+                            <img src="/assets/images/flags/us.svg" class="me-2 rounded" height="16"> English
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-2 py-2" data-lang="so">
+                            <img src="/assets/images/flags/so.svg" class="me-2 rounded" height="16"> Somali
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-2 py-2" data-lang="ar">
+                            <img src="/assets/images/flags/sa.svg" class="me-2 rounded" height="16"> Arabic
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item rounded-2 py-2" data-lang="fr">
+                            <img src="/assets/images/flags/fr.svg" class="me-2 rounded" height="16"> French
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Fullscreen -->
+                <button class="tb-btn" data-toggle="fullscreen" title="Fullscreen">
+                    <i class="bi bi-arrows-fullscreen"></i>
+                </button>
+
+                <div class="tb-divider d-none d-sm-block"></div>
+
+                <!-- User -->
+                <div class="dropdown">
+                    <button class="tb-user-btn shadow-none border-0 p-0" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="border:1.5px solid #e2e8f0 !important;background:#f8fafc !important;padding:5px 14px 5px 6px !important;border-radius:12px !important;">
+                        <span class="tb-user-avatar">@avatarLetter</span>
+                        <span class="d-none d-xl-flex flex-column align-items-start">
+                            <span class="tb-user-name">@firstName</span>
+                            <span class="tb-user-role">@role</span>
+                        </span>
+                        <i class="ri-arrow-down-s-line tb-user-chevron d-none d-xl-inline"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end"
+                         style="min-width:200px;border-radius:16px;border:1px solid #e2e8f0;box-shadow:0 12px 32px rgba(15,23,42,.12);padding:8px;">
+                        <div style="padding:10px 14px 8px;border-bottom:1px solid #f1f5f9;margin-bottom:6px;">
+                            <div style="font-size:.82rem;font-weight:800;color:#1e293b;">@firstName</div>
+                            <div style="font-size:.72rem;color:#94a3b8;">@role</div>
+                        </div>
+                        <a class="dropdown-item rounded-2 py-2" href="/Account/Profile">
+                            <i class="ri-user-line me-2 text-muted"></i> Profile
+                        </a>
+                        <div style="height:1px;background:#f1f5f9;margin:6px 0;"></div>
+                        <a class="dropdown-item rounded-2 py-2 text-danger" href="/Account/Login">
+                            <i class="ri-logout-box-r-line me-2"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,181 @@
+@using ClinicMS.Web.ViewComponents
+@model List<SidebarModule>
+@{
+    var currentPath = Context.Request.Path.Value ?? "";
+    bool IsActive(string url) => string.Equals(currentPath, url, StringComparison.OrdinalIgnoreCase);
+    bool IsActivePrefix(string prefix) => currentPath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
+    bool GroupActive(SidebarNavItem group) => group.Children.Any(c => c.Url != null && IsActivePrefix(c.Url));
+}
+
+<style>
+#navbar-nav {
+    padding: 0 10px;
+    list-style: none;
+    margin: 0;
+}
+#navbar-nav .menu-title { display: none; }
+#navbar-nav > .nav-item { margin-bottom: 2px; }
+
+#navbar-nav .menu-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 14px;
+    border-radius: 13px;
+    color: #475569;
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .16s, color .16s, transform .12s;
+    position: relative;
+    overflow: hidden;
+}
+#navbar-nav .menu-link::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 25%; bottom: 25%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: #2dd4bf;
+    transform: scaleY(0);
+    transition: transform .18s;
+}
+#navbar-nav .menu-link:hover {
+    background: rgba(13,148,136,.07);
+    color: #0d9488;
+    transform: translateX(2px);
+}
+#navbar-nav .menu-link:hover::before { transform: scaleY(1); }
+#navbar-nav .menu-link.active,
+#navbar-nav .menu-link:not(.collapsed)[aria-expanded="true"] {
+    background: rgba(13,148,136,.10);
+    color: #0d9488;
+}
+#navbar-nav .menu-link.active::before,
+#navbar-nav .menu-link:not(.collapsed)[aria-expanded="true"]::before { transform: scaleY(1); }
+
+#navbar-nav .menu-link > i,
+#navbar-nav .nav-link > i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: .75;
+    transition: opacity .15s;
+}
+#navbar-nav .menu-link:hover > i,
+#navbar-nav .menu-link.active > i { opacity: 1; }
+
+#navbar-nav .menu-link[data-bs-toggle="collapse"]::after {
+    content: "\ea4e";
+    font-family: 'remixicon';
+    margin-left: auto;
+    font-size: .82rem;
+    color: #94a3b8;
+    transition: transform .22s ease, color .15s;
+    flex-shrink: 0;
+}
+#navbar-nav .menu-link[data-bs-toggle="collapse"]:not(.collapsed)::after {
+    transform: rotate(90deg);
+    color: #0d9488;
+}
+
+#navbar-nav .menu-dropdown {
+    padding: 4px 0 6px 34px;
+    overflow: hidden;
+}
+#navbar-nav .menu-dropdown .nav-item { margin-bottom: 1px; }
+#navbar-nav .menu-dropdown .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    color: #64748b;
+    font-size: .835rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .14s, color .14s, padding-left .14s;
+    position: relative;
+}
+#navbar-nav .menu-dropdown .nav-link::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    flex-shrink: 0;
+    transition: background .14s, transform .14s;
+}
+#navbar-nav .menu-dropdown .nav-link:hover {
+    color: #0d9488;
+    background: rgba(13,148,136,.06);
+    padding-left: 16px;
+}
+#navbar-nav .menu-dropdown .nav-link:hover::before { background: #0d9488; transform: scale(1.3); }
+#navbar-nav .menu-dropdown .nav-link.active {
+    color: #0d9488;
+    background: rgba(13,148,136,.08);
+    font-weight: 700;
+}
+#navbar-nav .menu-dropdown .nav-link.active::before { background: #2dd4bf; transform: scale(1.4); }
+
+[data-sidebar-size="sm"] #navbar-nav .menu-link > span,
+[data-sidebar-size="sm-hover"] #navbar-nav .menu-link > span { display: none; }
+[data-sidebar-size="sm"] #navbar-nav .menu-link::after,
+[data-sidebar-size="sm-hover"] #navbar-nav .menu-link::after { display: none; }
+[data-sidebar-size="sm"] #navbar-nav .menu-dropdown,
+[data-sidebar-size="sm-hover"] #navbar-nav .menu-dropdown { padding-left: 0; }
+</style>
+
+<ul class="navbar-nav" id="navbar-nav">
+
+    <li class="menu-title"><span>Main</span></li>
+
+    <li class="nav-item">
+        <a class="nav-link menu-link @(IsActive("/Home/Index") || IsActive("/") ? "active" : "")" href="/Home/Index">
+            <i class="ri-dashboard-2-line"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    @foreach (var module in Model)
+    {
+        <li class="menu-title"><span>@module.Name</span></li>
+
+        @foreach (var item in module.Items)
+        {
+            var anchorId = "sn-" + (module.Name + "-" + item.Name).ToLowerInvariant().Replace(" ", "-").Replace("&", "and");
+
+            if (item.IsGroup)
+            {
+                var active = GroupActive(item);
+                <li class="nav-item">
+                    <a class="nav-link menu-link collapsed @(active ? "active-parent" : "")"
+                       href="#@anchorId" data-bs-toggle="collapse" role="button"
+                       aria-expanded="@(active ? "true" : "false")" aria-controls="@anchorId">
+                        <i class="@module.Icon"></i>
+                        <span>@item.Name</span>
+                    </a>
+                    <div class="collapse menu-dropdown @(active ? "show" : "")" id="@anchorId">
+                        <ul class="nav nav-sm flex-column">
+                            @foreach (var child in item.Children)
+                            {
+                                <li class="nav-item"><a href="@child.Url" class="nav-link @(IsActivePrefix(child.Url!) ? "active" : "")">@child.Name</a></li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link menu-link @(IsActivePrefix(item.Url!) ? "active" : "")" href="@item.Url">
+                        <i class="@module.Icon"></i>
+                        <span>@item.Name</span>
+                    </a>
+                </li>
+            }
+        }
+    }
+
+</ul>

@@ -1,0 +1,87 @@
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\web.config
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\appsettings.Development.json
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\appsettings.json
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.staticwebassets.runtime.json
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.exe
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.deps.json
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.runtimeconfig.json
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.dll
+D:\sss\portal-system - Copy\Portal.Web\bin\Debug\net8.0\Demo.Web.pdb
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.GeneratedMSBuildEditorConfig.editorconfig
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfoInputs.cache
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfo.cs
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.csproj.CoreCompileInputs.cache
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.MvcApplicationPartsAssemblyInfo.cache
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cache
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cs
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets.build.json
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets.development.json
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets\msbuild.Demo.Web.Microsoft.AspNetCore.StaticWebAssets.props
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets\msbuild.build.Demo.Web.props
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Demo.Web.props
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Demo.Web.props
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\staticwebassets.pack.json
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\scopedcss\bundle\Demo.Web.styles.css
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.dll
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\refint\Demo.Web.dll
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.pdb
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\Demo.Web.genruntimeconfig.cache
+D:\sss\portal-system - Copy\Portal.Web\obj\Debug\net8.0\ref\Demo.Web.dll
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\web.config
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\appsettings.Development.json
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\appsettings.json
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.staticwebassets.runtime.json
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.exe
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.deps.json
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.runtimeconfig.json
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.dll
+D:\sss\portal-system - Copy\Demo.Web\bin\Debug\net8.0\Demo.Web.pdb
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.GeneratedMSBuildEditorConfig.editorconfig
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfoInputs.cache
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfo.cs
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.csproj.CoreCompileInputs.cache
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.MvcApplicationPartsAssemblyInfo.cache
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cache
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cs
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets.build.json
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets.development.json
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.Demo.Web.Microsoft.AspNetCore.StaticWebAssets.props
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.build.Demo.Web.props
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Demo.Web.props
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Demo.Web.props
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\staticwebassets.pack.json
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\scopedcss\bundle\Demo.Web.styles.css
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.dll
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\refint\Demo.Web.dll
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.pdb
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\Demo.Web.genruntimeconfig.cache
+D:\sss\portal-system - Copy\Demo.Web\obj\Debug\net8.0\ref\Demo.Web.dll
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\web.config
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\appsettings.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.staticwebassets.runtime.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.exe
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.deps.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.runtimeconfig.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.dll
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\bin\Debug\net8.0\Demo.Web.pdb
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfoInputs.cache
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.AssemblyInfo.cs
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.csproj.CoreCompileInputs.cache
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cache
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.RazorAssemblyInfo.cs
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.Demo.Web.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.build.Demo.Web.props
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Demo.Web.props
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Demo.Web.props
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\scopedcss\bundle\Demo.Web.styles.css
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.dll
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\refint\Demo.Web.dll
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.pdb
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\Demo.Web.genruntimeconfig.cache
+C:\Users\E-Abdalla-SDD\Desktop\ICT\Clinic\Demo.Web\obj\Debug\net8.0\ref\Demo.Web.dll

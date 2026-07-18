@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/E-Abdalla-SDD/Desktop/ICT/Clinic/**)",
+      "Bash(xargs sed -i 's/Demo\\\\.Web/ClinicMS.Web/g')",
+      "Bash(mv \"Demo.sln\" \"ClinicMS.sln\")",
+      "Bash(mv \"Demo.Web\" \"ClinicMS.Web\")",
+      "Bash(tasklist)",
+      "Bash(taskkill //PID 17972 //F)",
+      "Bash(taskkill //PID 24256 //F)",
+      "Bash(taskkill //PID 9180 //F)",
+      "PowerShell(Rename-Item -Path \"C:\\\\Users\\\\E-Abdalla-SDD\\\\Desktop\\\\ICT\\\\Clinic\\\\Demo.Web\" -NewName \"ClinicMS.Web\" -ErrorAction Stop)"
+    ]
+  }
+}

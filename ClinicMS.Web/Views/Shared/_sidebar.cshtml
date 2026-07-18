@@ -1,0 +1,178 @@
+<!-- ========== App Menu ========== -->
+<div class="app-menu navbar-menu">
+<style>
+/* ══════════════════════════════════════
+   SIDEBAR — DEMO THEME (teal/emerald)
+══════════════════════════════════════ */
+
+.sn-brand-box {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    position: relative;
+    flex-shrink: 0;
+}
+.sn-brand-box .logo { display: flex !important; width: 100%; }
+.sn-brand-box .logo + .logo { display: none !important; }
+
+.sn-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: 16px;
+    transition: background .2s;
+    width: 100%;
+}
+.sn-brand-link:hover { background: rgba(13,148,136,.06); }
+
+.sn-logo-ring {
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.22);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    backdrop-filter: blur(6px);
+}
+.sn-logo-ring img {
+    width: 28px; height: 28px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(20,184,166,.6));
+}
+
+.sn-brand-text { line-height: 1; overflow: hidden; }
+.sn-brand-name {
+    font-size: 1.15rem; font-weight: 900; letter-spacing: -.025em;
+    background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; display: block; white-space: nowrap;
+}
+.sn-brand-sub {
+    font-size: .58rem; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: #94a3b8;
+    margin-top: 4px; display: block; white-space: nowrap;
+}
+
+.sn-brand-divider {
+    height: 1px; margin: 0 18px 4px; flex-shrink: 0;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+}
+
+[data-sidebar-size="sm"] .sn-brand-text,
+[data-sidebar-size="sm-hover"] .sn-brand-text { display: none; }
+[data-sidebar-size="sm"] .sn-brand-link,
+[data-sidebar-size="sm-hover"] .sn-brand-link { justify-content: center; padding: 12px; }
+[data-sidebar-size="sm"] .sn-brand-box,
+[data-sidebar-size="sm-hover"] .sn-brand-box { height: 72px; }
+
+.sn-shell {
+    display: flex; flex-direction: column;
+    height: calc(100vh - 120px);
+}
+.sn-scroll {
+    flex: 1 1 auto; min-height: 0; overflow-y: auto;
+    padding: 4px 0 8px;
+    scrollbar-width: none;
+}
+.sn-scroll::-webkit-scrollbar { display: none; }
+
+/* Menu nav overrides — teal accent on white sidebar */
+#navbar-nav .menu-link::before { background: #0d9488; }
+#navbar-nav .menu-link.active,
+#navbar-nav .menu-link:not(.collapsed)[aria-expanded="true"] {
+    background: rgba(13,148,136,.10);
+    color: #0d9488;
+}
+#navbar-nav .menu-link.active::before,
+#navbar-nav .menu-link:not(.collapsed)[aria-expanded="true"]::before { transform: scaleY(1); }
+
+#navbar-nav .menu-dropdown .nav-link::before { background: #cbd5e1; }
+#navbar-nav .menu-dropdown .nav-link:hover::before { background: #0d9488; }
+#navbar-nav .menu-dropdown .nav-link.active { color: #0d9488; background: rgba(13,148,136,.08); }
+#navbar-nav .menu-dropdown .nav-link.active::before { background: #0d9488; }
+
+/* ClinicMS badge */
+.sn-demo-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 14px 10px;
+    padding: 6px 12px; border-radius: 10px;
+    background: rgba(45,212,191,.12);
+    border: 1px solid rgba(45,212,191,.22);
+    font-size: .68rem; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: #5eead4;
+}
+.sn-demo-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #2dd4bf; box-shadow: 0 0 0 3px rgba(45,212,191,.25); }
+
+/* Logout */
+.sn-logout-wrap { flex: 0 0 auto; padding: 8px 14px 18px; }
+.sn-logout-divider { height: 1px; margin-bottom: 10px; background: #e2e8f0; }
+.sn-logout-btn {
+    display: flex; align-items: center; gap: 11px;
+    padding: 11px 14px; border-radius: 14px;
+    color: #64748b; text-decoration: none;
+    font-size: .86rem; font-weight: 600;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all .2s ease;
+    position: relative; overflow: hidden;
+}
+.sn-logout-btn::after {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: #f87171; border-radius: 0 3px 3px 0;
+    transform: scaleY(0); transition: transform .2s;
+}
+.sn-logout-btn:hover {
+    color: #fca5a5;
+    background: rgba(248,113,113,.08);
+    border-color: rgba(248,113,113,.2);
+    transform: translateX(3px);
+}
+.sn-logout-btn:hover::after { transform: scaleY(1); }
+.sn-logout-btn i { font-size: 1.05rem; flex-shrink: 0; }
+.sn-logout-label { flex: 1; }
+
+[data-sidebar-size="sm"] .sn-logout-label,
+[data-sidebar-size="sm-hover"] .sn-logout-label { display: none; }
+[data-sidebar-size="sm"] .sn-demo-badge,
+[data-sidebar-size="sm-hover"] .sn-demo-badge { display: none; }
+</style>
+
+    <!-- LOGO -->
+    <div class="navbar-brand-box sn-brand-box" style="display:flex!important;visibility:visible!important;opacity:1!important;">
+        <a href="/Home/Index" class="logo logo-dark sn-brand-link">
+            <span class="sn-brand-text">
+                <span class="sn-brand-name">ClinicMS</span>
+                <span class="sn-brand-sub">Analytics Platform</span>
+            </span>
+        </a>
+        <button type="button" class="btn btn-sm p-0 fs-3xl header-item float-end btn-vertical-sm-hover" id="vertical-hover" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);">
+            <i class="ri-record-circle-line"></i>
+        </button>
+    </div>
+
+    <div class="sn-brand-divider"></div>
+
+    <div id="scrollbar">
+        <div class="container-fluid sn-shell">
+            <div class="sn-scroll">
+                <div id="two-column-menu"></div>
+                @await Component.InvokeAsync("Sidebar")
+            </div>
+            <div class="sn-logout-wrap">
+                <div class="sn-logout-divider"></div>
+                <a class="sn-logout-btn" href="/Account/Login" onclick="event.preventDefault(); fetch('/Account/Logout', { method: 'POST' }).then(() => window.location.href = '/Account/Login');">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span class="sn-logout-label">Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-background"></div>
+</div>
+<!-- Left Sidebar End -->
+<div class="vertical-overlay"></div>

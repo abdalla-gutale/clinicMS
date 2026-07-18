@@ -1,0 +1,241 @@
+@{
+    ViewData["Title"] = "Roles & Permissions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Roles & Permissions";
+}
+
+@section styles {
+<style>
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-green  { background:#dcfce7; color:#15803d; }
+.gp-badge-red    { background:#fee2e2; color:#b91c1c; }
+.gp-badge-blue   { background:#dbeafe; color:#1d4ed8; }
+.gp-badge-purple { background:#ede9fe; color:#6d28d9; }
+.gp-badge-teal   { background:#f0fdfa; color:#0f766e; }
+.gp-badge-gray   { background:#f1f5f9; color:#475569; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit   { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover   { background:#0d9488; color:#fff; }
+.gp-btn-perm   { background:#ede9fe; color:#6d28d9; }
+.gp-btn-perm:hover   { background:#6d28d9; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+
+/* ── Role modal ── */
+.modal-content { border-radius:20px; border:none; }
+.modal-header  { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title   { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body    { padding:24px; }
+.modal-footer  { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label    { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+
+/* ── Permissions modal ── */
+#permModal .modal-dialog { max-width: 680px; }
+#permModal .modal-body   { padding: 0; max-height: 70vh; overflow-y: auto; }
+#permModal .modal-body::-webkit-scrollbar { width:4px; }
+#permModal .modal-body::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+
+/* Module card */
+.pm-module {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin: 16px 20px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(15,23,42,.05);
+}
+.pm-module-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px; cursor: pointer;
+    background: #fff; border: none; width: 100%;
+    text-align: left;
+}
+.pm-module-header:hover { background: #f8fafc; }
+.pm-module-chevron {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #f1f5f9; display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; color: #64748b; flex-shrink: 0;
+    transition: transform .2s, background .15s;
+}
+.pm-module.open .pm-module-chevron { transform: rotate(90deg); background: #f0fdfa; color: #0d9488; }
+.pm-module-name { font-size: .9rem; font-weight: 800; color: #1e293b; flex: 1; }
+
+/* Module body */
+.pm-module-body { display: none; border-top: 1px solid #f1f5f9; }
+.pm-module.open .pm-module-body { display: block; }
+
+/* Submodule section */
+.pm-sub {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f8fafc;
+}
+.pm-sub:last-child { border-bottom: none; }
+.pm-sub-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+}
+.pm-sub-name { font-size: .82rem; font-weight: 700; color: #334155; }
+
+/* Select All row */
+.pm-select-all-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: .76rem; font-weight: 700; color: #64748b;
+}
+
+/* Permission actions grid */
+.pm-actions { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-left: 4px; }
+.pm-action-item { display: flex; align-items: center; gap: 8px; min-width: 140px; }
+.pm-action-icon { font-size: .9rem; width: 18px; text-align: center; }
+.pm-action-icon.i-edit   { color: #f59e0b; }
+.pm-action-icon.i-create { color: #0d9488; }
+.pm-action-icon.i-delete { color: #ef4444; }
+.pm-action-icon.i-view   { color: #3b82f6; }
+.pm-action-icon.i-other  { color: #8b5cf6; }
+.pm-action-name { font-size: .82rem; color: #475569; font-weight: 600; flex: 1; }
+
+/* Toggle switch */
+.pm-toggle { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+.pm-toggle input { opacity: 0; width: 0; height: 0; }
+.pm-toggle .pm-slider {
+    position: absolute; inset: 0; cursor: pointer;
+    background: #cbd5e1; border-radius: 999px; transition: .2s;
+}
+.pm-toggle .pm-slider::before {
+    content: ""; position: absolute;
+    width: 16px; height: 16px; border-radius: 50%; background: #fff;
+    left: 3px; bottom: 3px; transition: .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.pm-toggle input:checked + .pm-slider { background: #3b82f6; }
+.pm-toggle input:checked + .pm-slider::before { transform: translateX(18px); }
+
+/* Module-level toggle (bigger, stays blue) */
+.pm-toggle.mod-toggle .pm-slider { background: #cbd5e1; }
+.pm-toggle.mod-toggle input:checked + .pm-slider { background: #3b82f6; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Roles &amp; Permissions</h4>
+            <p class="gp-sub">Manage roles and access control</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+            <i class="ri-add-line me-1"></i> New Role
+        </button>
+    </div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search roles..." oninput="handleSearch(this.value)">
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="rolesTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Add / Edit Role Modal ══ -->
+<div class="modal fade" id="roleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-7">
+                        <label class="form-label">Role Name</label>
+                        <input type="text" class="form-control" id="fName" placeholder="e.g. Manager">
+                    </div>
+                    <div class="col-5">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" id="fStatus" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fStatus">Active</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="fDesc" rows="2" placeholder="Role description..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveRole()">Save Role</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Manage Permissions Modal ══ -->
+<div class="modal fade" id="permModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="permModalTitle">Manage Permissions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="permModalBody">
+                <!-- rendered by JS -->
+            </div>
+
+            <div class="modal-footer" style="background:#f8fafc;border-radius:0 0 20px 20px;">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="savePermissions()">Save Permissions</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var ROLES_DATA    = @Html.Raw(ViewBag.RolesJson);
+    var MODULES_DATA  = @Html.Raw(ViewBag.ModulesJson);
+    var NAVPAGES_DATA = @Html.Raw(ViewBag.NavPagesJson);
+</script>
+<script src="~/scripts/Features/roles.js"></script>
+}

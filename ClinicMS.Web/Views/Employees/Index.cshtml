@@ -1,0 +1,273 @@
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Employees";
+}
+
+@section styles {
+<style>
+    
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-stat-card { background:#fff; border-radius:14px; border:1px solid #e2e8f0; padding:18px 20px; box-shadow:0 2px 8px rgba(15,23,42,.05); }
+.gp-stat-val { font-size:1.6rem; font-weight:900; line-height:1; }
+.gp-stat-lbl { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; margin-top:4px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-select { height:38px; padding:0 10px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; color:#475569; }
+.gp-select:focus { border-color:#0d9488; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-green { background:#dcfce7; color:#15803d; }
+.gp-badge-red { background:#fee2e2; color:#b91c1c; }
+.gp-badge-blue { background:#dbeafe; color:#1d4ed8; }
+.gp-badge-teal { background:#ccfbf1; color:#0f766e; }
+.gp-badge-gray { background:#f1f5f9; color:#475569; }
+.gp-badge-purple { background:#ede9fe; color:#6d28d9; }
+.gp-badge-yellow { background:#fef9c3; color:#a16207; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-btn-view { background:#eff6ff; color:#2563eb; }
+.gp-btn-view:hover { background:#2563eb; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.gp-avatar { width:34px; height:34px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:800; color:#fff; flex-shrink:0; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.profile-pic-area { width:80px; height:80px; border-radius:16px; background:#f1f5f9; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+.profile-pic-area img { width:100%; height:100%; object-fit:cover; }
+.view-profile { text-align:center; padding:20px 0; }
+.view-avatar { width:80px; height:80px; border-radius:18px; display:inline-flex; align-items:center; justify-content:center; font-size:2rem; font-weight:800; color:#fff; margin-bottom:12px; }
+.view-name { font-size:1.1rem; font-weight:800; color:#1e293b; }
+.view-role { font-size:.82rem; color:#64748b; }
+.view-detail { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.view-row { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; background:#f8fafc; }
+.view-row i { color:#0d9488; width:18px; }
+.view-row-label { font-size:.72rem; font-weight:700; color:#94a3b8; text-transform:uppercase; }
+.view-row-val { font-size:.875rem; color:#334155; font-weight:600; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Employees</h4>
+            <p class="gp-sub">Manage your gym staff</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+            <i class="ri-user-add-line me-1"></i> Add Employee
+        </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#0d9488;" id="statTotal">0</div>
+                <div class="gp-stat-lbl">Total Employees</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#16a34a;" id="statActive">0</div>
+                <div class="gp-stat-lbl">Active</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#2563eb;" id="statMain">0</div>
+                <div class="gp-stat-lbl">Main Branch</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="gp-stat-card">
+                <div class="gp-stat-val" style="color:#7c3aed;" id="statTrainers">0</div>
+                <div class="gp-stat-lbl">Trainers</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search employees..." oninput="handleSearch(this.value)">
+            </div>
+            <select class="gp-select" id="typeFilter" onchange="handleFilter()">
+                <option value="">All Types</option>
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Trainer</option>
+                <option>Intern</option>
+                <option>Contractor</option>
+            </select>
+            <select class="gp-select" id="statusFilter" onchange="handleFilter()">
+                <option value="">All Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+            <select class="gp-select" id="branchFilter" onchange="handleFilter()">
+                <option value="">All Branches</option>
+                <option>Main Branch</option>
+                <option>North Branch</option>
+                <option>South Branch</option>
+                <option>East Branch</option>
+            </select>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Type</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="empTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="empModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex gap-3 mb-3 align-items-center">
+                    <div class="profile-pic-area" onclick="document.getElementById('photoInput').click()">
+                        <img id="photoPreview" src="" style="display:none;">
+                        <i class="ri-camera-line" id="photoIcon" style="font-size:1.5rem;color:#94a3b8;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:.8rem;font-weight:700;color:#475569;">Profile Photo</div>
+                        <div style="font-size:.75rem;color:#94a3b8;">Click to upload</div>
+                        <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fName" placeholder="Full Name">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="fPhone" placeholder="+20 xxx xxx xxxx">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="fEmail" placeholder="email@gym.com">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Gender</label>
+                        <div class="d-flex gap-3 mt-1">
+                            <div class="form-check"><input class="form-check-input" type="radio" name="gender" id="gMale" value="Male" checked><label class="form-check-label" for="gMale">Male</label></div>
+                            <div class="form-check"><input class="form-check-input" type="radio" name="gender" id="gFemale" value="Female"><label class="form-check-label" for="gFemale">Female</label></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="fDOB">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">National ID</label>
+                        <input type="text" class="form-control" id="fNID" placeholder="National ID">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Employment Type</label>
+                        <select class="form-select" id="fType">
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                            <option>Trainer</option>
+                            <option>Intern</option>
+                            <option>Contractor</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Branch</label>
+                        <select class="form-select" id="fBranch">
+                            <option>Main Branch</option>
+                            <option>North Branch</option>
+                            <option>South Branch</option>
+                            <option>East Branch</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" id="fAddress" rows="2" placeholder="Address..."></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="fStatus" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fStatus">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveEmployee()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div class="modal fade" id="viewEmpModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Employee Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="view-profile">
+                    <div class="view-avatar" id="vAvatar" style="background:#0d9488;"></div>
+                    <div class="view-name" id="vName"></div>
+                    <div class="view-role" id="vType"></div>
+                </div>
+                <div class="view-detail" id="vDetails"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="~/scripts/Features/employees.js"></script>
+}
