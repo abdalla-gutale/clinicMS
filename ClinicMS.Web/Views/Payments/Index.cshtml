@@ -82,6 +82,23 @@
         </div>
     </div>
 
+    <div class="gp-card mb-4">
+        <h5 style="font-size:1rem;font-weight:800;color:#1e293b;margin:0 0 12px;">By Payment Account</h5>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Income</th>
+                        <th>Expense</th>
+                        <th>Net</th>
+                    </tr>
+                </thead>
+                <tbody id="accountBreakdownBody"></tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="gp-card">
         <div class="gp-filters">
             <div class="gp-search">
@@ -141,6 +158,12 @@
                         </select>
                     </div>
                     <div class="col-12">
+                        <label class="form-label">Account</label>
+                        <select class="form-select" id="fAccount">
+                            <option value="">— None —</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
                         <label class="form-label">Reference #</label>
                         <input type="text" class="form-control" id="fReference" placeholder="Optional">
                     </div>
@@ -159,6 +182,8 @@
     var OUTSTANDING_DATA = @Html.Raw(ViewBag.OutstandingJson);
     var MONTH_TOTAL = @Json.Serialize(ViewBag.MonthTotal);
     var TODAY_TOTAL = @Json.Serialize(ViewBag.TodayTotal);
+    var PAYMENT_ACCOUNTS_DATA = @Html.Raw(ViewBag.PaymentAccountsJson);
+    var ACCOUNT_BREAKDOWN_DATA = @Html.Raw(ViewBag.AccountBreakdownJson);
 </script>
 <script src="~/scripts/Features/payments.js"></script>
 }

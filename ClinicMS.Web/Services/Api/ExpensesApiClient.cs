@@ -28,4 +28,25 @@ public class ExpensesApiClient : ApiClientBase, IExpensesApiClient
 
     public Task<IReadOnlyList<VendorDto>> GetVendorsAsync(CancellationToken cancellationToken = default) =>
         GetAsync<IReadOnlyList<VendorDto>>("api/vendors", cancellationToken);
+
+    public Task<VendorDto> CreateVendorAsync(CreateVendorRequest request, CancellationToken cancellationToken = default) =>
+        PostAsync<VendorDto>("api/vendors", request, cancellationToken);
+
+    public Task<VendorDto> UpdateVendorAsync(int id, UpdateVendorRequest request, CancellationToken cancellationToken = default) =>
+        PutAsync<VendorDto>($"api/vendors/{id}", request, cancellationToken);
+
+    public Task DeleteVendorAsync(int id, CancellationToken cancellationToken = default) =>
+        DeleteAsync($"api/vendors/{id}", cancellationToken);
+
+    public Task<IReadOnlyList<RecurringExpenseDto>> GetRecurringSchedulesAsync(CancellationToken cancellationToken = default) =>
+        GetAsync<IReadOnlyList<RecurringExpenseDto>>("api/recurringexpenseschedules", cancellationToken);
+
+    public Task<RecurringExpenseDto> CreateRecurringScheduleAsync(CreateRecurringExpenseRequest request, CancellationToken cancellationToken = default) =>
+        PostAsync<RecurringExpenseDto>("api/recurringexpenseschedules", request, cancellationToken);
+
+    public Task<RecurringExpenseDto> UpdateRecurringScheduleAsync(int id, UpdateRecurringExpenseRequest request, CancellationToken cancellationToken = default) =>
+        PutAsync<RecurringExpenseDto>($"api/recurringexpenseschedules/{id}", request, cancellationToken);
+
+    public Task DeleteRecurringScheduleAsync(int id, CancellationToken cancellationToken = default) =>
+        DeleteAsync($"api/recurringexpenseschedules/{id}", cancellationToken);
 }

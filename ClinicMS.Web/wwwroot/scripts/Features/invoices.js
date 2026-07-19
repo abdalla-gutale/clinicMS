@@ -55,11 +55,20 @@ function viewInvoice(id) {
         });
 }
 
+function invoiceBrandMarkup() {
+    var clinicName = (typeof REPORT_CLINIC_NAME !== 'undefined' && REPORT_CLINIC_NAME) ? REPORT_CLINIC_NAME : 'ClinicMS';
+    var logoUrl = (typeof REPORT_LOGO_URL !== 'undefined') ? REPORT_LOGO_URL : null;
+    if (logoUrl) {
+        return '<img src="' + logoUrl + '" alt="' + clinicName + '" class="invoice-brand-logo">';
+    }
+    return '<div class="invoice-brand">' + clinicName + '<span>Clinic Management System</span></div>';
+}
+
 function renderInvoice(inv) {
     document.getElementById('invoicePrintArea').innerHTML = `
         <div class="invoice-print">
             <div class="invoice-header">
-                <div><div class="invoice-brand">ClinicMS<span>Clinic Management System</span></div></div>
+                <div>${invoiceBrandMarkup()}</div>
                 <div class="invoice-no">
                     <h3>${inv.invoiceNumber}</h3>
                     <small>Issue Date: ${new Date(inv.invoiceDate).toLocaleDateString()}</small>

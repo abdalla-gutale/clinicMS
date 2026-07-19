@@ -1,0 +1,233 @@
+@{
+    ViewData["Title"] = "Treatment Plans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Treatment Plans";
+}
+
+@section styles {
+<style>
+
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-teal { background:#ccfbf1; color:#0f766e; }
+.gp-badge-purple { background:#ede9fe; color:#6d28d9; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-assign { background:#eff6ff; color:#2563eb; }
+.gp-btn-assign:hover { background:#2563eb; color:#fff; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.input-suffix-wrap { position: relative; }
+.input-suffix-wrap .form-control { padding-right: 40px; }
+.input-suffix-wrap .input-suffix { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: .8rem; font-weight: 700; color: #94a3b8; pointer-events: none; }
+
+.sessions-wrap { border: 1.5px solid #e2e8f0; border-radius: 14px; overflow: hidden; margin-top: 6px; }
+.sessions-table { width: 100%; border-collapse: collapse; }
+.sessions-table thead th { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; background: #f8fafc; border-bottom: 2px solid #f1f5f9; padding: 10px 12px; text-align: left; }
+.sessions-table tbody td { padding: 10px 12px; border-bottom: 1px solid #f8fafc; vertical-align: middle; }
+.sessions-table tbody tr:last-child td { border-bottom: none; }
+.sessions-label { font-weight: 800; color: #1e293b; font-size: .84rem; white-space: nowrap; }
+.sessions-empty { padding: 24px; text-align: center; color: #94a3b8; font-size: .82rem; }
+.session-select { width: 100%; min-width: 200px; }
+.sessions-lock-banner { display:flex; align-items:center; gap:8px; padding:12px 14px; border-radius:12px; background:#fffbeb; border:1.5px solid #fde68a; color:#92400e; font-size:.82rem; font-weight:600; margin-bottom:10px; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Treatment Plans</h4>
+            <p class="gp-sub">Build multi-session treatment plans that group services and products</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+            <i class="ri-add-line me-1"></i> Add Treatment Plan
+        </button>
+    </div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search treatment plans..." oninput="handleSearch(this.value)">
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Plan Name</th>
+                        <th>Pricing Model</th>
+                        <th>Price</th>
+                        <th>Frequency</th>
+                        <th>Total Sessions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="plansTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="planModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Treatment Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Plan Name</label>
+                        <input type="text" class="form-control" id="fPlanName" placeholder="e.g. Acne Clearance Program">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Pricing Model Type</label>
+                        <select class="form-select" id="fPricingModel" onchange="onPricingModelChange()">
+                            <option value="FixedPackage">Fixed Package</option>
+                            <option value="PerVisit">Per Visit</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6" id="fixedPriceWrap">
+                        <label class="form-label">Fixed Package Price</label>
+                        <div class="input-suffix-wrap">
+                            <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fFixedPrice"
+                                   onkeypress="return isPriceKeyAllowed(event)" oninput="sanitizePrice(this)">
+                            <span class="input-suffix">AED</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Frequency</label>
+                        <select class="form-select" id="fFrequency" onchange="regenerateSessions()">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Total Sessions</label>
+                        <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="fTotalSessions" maxlength="3"
+                               onkeypress="return isSessionsKeyAllowed(event)" oninput="onTotalSessionsInput(this)">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label mb-1">Sessions</label>
+                        <div class="sessions-wrap">
+                            <table class="sessions-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:110px;">Session</th>
+                                        <th>Services</th>
+                                        <th>Products</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sessionsTableBody"></tbody>
+                            </table>
+                            <div class="sessions-empty" id="sessionsEmpty">Enter a total number of sessions to generate the schedule.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="savePlan()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="assignModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Patient to Treatment Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Patient</label>
+                        <select class="form-select" id="aPatient">
+                            <option value="">Select a patient…</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Treatment Plan</label>
+                        <select class="form-select" id="aTreatmentPlan" disabled></select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="aStartDate" onchange="onAssignStartDateChange()">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label mb-1">Sessions</label>
+                        <div class="sessions-lock-banner" id="assignLockBanner" style="display:none;">
+                            <i class="ri-lock-line"></i> Services and products are fixed for this Fixed Package plan and cannot be changed.
+                        </div>
+                        <div class="sessions-wrap">
+                            <table class="sessions-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px;">Session</th>
+                                        <th>Services</th>
+                                        <th>Products</th>
+                                        <th style="width:150px;">Session Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assignSessionsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="submitAssign()">Assign</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var TREATMENT_PLANS_DATA = @Html.Raw(ViewBag.TreatmentPlansJson);
+    var PLAN_SERVICES_DATA = @Html.Raw(ViewBag.ServicesJson);
+    var PLAN_PRODUCTS_DATA = @Html.Raw(ViewBag.ProductOptionsJson);
+    var PLAN_PATIENTS_DATA = @Html.Raw(ViewBag.PlanPatientsJson);
+</script>
+<script src="~/scripts/Features/treatment-plans.js"></script>
+}

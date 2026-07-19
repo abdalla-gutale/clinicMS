@@ -92,8 +92,8 @@
 
 /* Logo upload */
 .logo-upload-area {
-    width: 96px; height: 96px;
-    border-radius: 16px;
+    width: 160px; height: 160px;
+    border-radius: 20px;
     background: #f8fafc;
     border: 2px dashed #cbd5e1;
     display: flex; flex-direction: column;
@@ -103,19 +103,21 @@
 }
 .logo-upload-area:hover { border-color: #0d9488; background: #f0fdfa; }
 .logo-upload-area img { width:100%; height:100%; object-fit:contain; display:none; }
-.logo-upload-area i  { font-size: 1.6rem; color: #94a3b8; }
-.logo-upload-area small { font-size: .62rem; color: #94a3b8; margin-top: 4px; }
+.logo-upload-area i  { font-size: 2.4rem; color: #94a3b8; }
+.logo-upload-area small { font-size: .72rem; color: #94a3b8; margin-top: 6px; }
 
-/* SMS key toggle */
-.input-eye-wrap { position: relative; }
-.input-eye-wrap .form-control { padding-right: 40px; }
-.input-eye-btn {
-    position: absolute; right: 12px; top: 50%;
-    transform: translateY(-50%);
-    background: none; border: none; color: #94a3b8;
-    cursor: pointer; font-size: 1rem; padding: 0;
+/* Logo slot (upload area + label + usage caption) */
+.logo-slot { width: 180px; }
+.logo-slot-label { font-size: .85rem; font-weight: 700; color: #1e293b; margin-top: 10px; }
+.logo-slot-desc { font-size: .72rem; color: #94a3b8; line-height: 1.4; margin-top: 3px; }
+
+/* VAT percentage suffix input */
+.input-suffix-wrap { position: relative; }
+.input-suffix-wrap .form-control { padding-right: 34px; }
+.input-suffix-wrap .input-suffix {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: .8rem; font-weight: 700; color: #94a3b8; pointer-events: none;
 }
-.input-eye-btn:hover { color: #0d9488; }
 
 /* Save bar */
 .settings-save-bar {
@@ -127,6 +129,41 @@
     box-shadow: 0 2px 8px rgba(15,23,42,.05);
 }
 .settings-save-hint { font-size: .82rem; color: #94a3b8; }
+
+/* Discount Configuration table */
+.settings-card-header { position: relative; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; white-space:nowrap; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.7rem; font-weight:700; }
+.gp-badge-green { background:#dcfce7; color:#16a34a; }
+.gp-badge-gray { background:#f1f5f9; color:#64748b; }
+.gp-badge-yellow { background:#fef9c3; color:#a16207; }
+
+/* DataTables theming to match the rest of Settings */
+.dataTables_wrapper .dataTables_filter input {
+    border-radius: 10px; border: 1.5px solid #e2e8f0; padding: 6px 12px; font-size: .82rem; outline: none;
+}
+.dataTables_wrapper .dataTables_filter input:focus { border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,.1); }
+.dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_length label { font-size: .78rem; color: #64748b; }
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 8px !important; margin-left: 3px; font-size: .78rem !important;
+    border: 1.5px solid #e2e8f0 !important; padding: 4px 10px !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #0d9488 !important; border-color: #0d9488 !important; color: #fff !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.disabled) {
+    background: #f0fdfa !important; border-color: #0d9488 !important; color: #0d9488 !important;
+}
+table.dataTable thead th { position: relative; }
 </style>
 }
 
@@ -141,29 +178,36 @@
                 <a class="settings-nav-item active" data-panel="gym" href="#">
                     <i class="ri-building-2-line"></i>
                     <div>
-                        <div>Gym Information</div>
+                        <div>Clinic Information</div>
                         <div class="nav-desc">Name, logo, contact details</div>
+                    </div>
+                </a>
+                <a class="settings-nav-item" data-panel="accountsetup" href="#">
+                    <i class="ri-bank-line"></i>
+                    <div>
+                        <div>Account Setup</div>
+                        <div class="nav-desc">Merchant bank account details</div>
+                    </div>
+                </a>
+                <a class="settings-nav-item" data-panel="discounts" href="#">
+                    <i class="ri-price-tag-3-line"></i>
+                    <div>
+                        <div>Discount Configuration</div>
+                        <div class="nav-desc">Promotions and discount rules</div>
                     </div>
                 </a>
                 <a class="settings-nav-item" data-panel="sms" href="#">
                     <i class="ri-message-2-line"></i>
                     <div>
-                        <div>SMS Settings</div>
+                        <div>SMS Gateway</div>
                         <div class="nav-desc">Provider, API key, sender</div>
                     </div>
                 </a>
-                <a class="settings-nav-item" data-panel="system" href="#">
-                    <i class="ri-settings-3-line"></i>
+                <a class="settings-nav-item" data-panel="smstemplates" href="#">
+                    <i class="ri-file-list-3-line"></i>
                     <div>
-                        <div>System Preferences</div>
-                        <div class="nav-desc">Currency, timezone, language</div>
-                    </div>
-                </a>
-                <a class="settings-nav-item" data-panel="notifications" href="#">
-                    <i class="ri-notification-3-line"></i>
-                    <div>
-                        <div>Notification Rules</div>
-                        <div class="nav-desc">Auto alerts, reminders</div>
+                        <div>SMS Templates</div>
+                        <div class="nav-desc">Message templates by type</div>
                     </div>
                 </a>
             </div>
@@ -178,40 +222,175 @@
                     <div class="settings-card-header">
                         <div class="settings-card-header-icon"><i class="ri-building-2-line"></i></div>
                         <div>
-                            <div class="settings-card-title">Gym Information</div>
+                            <div class="settings-card-title">Clinic Information</div>
                             <div class="settings-card-sub">Basic details about your gym</div>
                         </div>
                     </div>
                     <div class="settings-card-body">
                         <div class="row g-3">
-                            <div class="col-12 d-flex align-items-start gap-4 mb-2">
-                                <div>
-                                    <label class="form-label">Gym Logo</label>
-                                    <div class="logo-upload-area" onclick="document.getElementById('logoInput').click()">
-                                        <img id="logoPreview">
-                                        <i class="ri-image-line" id="logoIcon"></i>
-                                        <small>Upload</small>
-                                    </div>
-                                    <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="previewLogo(this)">
-                                </div>
-                                <div class="flex-grow-1 row g-3">
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label">Clinic Name</label>
-                                        <input type="text" class="form-control" id="gymName">
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="gymPhone">
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="gymEmail">
-                                    </div>
-                                </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Clinic Name</label>
+                                <input type="text" class="form-control" id="gymName">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" inputmode="tel" autocomplete="off" class="form-control" id="gymPhone"
+                                       onkeypress="return isPhoneKeyAllowed(event)" onpaste="return isPhonePasteAllowed(event)" oninput="sanitizePhone(this)">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" autocomplete="off" class="form-control" id="gymEmail" oninput="sanitizeEmail(this)">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Address</label>
                                 <textarea class="form-control" id="gymAddress" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-percent-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Tax &amp; Currency</div>
+                            <div class="settings-card-sub">VAT and currency applied to invoices</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">Currency</label>
+                                <select class="form-select" id="currencySymbol">
+                                    <option value="AED">AED — UAE Dirham (د.إ)</option>
+                                    <option value="AFN">AFN — Afghan Afghani (؋)</option>
+                                    <option value="ARS">ARS — Argentine Peso ($)</option>
+                                    <option value="AUD">AUD — Australian Dollar (A$)</option>
+                                    <option value="BDT">BDT — Bangladeshi Taka (৳)</option>
+                                    <option value="BHD">BHD — Bahraini Dinar (.د.ب)</option>
+                                    <option value="BRL">BRL — Brazilian Real (R$)</option>
+                                    <option value="CAD">CAD — Canadian Dollar (C$)</option>
+                                    <option value="CHF">CHF — Swiss Franc (CHF)</option>
+                                    <option value="CNY">CNY — Chinese Yuan (¥)</option>
+                                    <option value="CZK">CZK — Czech Koruna (Kč)</option>
+                                    <option value="DKK">DKK — Danish Krone (kr)</option>
+                                    <option value="DZD">DZD — Algerian Dinar (د.ج)</option>
+                                    <option value="EGP">EGP — Egyptian Pound (ج.م)</option>
+                                    <option value="ETB">ETB — Ethiopian Birr (Br)</option>
+                                    <option value="EUR">EUR — Euro (€)</option>
+                                    <option value="GBP">GBP — British Pound (£)</option>
+                                    <option value="GHS">GHS — Ghanaian Cedi (₵)</option>
+                                    <option value="HKD">HKD — Hong Kong Dollar (HK$)</option>
+                                    <option value="HUF">HUF — Hungarian Forint (Ft)</option>
+                                    <option value="IDR">IDR — Indonesian Rupiah (Rp)</option>
+                                    <option value="ILS">ILS — Israeli Shekel (₪)</option>
+                                    <option value="INR">INR — Indian Rupee (₹)</option>
+                                    <option value="IQD">IQD — Iraqi Dinar (ع.د)</option>
+                                    <option value="JOD">JOD — Jordanian Dinar (د.ا)</option>
+                                    <option value="JPY">JPY — Japanese Yen (¥)</option>
+                                    <option value="KES">KES — Kenyan Shilling (KSh)</option>
+                                    <option value="KRW">KRW — South Korean Won (₩)</option>
+                                    <option value="KWD">KWD — Kuwaiti Dinar (د.ك)</option>
+                                    <option value="LBP">LBP — Lebanese Pound (ل.ل)</option>
+                                    <option value="LKR">LKR — Sri Lankan Rupee (₨)</option>
+                                    <option value="LYD">LYD — Libyan Dinar (ل.د)</option>
+                                    <option value="MAD">MAD — Moroccan Dirham (د.م.)</option>
+                                    <option value="MXN">MXN — Mexican Peso (Mex$)</option>
+                                    <option value="MYR">MYR — Malaysian Ringgit (RM)</option>
+                                    <option value="NGN">NGN — Nigerian Naira (₦)</option>
+                                    <option value="NOK">NOK — Norwegian Krone (kr)</option>
+                                    <option value="NPR">NPR — Nepalese Rupee (₨)</option>
+                                    <option value="NZD">NZD — New Zealand Dollar (NZ$)</option>
+                                    <option value="OMR">OMR — Omani Rial (ر.ع.)</option>
+                                    <option value="PHP">PHP — Philippine Peso (₱)</option>
+                                    <option value="PKR">PKR — Pakistani Rupee (₨)</option>
+                                    <option value="PLN">PLN — Polish Zloty (zł)</option>
+                                    <option value="QAR">QAR — Qatari Riyal (ر.ق)</option>
+                                    <option value="RUB">RUB — Russian Ruble (₽)</option>
+                                    <option value="SAR">SAR — Saudi Riyal (ر.س)</option>
+                                    <option value="SDG">SDG — Sudanese Pound (ج.س.)</option>
+                                    <option value="SEK">SEK — Swedish Krona (kr)</option>
+                                    <option value="SGD">SGD — Singapore Dollar (S$)</option>
+                                    <option value="SYP">SYP — Syrian Pound (£S)</option>
+                                    <option value="THB">THB — Thai Baht (฿)</option>
+                                    <option value="TND">TND — Tunisian Dinar (د.ت)</option>
+                                    <option value="TRY">TRY — Turkish Lira (₺)</option>
+                                    <option value="TWD">TWD — Taiwan Dollar (NT$)</option>
+                                    <option value="USD">USD — US Dollar ($)</option>
+                                    <option value="VND">VND — Vietnamese Dong (₫)</option>
+                                    <option value="YER">YER — Yemeni Rial (﷼)</option>
+                                    <option value="ZAR">ZAR — South African Rand (R)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">VAT Percentage</label>
+                                <div class="input-suffix-wrap">
+                                    <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="vatPercentage"
+                                           oninput="sanitizeVatPercentage(this)" onkeypress="return isVatPercentageKeyAllowed(event)" onpaste="return isVatPercentagePasteAllowed(event)">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label d-block">VAT Active</label>
+                                <div class="d-flex align-items-center p-2" style="height:38px;">
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" id="isVatEnabled" style="width:42px;height:22px;cursor:pointer;" onchange="toggleVatPercentage()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-image-2-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Clinic Logos</div>
+                            <div class="settings-card-sub">Where each logo appears across the app</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="d-flex flex-wrap gap-4">
+                            <div class="logo-slot">
+                                <div class="logo-upload-area" onclick="document.getElementById('iconLogoInput').click()">
+                                    <img id="iconLogoPreview">
+                                    <i class="ri-image-line" id="iconLogoIcon"></i>
+                                    <small>Upload</small>
+                                </div>
+                                <input type="file" id="iconLogoInput" accept="image/*" style="display:none;" onchange="previewLogo(this, 'iconLogoPreview', 'iconLogoIcon')">
+                                <div class="logo-slot-label">Icon Logo</div>
+                                <div class="logo-slot-desc">Login &amp; OTP screens and the browser tab icon</div>
+                            </div>
+                            <div class="logo-slot">
+                                <div class="logo-upload-area" onclick="document.getElementById('mainLogoInput').click()">
+                                    <img id="mainLogoPreview">
+                                    <i class="ri-image-line" id="mainLogoIcon"></i>
+                                    <small>Upload</small>
+                                </div>
+                                <input type="file" id="mainLogoInput" accept="image/*" style="display:none;" onchange="previewLogo(this, 'mainLogoPreview', 'mainLogoIcon')">
+                                <div class="logo-slot-label">Logo</div>
+                                <div class="logo-slot-desc">Primary logo used generally across the app</div>
+                            </div>
+                            <div class="logo-slot">
+                                <div class="logo-upload-area" onclick="document.getElementById('sidebarLogoInput').click()">
+                                    <img id="sidebarLogoPreview">
+                                    <i class="ri-image-line" id="sidebarLogoIcon"></i>
+                                    <small>Upload</small>
+                                </div>
+                                <input type="file" id="sidebarLogoInput" accept="image/*" style="display:none;" onchange="previewLogo(this, 'sidebarLogoPreview', 'sidebarLogoIcon')">
+                                <div class="logo-slot-label">Sidebar Logo</div>
+                                <div class="logo-slot-desc">Shown in the sidebar brand box</div>
+                            </div>
+                            <div class="logo-slot">
+                                <div class="logo-upload-area" onclick="document.getElementById('reportLogoInput').click()">
+                                    <img id="reportLogoPreview">
+                                    <i class="ri-image-line" id="reportLogoIcon"></i>
+                                    <small>Upload</small>
+                                </div>
+                                <input type="file" id="reportLogoInput" accept="image/*" style="display:none;" onchange="previewLogo(this, 'reportLogoPreview', 'reportLogoIcon')">
+                                <div class="logo-slot-label">Report Logo</div>
+                                <div class="logo-slot-desc">Printed on invoices and other reports</div>
                             </div>
                         </div>
                     </div>
@@ -225,169 +404,222 @@
                 </div>
             </div>
 
-            <!-- PANEL: SMS Settings -->
+            <!-- PANEL: Account Setup -->
+            <div class="settings-panel" id="panel-accountsetup">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-bank-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Merchant Bank Account</div>
+                            <div class="settings-card-sub">Account details shown to patients for bank transfers</div>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Account Holder Name</label>
+                                <input type="text" class="form-control" id="merchantAccountHolder">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Bank Name</label>
+                                <input type="text" class="form-control" id="merchantBankName">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="merchantAccountNumber"
+                                       onkeypress="return isAccountNumberKeyAllowed(event)" onpaste="return isAccountNumberPasteAllowed(event)">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Branch</label>
+                                <input type="text" class="form-control" id="merchantBranch">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">IBAN</label>
+                                <input type="text" autocomplete="off" class="form-control" id="merchantIban" maxlength="34"
+                                       onkeypress="return isIbanKeyAllowed(event)" onpaste="return isIbanPasteAllowed(event)" oninput="sanitizeIban(this)">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">SWIFT / BIC Code</label>
+                                <input type="text" autocomplete="off" class="form-control" id="merchantSwiftCode" maxlength="11"
+                                       onkeypress="return isSwiftKeyAllowed(event)" onpaste="return isSwiftPasteAllowed(event)" oninput="sanitizeSwift(this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-save-bar">
+                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Used on invoices and payment instructions.</span>
+                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveMerchantAccount()">
+                        <i class="ri-save-line me-1"></i> Save Changes
+                    </button>
+                </div>
+
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-wallet-3-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Payment Accounts</div>
+                            <div class="settings-card-sub">Cash drawers, mobile money and merchant terminals money is collected into</div>
+                        </div>
+                        <button type="button" class="btn btn-sm text-white px-3 ms-auto" style="background:#0d9488;border-radius:10px;font-weight:700;" onclick="openPaymentAccountModal()">
+                            <i class="ri-add-line me-1"></i> Add Account
+                        </button>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="table-responsive">
+                            <table class="table gp-table" id="paymentAccountsDataTable" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Account Name</th>
+                                        <th>Type</th>
+                                        <th>Phone / Account Number</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL: Discount Configuration -->
+            <div class="settings-panel" id="panel-discounts">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-header-icon"><i class="ri-price-tag-3-line"></i></div>
+                        <div>
+                            <div class="settings-card-title">Discount Configuration</div>
+                            <div class="settings-card-sub">Promotions and discount rules applied at checkout</div>
+                        </div>
+                        <button type="button" class="btn btn-sm text-white px-3 ms-auto" style="background:#0d9488;border-radius:10px;font-weight:700;" onclick="openDiscountModal()">
+                            <i class="ri-add-line me-1"></i> Add Discount
+                        </button>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="table-responsive">
+                            <table class="table gp-table" id="discountsDataTable" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Discount Name</th>
+                                        <th>Discount Type</th>
+                                        <th>Discount Value (%)</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL: SMS Gateway -->
             <div class="settings-panel" id="panel-sms">
                 <div class="settings-card">
                     <div class="settings-card-header">
                         <div class="settings-card-header-icon"><i class="ri-message-2-line"></i></div>
                         <div>
-                            <div class="settings-card-title">SMS Settings</div>
-                            <div class="settings-card-sub">Configure your SMS gateway provider</div>
+                            <div class="settings-card-title">SMS Gateway</div>
+                            <div class="settings-card-sub">Providers used to send SMS, WhatsApp and Email messages</div>
                         </div>
+                        <button type="button" class="btn btn-sm text-white px-3 ms-auto" style="background:#0d9488;border-radius:10px;font-weight:700;" onclick="openGatewayModal()">
+                            <i class="ri-add-line me-1"></i> Add Configuration
+                        </button>
                     </div>
                     <div class="settings-card-body">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <label class="form-label">API Key</label>
-                                <div class="input-eye-wrap">
-                                    <input type="password" class="form-control" id="smsApiKey" value="sk_live_xxxxxxxxxxxxxxxx">
-                                    <button class="input-eye-btn" onclick="toggleApiKey()" type="button"><i class="ri-eye-line" id="eyeIcon"></i></button>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">API Secret</label>
-                                <div class="input-eye-wrap">
-                                    <input type="password" class="form-control" id="smsSecret" value="secret_xxxxxxxxxxxxxxxx">
-                                    <button class="input-eye-btn" onclick="toggleSecret()" type="button"><i class="ri-eye-line" id="eyeIconSecret"></i></button>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-                                    <div>
-                                        <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Test SMS Connection</div>
-                                        <div style="font-size:.76rem;color:#94a3b8;">Send a test message to verify configuration</div>
-                                    </div>
-                                    <button type="button" class="btn btn-sm" style="background:#f0fdfa;color:#0d9488;border:1.5px solid #a7f3d0;font-weight:700;border-radius:8px;" onclick="testSms()">
-                                        <i class="ri-send-plane-line me-1"></i> Send Test
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="gp-table">
+                                <thead>
+                                    <tr>
+                                        <th>Provider Name</th>
+                                        <th>API Key</th>
+                                        <th>API Secret</th>
+                                        <th>Sender ID</th>
+                                        <th>Active</th>
+                                        <th>Channel Type</th>
+                                        <th>Host Name</th>
+                                        <th>Port Number</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gatewaysTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-                <div class="settings-save-bar">
-                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Keep API keys secure — never share them.</span>
-                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
-                        <i class="ri-save-line me-1"></i> Save Changes
-                    </button>
                 </div>
             </div>
 
-            <!-- PANEL: System Preferences -->
-            <div class="settings-panel" id="panel-system">
+            <!-- PANEL: SMS Templates -->
+            <div class="settings-panel" id="panel-smstemplates">
                 <div class="settings-card">
                     <div class="settings-card-header">
-                        <div class="settings-card-header-icon"><i class="ri-settings-3-line"></i></div>
+                        <div class="settings-card-header-icon"><i class="ri-file-list-3-line"></i></div>
                         <div>
-                            <div class="settings-card-title">System Preferences</div>
-                            <div class="settings-card-sub">Regional and display settings</div>
+                            <div class="settings-card-title">SMS Templates</div>
+                            <div class="settings-card-sub">Create and manage reusable message templates</div>
                         </div>
                     </div>
                     <div class="settings-card-body">
-                        <div class="row g-3">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Currency</label>
-                                <select class="form-select" id="currency">
-                                    <option selected>EGP - Egyptian Pound</option>
-                                    <option>USD - US Dollar</option>
-                                    <option>EUR - Euro</option>
-                                    <option>SAR - Saudi Riyal</option>
-                                    <option>AED - UAE Dirham</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Timezone</label>
-                                <select class="form-select" id="timezone">
-                                    <option selected>Africa/Cairo (UTC+2)</option>
-                                    <option>UTC</option>
-                                    <option>America/New_York (UTC-5)</option>
-                                    <option>Europe/London (UTC+0)</option>
-                                    <option>Asia/Riyadh (UTC+3)</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Language</label>
-                                <select class="form-select" id="language">
-                                    <option selected>English</option>
-                                    <option>Arabic</option>
-                                    <option>French</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Date Format</label>
-                                <select class="form-select" id="dateFormat">
-                                    <option selected>DD/MM/YYYY</option>
-                                    <option>MM/DD/YYYY</option>
-                                    <option>YYYY-MM-DD</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="settings-save-bar">
-                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Regional settings affect all users in this branch.</span>
-                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
-                        <i class="ri-save-line me-1"></i> Save Changes
-                    </button>
-                </div>
-            </div>
 
-            <!-- PANEL: Notification Rules -->
-            <div class="settings-panel" id="panel-notifications">
-                <div class="settings-card">
-                    <div class="settings-card-header">
-                        <div class="settings-card-header-icon"><i class="ri-notification-3-line"></i></div>
-                        <div>
-                            <div class="settings-card-title">Notification Rules</div>
-                            <div class="settings-card-sub">Configure automatic alerts and reminders</div>
-                        </div>
-                    </div>
-                    <div class="settings-card-body">
-                        <div class="d-flex flex-column gap-3">
-                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-                                <div>
-                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Subscription expiry reminder</div>
-                                    <div style="font-size:.76rem;color:#94a3b8;">Send SMS 3 days before subscription expires</div>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-                                <div>
-                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Welcome message</div>
-                                    <div style="font-size:.76rem;color:#94a3b8;">Send SMS when a new member subscribes</div>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-                                <div>
-                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Payment received</div>
-                                    <div style="font-size:.76rem;color:#94a3b8;">Notify member when a payment is recorded</div>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" style="width:42px;height:22px;cursor:pointer;">
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
-                                <div>
-                                    <div style="font-size:.875rem;font-weight:700;color:#1e293b;">Birthday greeting</div>
-                                    <div style="font-size:.76rem;color:#94a3b8;">Auto-send birthday SMS to members</div>
-                                </div>
-                                <div class="form-check form-switch mb-0">
-                                    <input class="form-check-input" type="checkbox" checked style="width:42px;height:22px;cursor:pointer;">
-                                </div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="ri-add-circle-line" style="color:#0d9488;font-size:1.1rem;"></i>
+                            <div>
+                                <div style="font-size:.85rem;font-weight:800;color:#1e293b;" id="tplFormTitle">New Template</div>
+                                <div style="font-size:.72rem;color:#94a3b8;">Fill in the name and message content</div>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Template Name</label>
+                            <input type="text" class="form-control" id="tplName" placeholder="e.g. Expiring Membership Reminder">
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label">Message Content</label>
+                            <textarea class="form-control" id="tplMessage" rows="4" placeholder="Write your SMS message here…" oninput="onTplMessageInput()"></textarea>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <span style="font-size:.74rem;color:#94a3b8;"><span id="tplCharCount">0</span> / 160 characters</span>
+                                <span style="font-size:.74rem;color:#94a3b8;" id="tplSmsParts">1 SMS</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label mb-1">Insert Variable</label>
+                            <div class="d-flex flex-wrap gap-2" id="varTagRow"></div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2 pb-4 mb-4" style="border-bottom:1px solid #f1f5f9;">
+                            <button type="button" class="btn btn-sm" style="border:1.5px solid #e2e8f0;color:#64748b;border-radius:9px;font-weight:600;padding:9px 16px;display:none;" id="cancelTplEditBtn" onclick="cancelTemplateEdit()">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;font-weight:700;" onclick="saveTemplate()">
+                                <i class="ri-save-line me-1"></i><span id="tplSaveBtnLabel">Save Template</span>
+                            </button>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="ri-file-list-3-line" style="color:#0d9488;font-size:1.1rem;"></i>
+                            <div>
+                                <div style="font-size:.85rem;font-weight:800;color:#1e293b;">Saved Templates</div>
+                                <div style="font-size:.72rem;color:#94a3b8;">Click edit to modify or use to load into Send SMS</div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table gp-table" id="templatesDataTable" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Template Name</th>
+                                        <th>Message</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
                     </div>
-                </div>
-                <div class="settings-save-bar">
-                    <span class="settings-save-hint"><i class="ri-information-line me-1"></i>Requires SMS settings to be configured.</span>
-                    <button type="button" class="btn btn-primary px-4" style="font-weight:700;" onclick="saveSettings()">
-                        <i class="ri-save-line me-1"></i> Save Changes
-                    </button>
                 </div>
             </div>
 
@@ -395,27 +627,357 @@
     </div><!-- row -->
 </div>
 
+<div class="modal fade" id="discountModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="discountModalTitle">Add Discount</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Discount Name</label>
+                        <input type="text" class="form-control" id="dName" placeholder="e.g. New Patient Welcome">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Discount Type</label>
+                        <select class="form-select" id="dType">
+                            <option value="ServiceOnly">Service Only</option>
+                            <option value="ProductOnly">Product Only</option>
+                            <option value="Both">Both</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Discount Value</label>
+                        <div class="input-suffix-wrap">
+                            <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="dValue"
+                                   oninput="sanitizeDiscountValue(this)" onkeypress="return isDiscountValueKeyAllowed(event)">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="dStartDate">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="dEndDate">
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                            <span style="font-size:.875rem;font-weight:700;color:#1e293b;">Active</span>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="dActive" checked style="width:42px;height:22px;cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveDiscount()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paymentAccountModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentAccountModalTitle">Add Payment Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Account Name</label>
+                        <input type="text" class="form-control" id="paName" placeholder="e.g. Front Desk Cash">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Account Type</label>
+                        <select class="form-select" id="paType">
+                            <option value="Cash">Cash</option>
+                            <option value="Evc">EVC</option>
+                            <option value="Merchant">Merchant</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Phone / Account Number</label>
+                        <input type="text" class="form-control" id="paPhoneOrAccount" placeholder="Optional">
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+                            <span style="font-size:.875rem;font-weight:700;color:#1e293b;">Active</span>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="paActive" checked style="width:42px;height:22px;cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="savePaymentAccount()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gatewayModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="gatewayModalTitle">Add Configuration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Provider Name</label>
+                        <input type="text" class="form-control" id="gProviderName" placeholder="e.g. Gmail SMTP">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Channel Type</label>
+                        <select class="form-select" id="gChannelType">
+                            <option value="SMS">SMS</option>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Email">Email</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">API Key</label>
+                        <input type="text" autocomplete="off" class="form-control" id="gApiKey">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">API Secret</label>
+                        <input type="text" autocomplete="off" class="form-control" id="gApiSecret">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Sender ID</label>
+                        <input type="text" class="form-control" id="gSenderId">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Host Name</label>
+                        <input type="text" class="form-control" id="gHostName" placeholder="e.g. smtp.gmail.com">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Port Number</label>
+                        <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="gPortNumber"
+                               onkeypress="return isPortNumberKeyAllowed(event)" onpaste="return isPortNumberPasteAllowed(event)">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label d-block">Active</label>
+                        <div class="d-flex align-items-center p-2" style="height:38px;">
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="gActive" checked style="width:42px;height:22px;cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveGatewayConfig()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
 <script>
 var CLINIC_SETTINGS = @Html.Raw(ViewBag.SettingsJson ?? "null");
+var MERCHANT_ACCOUNT = @Html.Raw(ViewBag.MerchantAccountJson ?? "null");
+var discounts = @Html.Raw(ViewBag.DiscountsJson ?? "[]");
+var editingDiscountId = null;
+var discountsTable = null;
+var paymentAccounts = @Html.Raw(ViewBag.PaymentAccountsJson ?? "[]");
+var editingPaymentAccountId = null;
+var paymentAccountsTable = null;
+var gateways = @Html.Raw(ViewBag.SmsConfigurationsJson ?? "[]");
+var editingGatewayId = null;
+var templates = @Html.Raw(ViewBag.SmsTemplatesJson ?? "[]");
+var editingTemplateId = null;
+var templatesTable = null;
+var INSERT_VARIABLES = ['name', 'date', 'amount', 'package', 'phone', 'branch', 'invoice'];
+
+// Logo fields are stored relative to the API's own host, so previews use the same
+// API-origin-qualified URLs the server already resolved for each logo slot.
+var ICON_LOGO_PREVIEW_URL = @Html.Raw(ViewBag.IconLogoPreviewUrl is not null ? $"\"{ViewBag.IconLogoPreviewUrl}\"" : "null");
 var LOGO_PREVIEW_URL = @Html.Raw(ViewBag.LogoPreviewUrl is not null ? $"\"{ViewBag.LogoPreviewUrl}\"" : "null");
+var SIDEBAR_LOGO_PREVIEW_URL = @Html.Raw(ViewBag.SidebarLogoPreviewUrl is not null ? $"\"{ViewBag.SidebarLogoPreviewUrl}\"" : "null");
+var REPORT_LOGO_PREVIEW_URL = @Html.Raw(ViewBag.ReportLogoPreviewUrl is not null ? $"\"{ViewBag.ReportLogoPreviewUrl}\"" : "null");
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (!CLINIC_SETTINGS) return;
-    document.getElementById('gymName').value    = CLINIC_SETTINGS.clinicName || '';
-    document.getElementById('gymPhone').value   = CLINIC_SETTINGS.phone || '';
-    document.getElementById('gymEmail').value   = CLINIC_SETTINGS.email || '';
-    document.getElementById('gymAddress').value = CLINIC_SETTINGS.address || '';
-    if (LOGO_PREVIEW_URL) {
-        document.getElementById('logoPreview').src = LOGO_PREVIEW_URL;
-        document.getElementById('logoPreview').style.display = 'block';
-        document.getElementById('logoIcon').style.display = 'none';
+    if (CLINIC_SETTINGS) {
+        document.getElementById('gymName').value       = CLINIC_SETTINGS.clinicName || '';
+        document.getElementById('gymPhone').value      = CLINIC_SETTINGS.phone || '';
+        document.getElementById('gymEmail').value      = CLINIC_SETTINGS.email || '';
+        document.getElementById('gymAddress').value    = CLINIC_SETTINGS.address || '';
+        document.getElementById('currencySymbol').value = CLINIC_SETTINGS.currencySymbol || '';
+        document.getElementById('vatPercentage').value  = CLINIC_SETTINGS.vatPercentage || 0;
+        document.getElementById('isVatEnabled').checked = !!CLINIC_SETTINGS.isVatEnabled;
+
+        setLogoPreview('iconLogoPreview', 'iconLogoIcon', ICON_LOGO_PREVIEW_URL);
+        setLogoPreview('mainLogoPreview', 'mainLogoIcon', LOGO_PREVIEW_URL);
+        setLogoPreview('sidebarLogoPreview', 'sidebarLogoIcon', SIDEBAR_LOGO_PREVIEW_URL);
+        setLogoPreview('reportLogoPreview', 'reportLogoIcon', REPORT_LOGO_PREVIEW_URL);
     }
+    toggleVatPercentage();
+
+    if (MERCHANT_ACCOUNT) {
+        document.getElementById('merchantAccountHolder').value = MERCHANT_ACCOUNT.accountHolderName || '';
+        document.getElementById('merchantBankName').value      = MERCHANT_ACCOUNT.bankName || '';
+        document.getElementById('merchantAccountNumber').value = MERCHANT_ACCOUNT.accountNumber || '';
+        document.getElementById('merchantBranch').value        = MERCHANT_ACCOUNT.branch || '';
+        document.getElementById('merchantIban').value           = MERCHANT_ACCOUNT.iban || '';
+        document.getElementById('merchantSwiftCode').value      = MERCHANT_ACCOUNT.swiftCode || '';
+    }
+
+    initDiscountsTable();
+    initPaymentAccountsTable();
+    renderGatewaysTable();
+    initTemplatesTable();
+    renderVarTags();
+    onTplMessageInput();
 });
 
-// ── Tab switching ──
+function setLogoPreview(previewId, iconId, url) {
+    if (!url) return;
+    document.getElementById(previewId).src = url;
+    document.getElementById(previewId).style.display = 'block';
+    document.getElementById(iconId).style.display = 'none';
+}
+
+function toggleVatPercentage() {
+    document.getElementById('vatPercentage').disabled = !document.getElementById('isVatEnabled').checked;
+}
+
+// ── VAT percentage input guards: digits + one decimal point only, clamped to [0, 100] ──
+var VAT_PERCENTAGE_MAX = 100;
+
+function isVatPercentageKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true; // control keys (Backspace, Tab, arrows, etc.)
+    if (ch >= '0' && ch <= '9') return true;
+    if (ch === '.' && e.target.value.indexOf('.') === -1) return true;
+    e.preventDefault();
+    return false;
+}
+
+function isVatPercentagePasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^\d*\.?\d*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+function sanitizeVatPercentage(input) {
+    var value = input.value.replace(/[^0-9.]/g, '');
+    var firstDot = value.indexOf('.');
+    if (firstDot !== -1) {
+        value = value.slice(0, firstDot + 1) + value.slice(firstDot + 1).replace(/\./g, '');
+    }
+    if (value !== '' && value !== '.') {
+        var num = parseFloat(value);
+        if (!isNaN(num) && num > VAT_PERCENTAGE_MAX) {
+            value = String(VAT_PERCENTAGE_MAX);
+        }
+    }
+    input.value = value;
+}
+
+// ── Phone: digits + leading "+" and common separators only, no letters ──
+function isPhoneKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (ch >= '0' && ch <= '9') return true;
+    if ('+-() '.indexOf(ch) !== -1) return true;
+    e.preventDefault();
+    return false;
+}
+
+function isPhonePasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^[0-9+\-() ]*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+function sanitizePhone(input) {
+    input.value = input.value.replace(/[^0-9+\-() ]/g, '');
+}
+
+// ── Email: strip whitespace as you type; format itself is checked before save ──
+function sanitizeEmail(input) {
+    input.value = input.value.replace(/\s/g, '');
+}
+
+var EMAIL_PATTERN = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+// ── Merchant account number: digits, spaces and dashes only ──
+function isAccountNumberKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (ch >= '0' && ch <= '9') return true;
+    if (ch === '-' || ch === ' ') return true;
+    e.preventDefault();
+    return false;
+}
+
+function isAccountNumberPasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^[0-9\- ]*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+// ── IBAN: letters, digits and spaces only, auto-uppercased ──
+function isIbanKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (/[a-zA-Z0-9 ]/.test(ch)) return true;
+    e.preventDefault();
+    return false;
+}
+
+function isIbanPasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^[a-zA-Z0-9 ]*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+function sanitizeIban(input) {
+    input.value = input.value.toUpperCase();
+}
+
+// ── SWIFT/BIC: letters and digits only (no spaces), auto-uppercased ──
+function isSwiftKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (/[a-zA-Z0-9]/.test(ch)) return true;
+    e.preventDefault();
+    return false;
+}
+
+function isSwiftPasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^[a-zA-Z0-9]*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+function sanitizeSwift(input) {
+    input.value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+// ── Tab switching ── (nav items with no data-panel, e.g. SMS Templates, are real links to
+// their own page and navigate normally instead of switching an in-page panel)
 document.querySelectorAll('.settings-nav-item').forEach(function(item) {
     item.addEventListener('click', function(e) {
+        if (!item.dataset.panel) return;
         e.preventDefault();
         document.querySelectorAll('.settings-nav-item').forEach(function(i) { i.classList.remove('active'); });
         document.querySelectorAll('.settings-panel').forEach(function(p) { p.classList.remove('active'); });
@@ -426,30 +988,14 @@ document.querySelectorAll('.settings-nav-item').forEach(function(item) {
 });
 
 // ── Logo preview ──
-function previewLogo(input) {
+function previewLogo(input, previewId, iconId) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById('logoPreview').src = e.target.result;
-            document.getElementById('logoPreview').style.display = 'block';
-            document.getElementById('logoIcon').style.display = 'none';
+            setLogoPreview(previewId, iconId, e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }
-}
-
-// ── Toggle API key visibility ──
-function toggleApiKey() {
-    var inp = document.getElementById('smsApiKey');
-    var ico = document.getElementById('eyeIcon');
-    if (inp.type === 'password') { inp.type = 'text'; ico.className = 'ri-eye-off-line'; }
-    else { inp.type = 'password'; ico.className = 'ri-eye-line'; }
-}
-function toggleSecret() {
-    var inp = document.getElementById('smsSecret');
-    var ico = document.getElementById('eyeIconSecret');
-    if (inp.type === 'password') { inp.type = 'text'; ico.className = 'ri-eye-off-line'; }
-    else { inp.type = 'password'; ico.className = 'ri-eye-line'; }
 }
 
 // ── Save ──
@@ -460,6 +1006,8 @@ function saveSettings() {
         return;
     }
 
+    // Logo previews are local-only (no upload endpoint yet) -- uploaded files aren't persisted,
+    // so the previously saved logo URLs round-trip unchanged.
     var body = {
         clinicName: document.getElementById('gymName').value.trim(),
         logoIconUrl: CLINIC_SETTINGS ? CLINIC_SETTINGS.logoIconUrl : null,
@@ -469,12 +1017,13 @@ function saveSettings() {
         phone: document.getElementById('gymPhone').value.trim() || null,
         email: document.getElementById('gymEmail').value.trim() || null,
         address: document.getElementById('gymAddress').value.trim() || null,
-        vatPercentage: CLINIC_SETTINGS ? CLINIC_SETTINGS.vatPercentage : 0,
-        isVatEnabled: CLINIC_SETTINGS ? CLINIC_SETTINGS.isVatEnabled : false,
-        currencySymbol: CLINIC_SETTINGS ? CLINIC_SETTINGS.currencySymbol : '$'
+        vatPercentage: Math.min(parseFloat(document.getElementById('vatPercentage').value) || 0, VAT_PERCENTAGE_MAX),
+        isVatEnabled: document.getElementById('isVatEnabled').checked,
+        currencySymbol: document.getElementById('currencySymbol').value || 'AED'
     };
 
     if (!body.clinicName) { toastr.error('Clinic name is required'); return; }
+    if (body.email && !EMAIL_PATTERN.test(body.email)) { toastr.error('Enter a valid email address'); return; }
 
     fetch('/Settings/SaveGeneral', {
         method: 'POST',
@@ -489,11 +1038,561 @@ function saveSettings() {
     });
 }
 
-// ── Test SMS ──
-function testSms() {
-    if (typeof toastr !== 'undefined') {
-        toastr.info('Test SMS sent to your registered phone number.', 'SMS Test');
+// ── Save merchant account ──
+function saveMerchantAccount() {
+    var body = {
+        accountHolderName: document.getElementById('merchantAccountHolder').value.trim(),
+        bankName: document.getElementById('merchantBankName').value.trim(),
+        accountNumber: document.getElementById('merchantAccountNumber').value.trim(),
+        branch: document.getElementById('merchantBranch').value.trim() || null,
+        iban: document.getElementById('merchantIban').value.trim() || null,
+        swiftCode: document.getElementById('merchantSwiftCode').value.trim() || null
+    };
+
+    if (!body.accountHolderName || !body.bankName || !body.accountNumber) {
+        toastr.error('Account holder name, bank name and account number are required');
+        return;
     }
+
+    fetch('/Settings/SaveMerchantAccount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save merchant account'); return; }
+        MERCHANT_ACCOUNT = result.data;
+        toastr.success('Merchant account saved successfully.', 'Saved');
+    });
+}
+
+// ── Discount value input guard: digits + one decimal point only ──
+function isDiscountValueKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (ch >= '0' && ch <= '9') return true;
+    if (ch === '.' && e.target.value.indexOf('.') === -1) return true;
+    e.preventDefault();
+    return false;
+}
+
+function sanitizeDiscountValue(input) {
+    var value = input.value.replace(/[^0-9.]/g, '');
+    var firstDot = value.indexOf('.');
+    if (firstDot !== -1) {
+        value = value.slice(0, firstDot + 1) + value.slice(firstDot + 1).replace(/\./g, '');
+    }
+    if (value !== '' && value !== '.') {
+        var num = parseFloat(value);
+        if (!isNaN(num) && num > 100) value = '100';
+    }
+    input.value = value;
+}
+
+// ── Discounts table ──
+var DISCOUNT_TYPE_LABELS = { ServiceOnly: 'Service Only', ProductOnly: 'Product Only', Both: 'Both' };
+
+// Status is derived from the date range rather than stored, so it always reflects "today":
+// Inactive (manually turned off) > Closed (end date passed) > Scheduled (not started yet) > Open.
+function discountStatusBadge(d) {
+    var today = new Date().toISOString().slice(0, 10);
+    if (!d.isActive) return '<span class="gp-badge gp-badge-gray">Inactive</span>';
+    if (d.endDate < today) return '<span class="gp-badge gp-badge-gray">Closed</span>';
+    if (d.startDate > today) return '<span class="gp-badge gp-badge-yellow">Scheduled</span>';
+    return '<span class="gp-badge gp-badge-green">Open</span>';
+}
+
+function initDiscountsTable() {
+    discountsTable = $('#discountsDataTable').DataTable({
+        data: discounts,
+        columns: [
+            { data: 'discountName', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            { data: 'discountType', render: function (v) { return DISCOUNT_TYPE_LABELS[v] || v; } },
+            { data: 'discountValue', render: function (v) { return v + '%'; } },
+            { data: 'startDate' },
+            { data: 'endDate' },
+            { data: null, orderable: false, render: function (v, type, row) { return discountStatusBadge(row); } },
+            {
+                data: null, orderable: false, searchable: false, render: function (v, type, row) {
+                    return '<div style="display:flex;gap:6px;">'
+                        + '<button class="gp-btn-icon gp-btn-edit" onclick="openDiscountModal(' + row.id + ')"><i class="ri-pencil-line"></i></button>'
+                        + '<button class="gp-btn-icon gp-btn-delete" onclick="deleteDiscount(' + row.id + ')"><i class="ri-delete-bin-line"></i></button>'
+                        + '</div>';
+                }
+            }
+        ],
+        responsive: true,
+        pageLength: 5,
+        lengthChange: false,
+        dom: "<'d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2'f>t<'d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2'ip>",
+        language: { search: '', searchPlaceholder: 'Search discounts…', emptyTable: 'No discounts configured', info: 'Showing _START_–_END_ of _TOTAL_', infoEmpty: 'No discounts', infoFiltered: '(filtered from _MAX_)' }
+    });
+}
+
+function refreshDiscountsTable() {
+    discountsTable.clear().rows.add(discounts).draw();
+}
+
+function openDiscountModal(id) {
+    editingDiscountId = id || null;
+    document.getElementById('discountModalTitle').textContent = id ? 'Edit Discount' : 'Add Discount';
+    if (id) {
+        var d = discounts.find(function (x) { return x.id === id; });
+        document.getElementById('dName').value = d.discountName;
+        document.getElementById('dType').value = d.discountType;
+        document.getElementById('dValue').value = d.discountValue;
+        document.getElementById('dStartDate').value = d.startDate;
+        document.getElementById('dEndDate').value = d.endDate;
+        document.getElementById('dActive').checked = d.isActive;
+    } else {
+        document.getElementById('dName').value = '';
+        document.getElementById('dType').value = 'ServiceOnly';
+        document.getElementById('dValue').value = '';
+        document.getElementById('dStartDate').value = '';
+        document.getElementById('dEndDate').value = '';
+        document.getElementById('dActive').checked = true;
+    }
+    new bootstrap.Modal(document.getElementById('discountModal')).show();
+}
+
+function saveDiscount() {
+    var name = document.getElementById('dName').value.trim();
+    var startDate = document.getElementById('dStartDate').value;
+    var endDate = document.getElementById('dEndDate').value;
+    var value = parseFloat(document.getElementById('dValue').value);
+
+    var isActive = document.getElementById('dActive').checked;
+
+    if (!name) { toastr.error('Discount name is required'); return; }
+    if (isNaN(value) || value <= 0) { toastr.error('Enter a valid discount value'); return; }
+    if (!startDate || !endDate) { toastr.error('Start and end dates are required'); return; }
+    if (endDate < startDate) { toastr.error('End date cannot be before start date'); return; }
+
+    if (isActive) {
+        var conflict = discounts.find(function (d) {
+            return d.id !== editingDiscountId && d.isActive && startDate <= d.endDate && d.startDate <= endDate;
+        });
+        if (conflict) {
+            toastr.error('"' + conflict.discountName + '" is already active from ' + conflict.startDate + ' to ' + conflict.endDate + ', which overlaps this date range.');
+            return;
+        }
+    }
+
+    var body = {
+        discountName: name,
+        discountType: document.getElementById('dType').value,
+        discountValue: value,
+        startDate: startDate,
+        endDate: endDate,
+        isActive: isActive
+    };
+
+    var url = editingDiscountId ? '/Settings/UpdateDiscount?id=' + editingDiscountId : '/Settings/CreateDiscount';
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save discount'); return; }
+        if (editingDiscountId) {
+            var idx = discounts.findIndex(function (d) { return d.id === editingDiscountId; });
+            if (idx >= 0) discounts[idx] = result.data;
+        } else {
+            discounts.push(result.data);
+        }
+        toastr.success('Discount saved successfully.', 'Saved');
+        bootstrap.Modal.getInstance(document.getElementById('discountModal')).hide();
+        refreshDiscountsTable();
+    });
+}
+
+function deleteDiscount(id) {
+    if (!confirm('Delete this discount?')) return;
+    fetch('/Settings/DeleteDiscount?id=' + id, { method: 'POST' })
+        .then(function (res) {
+            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function (result) {
+            if (!result.ok) { toastr.error(result.data.message || 'Could not delete discount'); return; }
+            discounts = discounts.filter(function (d) { return d.id !== id; });
+            toastr.success('Deleted');
+            refreshDiscountsTable();
+        });
+}
+
+// ── Payment Accounts table ──
+var PAYMENT_ACCOUNT_TYPE_LABELS = { Cash: 'Cash', Evc: 'EVC', Merchant: 'Merchant' };
+var PAYMENT_ACCOUNT_TYPE_BADGE = { Cash: 'gp-badge-green', Evc: 'gp-badge-blue', Merchant: 'gp-badge-purple' };
+
+function initPaymentAccountsTable() {
+    paymentAccountsTable = $('#paymentAccountsDataTable').DataTable({
+        data: paymentAccounts,
+        columns: [
+            { data: 'name', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            { data: 'accountType', render: function (v) { return '<span class="gp-badge ' + (PAYMENT_ACCOUNT_TYPE_BADGE[v] || 'gp-badge-gray') + '">' + (PAYMENT_ACCOUNT_TYPE_LABELS[v] || v) + '</span>'; } },
+            { data: 'phoneOrAccountNumber', render: function (v) { return v || '—'; } },
+            { data: 'isActive', render: function (v) { return v ? '<span class="gp-badge gp-badge-green">Active</span>' : '<span class="gp-badge gp-badge-gray">Inactive</span>'; } },
+            {
+                data: null, orderable: false, searchable: false, render: function (v, type, row) {
+                    return '<div style="display:flex;gap:6px;">'
+                        + '<button class="gp-btn-icon gp-btn-edit" onclick="openPaymentAccountModal(' + row.id + ')"><i class="ri-pencil-line"></i></button>'
+                        + '<button class="gp-btn-icon gp-btn-delete" onclick="deletePaymentAccount(' + row.id + ')"><i class="ri-delete-bin-line"></i></button>'
+                        + '</div>';
+                }
+            }
+        ],
+        responsive: true,
+        pageLength: 5,
+        lengthChange: false,
+        dom: "<'d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2'f>t<'d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2'ip>",
+        language: { search: '', searchPlaceholder: 'Search accounts…', emptyTable: 'No payment accounts configured', info: 'Showing _START_–_END_ of _TOTAL_', infoEmpty: 'No accounts', infoFiltered: '(filtered from _MAX_)' }
+    });
+}
+
+function refreshPaymentAccountsTable() {
+    paymentAccountsTable.clear().rows.add(paymentAccounts).draw();
+}
+
+function openPaymentAccountModal(id) {
+    editingPaymentAccountId = id || null;
+    document.getElementById('paymentAccountModalTitle').textContent = id ? 'Edit Payment Account' : 'Add Payment Account';
+    if (id) {
+        var a = paymentAccounts.find(function (x) { return x.id === id; });
+        document.getElementById('paName').value = a.name;
+        document.getElementById('paType').value = a.accountType;
+        document.getElementById('paPhoneOrAccount').value = a.phoneOrAccountNumber || '';
+        document.getElementById('paActive').checked = a.isActive;
+    } else {
+        document.getElementById('paName').value = '';
+        document.getElementById('paType').value = 'Cash';
+        document.getElementById('paPhoneOrAccount').value = '';
+        document.getElementById('paActive').checked = true;
+    }
+    new bootstrap.Modal(document.getElementById('paymentAccountModal')).show();
+}
+
+function savePaymentAccount() {
+    var name = document.getElementById('paName').value.trim();
+    if (!name) { toastr.error('Account name is required'); return; }
+
+    var body = {
+        name: name,
+        accountType: document.getElementById('paType').value,
+        phoneOrAccountNumber: document.getElementById('paPhoneOrAccount').value.trim() || null,
+        isActive: document.getElementById('paActive').checked
+    };
+
+    var url = editingPaymentAccountId ? '/Settings/UpdatePaymentAccount?id=' + editingPaymentAccountId : '/Settings/CreatePaymentAccount';
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save payment account'); return; }
+        if (editingPaymentAccountId) {
+            var idx = paymentAccounts.findIndex(function (a) { return a.id === editingPaymentAccountId; });
+            if (idx >= 0) paymentAccounts[idx] = result.data;
+        } else {
+            paymentAccounts.push(result.data);
+        }
+        toastr.success('Payment account saved successfully.', 'Saved');
+        bootstrap.Modal.getInstance(document.getElementById('paymentAccountModal')).hide();
+        refreshPaymentAccountsTable();
+    });
+}
+
+function deletePaymentAccount(id) {
+    if (!confirm('Delete this payment account?')) return;
+    fetch('/Settings/DeletePaymentAccount?id=' + id, { method: 'POST' })
+        .then(function (res) {
+            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function (result) {
+            if (!result.ok) { toastr.error(result.data.message || 'Could not delete payment account'); return; }
+            paymentAccounts = paymentAccounts.filter(function (a) { return a.id !== id; });
+            toastr.success('Deleted');
+            refreshPaymentAccountsTable();
+        });
+}
+
+// ── Port number input guard: digits only ──
+function isPortNumberKeyAllowed(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    var ch = e.key;
+    if (ch.length !== 1) return true;
+    if (ch >= '0' && ch <= '9') return true;
+    e.preventDefault();
+    return false;
+}
+
+function isPortNumberPasteAllowed(e) {
+    var text = (e.clipboardData || window.clipboardData).getData('text');
+    if (!/^[0-9]*$/.test(text)) { e.preventDefault(); return false; }
+    return true;
+}
+
+// ── SMS Gateway table ──
+function maskSecret(value) {
+    if (!value) return '<span class="text-muted">—</span>';
+    if (value.length <= 6) return '••••••';
+    return value.slice(0, 4) + '••••••' + value.slice(-4);
+}
+
+function renderGatewaysTable() {
+    var tbody = document.getElementById('gatewaysTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = gateways.length ? gateways.map(function (g) {
+        return `
+        <tr>
+            <td style="font-weight:700;color:#1e293b;">${g.providerName}</td>
+            <td>${maskSecret(g.apiKey)}</td>
+            <td>${maskSecret(g.apiSecret)}</td>
+            <td>${g.senderId || '<span class="text-muted">—</span>'}</td>
+            <td>${g.isActive ? '<span class="gp-badge gp-badge-green">Active</span>' : '<span class="gp-badge gp-badge-gray">Inactive</span>'}</td>
+            <td>${g.channelType}</td>
+            <td>${g.hostName || '<span class="text-muted">—</span>'}</td>
+            <td>${g.portNumber || '<span class="text-muted">—</span>'}</td>
+            <td><div style="display:flex;gap:6px;">
+                <button class="gp-btn-icon gp-btn-edit" onclick="openGatewayModal(${g.id})"><i class="ri-pencil-line"></i></button>
+                <button class="gp-btn-icon gp-btn-delete" onclick="deleteGatewayConfig(${g.id})"><i class="ri-delete-bin-line"></i></button>
+            </div></td>
+        </tr>`;
+    }).join('') : '<tr><td colspan="9" class="text-center py-4 text-muted">No gateway configurations yet</td></tr>';
+}
+
+function openGatewayModal(id) {
+    editingGatewayId = id || null;
+    document.getElementById('gatewayModalTitle').textContent = id ? 'Edit Configuration' : 'Add Configuration';
+    if (id) {
+        var g = gateways.find(function (x) { return x.id === id; });
+        document.getElementById('gProviderName').value = g.providerName;
+        document.getElementById('gChannelType').value = g.channelType;
+        document.getElementById('gApiKey').value = g.apiKey || '';
+        document.getElementById('gApiSecret').value = g.apiSecret || '';
+        document.getElementById('gSenderId').value = g.senderId || '';
+        document.getElementById('gHostName').value = g.hostName || '';
+        document.getElementById('gPortNumber').value = g.portNumber || '';
+        document.getElementById('gActive').checked = g.isActive;
+    } else {
+        document.getElementById('gProviderName').value = '';
+        document.getElementById('gChannelType').value = 'SMS';
+        document.getElementById('gApiKey').value = '';
+        document.getElementById('gApiSecret').value = '';
+        document.getElementById('gSenderId').value = '';
+        document.getElementById('gHostName').value = '';
+        document.getElementById('gPortNumber').value = '';
+        document.getElementById('gActive').checked = true;
+    }
+    new bootstrap.Modal(document.getElementById('gatewayModal')).show();
+}
+
+function saveGatewayConfig() {
+    var providerName = document.getElementById('gProviderName').value.trim();
+    if (!providerName) { toastr.error('Provider name is required'); return; }
+
+    var portRaw = document.getElementById('gPortNumber').value.trim();
+    var body = {
+        providerName: providerName,
+        channelType: document.getElementById('gChannelType').value,
+        apiKey: document.getElementById('gApiKey').value.trim() || null,
+        apiSecret: document.getElementById('gApiSecret').value.trim() || null,
+        senderId: document.getElementById('gSenderId').value.trim() || null,
+        hostName: document.getElementById('gHostName').value.trim() || null,
+        portNumber: portRaw ? parseInt(portRaw, 10) : null,
+        isActive: document.getElementById('gActive').checked
+    };
+
+    var url = editingGatewayId ? '/Settings/UpdateSmsConfiguration?id=' + editingGatewayId : '/Settings/CreateSmsConfiguration';
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save configuration'); return; }
+        if (editingGatewayId) {
+            var idx = gateways.findIndex(function (g) { return g.id === editingGatewayId; });
+            if (idx >= 0) gateways[idx] = result.data;
+        } else {
+            gateways.push(result.data);
+        }
+        toastr.success('Configuration saved successfully.', 'Saved');
+        bootstrap.Modal.getInstance(document.getElementById('gatewayModal')).hide();
+        renderGatewaysTable();
+    });
+}
+
+function deleteGatewayConfig(id) {
+    if (!confirm('Delete this configuration?')) return;
+    fetch('/Settings/DeleteSmsConfiguration?id=' + id, { method: 'POST' })
+        .then(function (res) {
+            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function (result) {
+            if (!result.ok) { toastr.error(result.data.message || 'Could not delete configuration'); return; }
+            gateways = gateways.filter(function (g) { return g.id !== id; });
+            toastr.success('Deleted');
+            renderGatewaysTable();
+        });
+}
+
+// ── SMS Templates ──
+function renderVarTags() {
+    var row = document.getElementById('varTagRow');
+    if (!row) return;
+    row.innerHTML = INSERT_VARIABLES.map(function (v) {
+        return '<button type="button" class="btn btn-sm" style="border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;border-radius:8px;font-weight:700;font-size:.76rem;padding:5px 12px;" onclick="insertVariable(\'' + v + '\')">{' + v + '}</button>';
+    }).join('');
+}
+
+function insertVariable(name) {
+    var textarea = document.getElementById('tplMessage');
+    var token = '{' + name + '}';
+    var start = textarea.selectionStart != null ? textarea.selectionStart : textarea.value.length;
+    var end = textarea.selectionEnd != null ? textarea.selectionEnd : textarea.value.length;
+    textarea.value = textarea.value.slice(0, start) + token + textarea.value.slice(end);
+    textarea.focus();
+    var caret = start + token.length;
+    textarea.setSelectionRange(caret, caret);
+    onTplMessageInput();
+}
+
+function onTplMessageInput() {
+    var text = document.getElementById('tplMessage').value;
+    var len = text.length;
+    document.getElementById('tplCharCount').textContent = len;
+    var parts = len === 0 ? 1 : Math.ceil(len / 160);
+    document.getElementById('tplSmsParts').textContent = parts + ' SMS';
+}
+
+function relativeTime(iso) {
+    var date = new Date(iso);
+    var startOfDay = function (d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); };
+    var diffDays = Math.round((startOfDay(new Date()) - startOfDay(date)) / 86400000);
+    if (diffDays <= 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    return diffDays + ' days ago';
+}
+
+function initTemplatesTable() {
+    templatesTable = $('#templatesDataTable').DataTable({
+        data: templates,
+        columns: [
+            { data: null, orderable: false, searchable: false, render: function (v, type, row, meta) { return meta.row + 1; } },
+            { data: 'templateName', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            {
+                data: 'messageBody', render: function (v) {
+                    var preview = v.length > 70 ? v.slice(0, 70) + '…' : v;
+                    return '<span style="color:#64748b;">' + preview + '</span>';
+                }
+            },
+            { data: 'createdAt', render: function (v) { return relativeTime(v); } },
+            {
+                data: null, orderable: false, searchable: false, render: function (v, type, row) {
+                    return '<div style="display:flex;gap:6px;">'
+                        + '<button class="gp-btn-icon" style="background:#f5f3ff;color:#7c3aed;" title="Send" onclick="sendTemplate(' + row.id + ')"><i class="ri-send-plane-line"></i></button>'
+                        + '<button class="gp-btn-icon gp-btn-edit" title="Edit" onclick="editTemplate(' + row.id + ')"><i class="ri-pencil-line"></i></button>'
+                        + '<button class="gp-btn-icon gp-btn-delete" title="Delete" onclick="deleteTemplate(' + row.id + ')"><i class="ri-delete-bin-line"></i></button>'
+                        + '</div>';
+                }
+            }
+        ],
+        order: [],
+        responsive: true,
+        pageLength: 5,
+        lengthChange: false,
+        dom: "<'d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2'f>t<'d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2'ip>",
+        language: { search: '', searchPlaceholder: 'Search templates…', emptyTable: 'No templates saved yet', info: 'Showing _START_–_END_ of _TOTAL_', infoEmpty: 'No templates', infoFiltered: '(filtered from _MAX_)' }
+    });
+}
+
+function refreshTemplatesTable() {
+    templatesTable.clear().rows.add(templates).draw();
+}
+
+function editTemplate(id) {
+    var t = templates.find(function (x) { return x.id === id; });
+    if (!t) return;
+    editingTemplateId = id;
+    document.getElementById('tplName').value = t.templateName;
+    document.getElementById('tplMessage').value = t.messageBody;
+    onTplMessageInput();
+    document.getElementById('tplFormTitle').textContent = 'Edit Template';
+    document.getElementById('tplSaveBtnLabel').textContent = 'Update Template';
+    document.getElementById('cancelTplEditBtn').style.display = '';
+}
+
+function cancelTemplateEdit() {
+    editingTemplateId = null;
+    document.getElementById('tplName').value = '';
+    document.getElementById('tplMessage').value = '';
+    onTplMessageInput();
+    document.getElementById('tplFormTitle').textContent = 'New Template';
+    document.getElementById('tplSaveBtnLabel').textContent = 'Save Template';
+    document.getElementById('cancelTplEditBtn').style.display = 'none';
+}
+
+function saveTemplate() {
+    var name = document.getElementById('tplName').value.trim();
+    var message = document.getElementById('tplMessage').value.trim();
+    if (!name) { toastr.error('Template name is required'); return; }
+    if (!message) { toastr.error('Message content is required'); return; }
+
+    var body = {
+        templateName: name,
+        templateTypeId: editingTemplateId ? templates.find(function (x) { return x.id === editingTemplateId; }).templateTypeId : 4,
+        channelType: 'SMS',
+        messageBody: message,
+        isActive: true
+    };
+
+    var url = editingTemplateId ? '/Settings/UpdateSmsTemplate?id=' + editingTemplateId : '/Settings/CreateSmsTemplate';
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not save template'); return; }
+        if (editingTemplateId) {
+            var idx = templates.findIndex(function (x) { return x.id === editingTemplateId; });
+            if (idx >= 0) templates[idx] = result.data;
+        } else {
+            templates.unshift(result.data);
+        }
+        toastr.success('Template saved successfully.', 'Saved');
+        cancelTemplateEdit();
+        refreshTemplatesTable();
+    });
+}
+
+function deleteTemplate(id) {
+    if (!confirm('Delete this template?')) return;
+    fetch('/Settings/DeleteSmsTemplate?id=' + id, { method: 'POST' })
+        .then(function (res) {
+            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function (result) {
+            if (!result.ok) { toastr.error(result.data.message || 'Could not delete template'); return; }
+            templates = templates.filter(function (t) { return t.id !== id; });
+            if (editingTemplateId === id) cancelTemplateEdit();
+            toastr.success('Deleted');
+            refreshTemplatesTable();
+        });
+}
+
+function sendTemplate(id) {
+    var t = templates.find(function (x) { return x.id === id; });
+    if (!t) return;
+    toastr.info('Open a patient from Notifications to send "' + t.templateName + '".', 'Send Template');
 }
 
 // ── Select2 ──

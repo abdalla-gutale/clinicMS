@@ -24,4 +24,18 @@ public record RoleWithPermissions(
 
 public record ModuleDto(int Id, string ModuleName, int DisplayOrder, bool IsActive);
 
+public record CreateModuleRequest(string ModuleName, int DisplayOrder, bool IsActive);
+
+public record UpdateModuleRequest(string ModuleName, int DisplayOrder, bool IsActive);
+
 public record NavPageDto(int Id, int ModuleId, string PageName, string PageUrl, int DisplayOrder, bool IsActive, int? ParentPageId);
+
+public record CreateNavPageRequest(int ModuleId, string PageName, string PageUrl, int DisplayOrder, bool IsActive, int? ParentPageId);
+
+public record UpdateNavPageRequest(int ModuleId, string PageName, string PageUrl, int DisplayOrder, bool IsActive, int? ParentPageId);
+
+public record ReportPageDto(int Id, int ModuleId, string ModuleName, string ReportName, string ReportUrl, int DisplayOrder, bool IsActive);
+
+public record CreateReportPageRequest(int ModuleId, string ReportName, string ReportUrl, int DisplayOrder, bool IsActive);
+
+public record UpdateReportPageRequest(int ModuleId, string ReportName, string ReportUrl, int DisplayOrder, bool IsActive);

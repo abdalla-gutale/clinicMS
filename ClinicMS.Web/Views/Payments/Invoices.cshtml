@@ -45,6 +45,7 @@
 .invoice-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; padding-bottom:16px; border-bottom:2px solid #0d9488; }
 .invoice-brand { font-size:1.5rem; font-weight:900; color:#0d9488; }
 .invoice-brand span { display:block; font-size:.75rem; font-weight:500; color:#64748b; }
+.invoice-brand-logo { max-height:48px; max-width:220px; object-fit:contain; }
 .invoice-no { text-align:right; }
 .invoice-no h3 { font-size:1rem; font-weight:800; color:#1e293b; margin:0; }
 .invoice-no small { color:#64748b; font-size:.78rem; }
@@ -125,6 +126,8 @@
 @section Scripts {
 <script>
     var OUTSTANDING_DATA = @Html.Raw(ViewBag.OutstandingJson);
+    var REPORT_LOGO_URL = @Html.Raw(ViewBag.ReportLogoUrl is not null ? $"\"{ViewBag.ReportLogoUrl}\"" : "null");
+    var REPORT_CLINIC_NAME = @Html.Raw(System.Text.Json.JsonSerializer.Serialize((string)ViewBag.ClinicName));
 </script>
 <script src="~/scripts/Features/invoices.js"></script>
 }

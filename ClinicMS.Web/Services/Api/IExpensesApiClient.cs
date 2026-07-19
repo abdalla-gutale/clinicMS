@@ -17,4 +17,18 @@ public interface IExpensesApiClient
     Task DeleteCategoryAsync(int id, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<VendorDto>> GetVendorsAsync(CancellationToken cancellationToken = default);
+
+    Task<VendorDto> CreateVendorAsync(CreateVendorRequest request, CancellationToken cancellationToken = default);
+
+    Task<VendorDto> UpdateVendorAsync(int id, UpdateVendorRequest request, CancellationToken cancellationToken = default);
+
+    Task DeleteVendorAsync(int id, CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<RecurringExpenseDto>> GetRecurringSchedulesAsync(CancellationToken cancellationToken = default);
+
+    Task<RecurringExpenseDto> CreateRecurringScheduleAsync(CreateRecurringExpenseRequest request, CancellationToken cancellationToken = default);
+
+    Task<RecurringExpenseDto> UpdateRecurringScheduleAsync(int id, UpdateRecurringExpenseRequest request, CancellationToken cancellationToken = default);
+
+    Task DeleteRecurringScheduleAsync(int id, CancellationToken cancellationToken = default);
 }

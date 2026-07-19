@@ -1,6 +1,7 @@
 var expenses   = (typeof EXPENSES_DATA  !== 'undefined' ? EXPENSES_DATA  : []);
 var categories = (typeof EXP_CATEGORIES !== 'undefined' ? EXP_CATEGORIES : []);
 var vendors    = (typeof EXP_VENDORS    !== 'undefined' ? EXP_VENDORS    : []);
+var accounts   = (typeof EXP_ACCOUNTS   !== 'undefined' ? EXP_ACCOUNTS   : []);
 
 var currentPage = 1, perPage = 8, searchQuery = '', catF = '', methodF = '';
 var methodLabel = { Cash: 'Cash', CreditCard: 'Credit Card', BankTransfer: 'Bank Transfer', WalletCredit: 'Wallet Credit' };
@@ -31,8 +32,9 @@ function renderTable() {
             <td>${e.expenseDate}</td>
             <td>${e.vendorName || '—'}</td>
             <td><span class="gp-badge ${methodBadge[e.paymentMethod]||'gp-badge-gray'}">${methodLabel[e.paymentMethod]||e.paymentMethod}</span></td>
+            <td style="font-size:.82rem;color:#64748b;">${e.accountName || '—'}</td>
             <td style="font-size:.8rem;color:#94a3b8;">${e.receiptNumber || '—'}</td>
-        </tr>`; }).join('') : '<tr><td colspan="8" class="text-center py-4 text-muted">No expenses found</td></tr>';
+        </tr>`; }).join('') : '<tr><td colspan="9" class="text-center py-4 text-muted">No expenses found</td></tr>';
     document.getElementById('pageInfo').textContent = `Showing ${slice.length} of ${total}`;
     var btns = document.getElementById('pageBtns');
     btns.innerHTML = '';
@@ -63,6 +65,8 @@ function populateModalSelects() {
     }).join('');
     document.getElementById('fVendor').innerHTML = '<option value="">— None —</option>' +
         vendors.map(function (v) { return `<option value="${v.id}">${v.vendorName}</option>`; }).join('');
+    document.getElementById('fAccount').innerHTML = '<option value="">— None —</option>' +
+        accounts.map(function (a) { return `<option value="${a.id}">${a.name}</option>`; }).join('');
 }
 
 function openModal() {
@@ -70,6 +74,7 @@ function openModal() {
     document.getElementById('fAmount').value = '';
     document.getElementById('fTitle').value = '';
     document.getElementById('fReceipt').value = '';
+    document.getElementById('fAccount').value = '';
     document.getElementById('fDate').value = new Date().toISOString().slice(0, 10);
     new bootstrap.Modal(document.getElementById('expenseModal')).show();
 }
@@ -81,6 +86,7 @@ function saveExpense() {
     if (!categoryId || isNaN(amount) || !title) { toastr.error('Category, amount and title are required'); return; }
 
     var vendorVal = document.getElementById('fVendor').value;
+    var accountVal = document.getElementById('fAccount').value;
     var body = {
         expenseCategoryId: categoryId,
         vendorId: vendorVal ? parseInt(vendorVal, 10) : null,
@@ -89,7 +95,8 @@ function saveExpense() {
         expenseDate: document.getElementById('fDate').value,
         paymentMethod: document.getElementById('fMethod').value,
         receiptNumber: document.getElementById('fReceipt').value.trim() || null,
-        notes: null
+        notes: null,
+        accountId: accountVal ? parseInt(accountVal, 10) : null
     };
 
     fetch('/Expenses/Create', {

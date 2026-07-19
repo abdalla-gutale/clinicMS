@@ -23,14 +23,17 @@ public record PaymentDto(
     decimal AmountPaid,
     PaymentMethod PaymentMethod,
     string? ReferenceNumber,
-    DateTime PaymentDate);
+    DateTime PaymentDate,
+    int? AccountId,
+    string? AccountName);
 
 public record CreatePaymentRequest(
     int? InvoiceId,
     int PatientId,
     decimal AmountPaid,
     PaymentMethod PaymentMethod,
-    string? ReferenceNumber);
+    string? ReferenceNumber,
+    int? AccountId);
 
 /// <summary>An invoice with a balance still owed, for an accounts-receivable view. There is no
 /// "list all invoices" endpoint on the real API -- this (and GetById for drill-down) is the only
@@ -80,3 +83,25 @@ public record RevenueSummaryDto(
     DateOnly To,
     decimal TotalNetAmount,
     decimal TotalDiscountAmount);
+
+/// <summary>Where money collected (Payments) and spent (Expenses) sits, per configured Payment
+/// Account -- lets reports show income vs. expense broken down by Cash/EVC/Merchant account rather
+/// than just an aggregate total.</summary>
+public record AccountBreakdownDto(int? AccountId, string AccountName, decimal TotalIncome, decimal TotalExpense, decimal Net);
+
+public enum RefundType
+{
+    Full,
+    Partial
+}
+
+public record RefundItemDto(int ProductSkuId, string SkuCode, string ProductName, int Quantity, decimal RefundUnitPrice, bool RestockItem);
+
+public record RefundItemRequest(int ProductSkuId, int Quantity, decimal RefundUnitPrice, bool RestockItem);
+
+public record ProductRefundDto(
+    int Id, int InvoiceId, string InvoiceNumber, int? PatientId, string? PatientName,
+    decimal TotalRefundAmount, RefundType RefundType, string? Reason, DateTime RefundDate,
+    IReadOnlyList<RefundItemDto> Items);
+
+public record CreateProductRefundRequest(int InvoiceId, RefundType RefundType, string? Reason, IReadOnlyList<RefundItemRequest> Items);

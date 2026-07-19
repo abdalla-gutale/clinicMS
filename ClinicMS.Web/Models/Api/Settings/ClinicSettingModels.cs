@@ -29,3 +29,22 @@ public record UpsertClinicSettingRequest(
     decimal VatPercentage,
     bool IsVatEnabled,
     string CurrencySymbol);
+
+/// <summary>Bank details a clinic gives out to receive payments -- not a payment gateway
+/// integration, just the account info shown/printed for bank transfers.</summary>
+public record MerchantAccountDto(
+    int Id,
+    string AccountHolderName,
+    string BankName,
+    string AccountNumber,
+    string? Iban,
+    string? SwiftCode,
+    string? Branch);
+
+public record UpsertMerchantAccountRequest(
+    string AccountHolderName,
+    string BankName,
+    string AccountNumber,
+    string? Iban,
+    string? SwiftCode,
+    string? Branch);

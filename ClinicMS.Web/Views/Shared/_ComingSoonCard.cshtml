@@ -1,0 +1,23 @@
+<style>
+.coming-soon-wrap { padding: 24px; }
+.coming-soon-card {
+    background: #fff; border-radius: 18px; border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px rgba(15,23,42,.06);
+    padding: 60px 24px; text-align: center;
+}
+.coming-soon-icon {
+    width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 18px;
+    background: rgba(13,148,136,.1); color: #0d9488;
+    display: flex; align-items: center; justify-content: center; font-size: 1.7rem;
+}
+.coming-soon-title { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+.coming-soon-desc { font-size: .85rem; color: #64748b; max-width: 420px; margin: 0 auto; line-height: 1.6; }
+</style>
+
+<div class="coming-soon-wrap">
+    <div class="coming-soon-card">
+        <div class="coming-soon-icon"><i class="ri-tools-line"></i></div>
+        <div class="coming-soon-title">@(ViewBag.pTitle ?? "Coming Soon")</div>
+        <div class="coming-soon-desc">@(ViewBag.ComingSoonDesc ?? "This page is being built out and will be available soon.")</div>
+    </div>
+</div>

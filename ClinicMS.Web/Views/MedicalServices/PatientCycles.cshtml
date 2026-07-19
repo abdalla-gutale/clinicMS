@@ -1,0 +1,385 @@
+@{
+    ViewData["Title"] = "Patient Cycles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Patient Cycles";
+}
+
+@section styles {
+<style>
+
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; white-space:nowrap; }
+.gp-badge-teal { background:#ccfbf1; color:#0f766e; }
+.gp-badge-purple { background:#ede9fe; color:#6d28d9; }
+.gp-badge-green { background:#dcfce7; color:#15803d; }
+.gp-badge-amber { background:#fef3c7; color:#b45309; }
+.gp-badge-red { background:#fee2e2; color:#b91c1c; }
+.gp-badge-grey { background:#f1f5f9; color:#475569; }
+.gp-badge-blue { background:#dbeafe; color:#1d4ed8; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+
+.paused-alert { display:flex; align-items:flex-start; gap:10px; padding:14px 16px; border-radius:14px; background:#fef2f2; border:1.5px solid #fecaca; color:#991b1b; font-size:.85rem; margin-bottom:16px; }
+.paused-alert i { font-size:1.1rem; margin-top:1px; }
+.paused-alert b { font-weight:800; }
+.paused-alert .paused-list { margin-top:4px; font-size:.8rem; color:#7f1d1d; }
+
+.sessions-wrap { border: 1.5px solid #e2e8f0; border-radius: 14px; overflow: hidden; margin-top: 6px; }
+.sessions-table { width: 100%; border-collapse: collapse; }
+.sessions-table thead th { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; background: #f8fafc; border-bottom: 2px solid #f1f5f9; padding: 10px 12px; text-align: left; }
+.sessions-table tbody td { padding: 10px 12px; border-bottom: 1px solid #f8fafc; vertical-align: middle; }
+.sessions-table tbody tr:last-child td { border-bottom: none; }
+.sessions-label { font-weight: 800; color: #1e293b; font-size: .84rem; white-space: nowrap; }
+.sessions-sub { font-size: .72rem; color: #94a3b8; margin-top: 2px; }
+.sessions-empty { padding: 24px; text-align: center; color: #94a3b8; font-size: .82rem; }
+.session-select { width: 100%; min-width: 180px; }
+.sessions-lock-banner { display:flex; align-items:center; gap:8px; padding:12px 14px; border-radius:12px; background:#fffbeb; border:1.5px solid #fde68a; color:#92400e; font-size:.82rem; font-weight:600; margin-top:6px; }
+.session-action-btn { border:1.5px solid #e2e8f0; background:#fff; color:#334155; border-radius:8px; font-size:.72rem; font-weight:700; padding:5px 10px; cursor:pointer; white-space:nowrap; }
+.session-action-btn:hover { border-color:#0d9488; color:#0d9488; }
+.session-action-btn.primary { background:#0d9488; border-color:#0d9488; color:#fff; }
+.session-action-btn.primary:hover { background:#0f766e; }
+.session-action-btn:disabled { opacity:.4; cursor:not-allowed; }
+.session-action-btn + .session-action-btn { margin-left:6px; }
+.session-expand-row td { background:#f8fafc; padding:14px 16px; }
+.session-expand-form { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; }
+.session-expand-form .fld { display:flex; flex-direction:column; gap:4px; }
+.session-expand-form label { font-size:.72rem; font-weight:700; color:#64748b; }
+.session-expand-form input, .session-expand-form select { border-radius:8px; border:1.5px solid #e2e8f0; font-size:.8rem; padding:6px 10px; }
+.session-expand-radio { display:flex; gap:14px; align-items:center; font-size:.8rem; color:#334155; }
+.session-expand-radio label { display:flex; align-items:center; gap:6px; font-weight:600; }
+.session-charge-preview { font-size:.78rem; color:#0d9488; font-weight:700; }
+
+.cycle-payment-panel { display:flex; flex-wrap:wrap; gap:20px; align-items:center; padding:14px 16px; border-radius:14px; background:#f0fdfa; border:1.5px solid #ccfbf1; margin-bottom:12px; }
+.cycle-payment-stat { display:flex; flex-direction:column; }
+.cycle-payment-stat span { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#0f766e; }
+.cycle-payment-stat b { font-size:1rem; color:#134e4a; }
+
+.form-hint { font-size:.72rem; color:#94a3b8; margin-top:4px; }
+.invoice-line-items { border:1.5px solid #e2e8f0; border-radius:12px; padding:4px 14px; margin-bottom:14px; }
+.invoice-line-item { display:flex; justify-content:space-between; padding:8px 0; font-size:.84rem; color:#334155; border-bottom:1px solid #f8fafc; }
+.invoice-line-item:last-child { border-bottom:none; }
+.invoice-summary { border:1.5px solid #e2e8f0; border-radius:12px; padding:14px 16px; background:#f8fafc; }
+.invoice-summary-row { display:flex; align-items:center; justify-content:space-between; padding:6px 0; font-size:.85rem; color:#475569; }
+.invoice-summary-row b { color:#1e293b; font-weight:800; }
+.invoice-summary-row.total { border-top:1.5px dashed #cbd5e1; margin-top:4px; padding-top:12px; font-size:.95rem; }
+.invoice-summary-row.total b { color:#0d9488; font-size:1.1rem; }
+.configured-discount-hint { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:8px 12px; border-radius:10px; background:#f0fdfa; border:1.5px solid #ccfbf1; color:#0f766e; font-size:.78rem; font-weight:600; margin-bottom:10px; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Patient Cycles</h4>
+            <p class="gp-sub">Track a patient's progress through an assigned treatment plan</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openAssignModal()">
+            <i class="ri-add-line me-1"></i> Assign Patient
+        </button>
+    </div>
+
+    <div id="pausedAlert"></div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search by patient or plan..." oninput="handleSearch(this.value)">
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient</th>
+                        <th>Treatment Plan</th>
+                        <th>Pricing Model</th>
+                        <th>Status</th>
+                        <th>Frequency</th>
+                        <th>Total Sessions</th>
+                        <th>Assigned</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="cyclesTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="assignModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Patient to Treatment Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Patient</label>
+                        <select class="form-select" id="fPatient">
+                            <option value="">Select a patient…</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Treatment Plan</label>
+                        <select class="form-select" id="fTreatmentPlan" onchange="onAssignPlanChange()">
+                            <option value="">Select a treatment plan…</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="fStartDate" onchange="onAssignStartDateChange()">
+                    </div>
+
+                    <div class="col-12 col-md-4" id="fPaymentModeWrap" style="display:none;">
+                        <label class="form-label">Payment Mode</label>
+                        <select class="form-select" id="fPaymentMode" onchange="onAssignPaymentModeChange()">
+                            <option value="PerSession">Charge each session (price ÷ sessions)</option>
+                            <option value="DepositBalance">Deposit + balance</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4" id="fDepositAmountWrap" style="display:none;">
+                        <label class="form-label">Initial Deposit (optional)</label>
+                        <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fDepositAmount" placeholder="0.00">
+                    </div>
+                    <div class="col-12 col-md-4" id="fDepositMethodWrap" style="display:none;">
+                        <label class="form-label">Deposit Payment Method</label>
+                        <select class="form-select" id="fDepositMethod">
+                            <option value="Cash">Cash</option>
+                            <option value="CreditCard">Credit Card</option>
+                            <option value="BankTransfer">Bank Transfer</option>
+                            <option value="WalletCredit">Wallet Credit</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4" id="fDepositAccountWrap" style="display:none;">
+                        <label class="form-label">Deposit Account</label>
+                        <select class="form-select" id="fDepositAccount">
+                            <option value="">— None —</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label mb-1">Sessions</label>
+                        <div class="sessions-lock-banner" id="assignLockBanner" style="display:none;">
+                            <i class="ri-lock-line"></i> Services and products are fixed for this Fixed Package plan and cannot be changed.
+                        </div>
+                        <div class="sessions-wrap">
+                            <table class="sessions-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:100px;">Session</th>
+                                        <th>Services</th>
+                                        <th>Products</th>
+                                        <th style="width:150px;">Session Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assignSessionsTableBody"></tbody>
+                            </table>
+                            <div class="sessions-empty" id="assignSessionsEmpty">Select a treatment plan to generate the session schedule.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="assignCycle()">Assign</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sessionsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sessionsModalTitle">Sessions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="sessions-lock-banner" id="sessionsLockBanner" style="display:none;">
+                    <i class="ri-lock-line"></i> Services and products are fixed for this Fixed Package plan and cannot be changed. Sessions can still be rescheduled.
+                </div>
+
+                <div class="cycle-payment-panel" id="cyclePaymentPanel" style="display:none;"></div>
+
+                <div class="sessions-wrap">
+                    <table class="sessions-table">
+                        <thead>
+                            <tr>
+                                <th style="width:90px;">Session</th>
+                                <th style="width:130px;">Status</th>
+                                <th style="width:120px;">Scheduled Date</th>
+                                <th>Services</th>
+                                <th>Products</th>
+                                <th style="width:190px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cycleSessionsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn text-white px-4" id="saveSessionsBtn" style="background:#0d9488;border-radius:10px;" onclick="saveSessions()">Save Services/Products</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rescheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rescheduleModalTitle">Reschedule Session</h5>
+                <button type="button" class="btn-close" onclick="closeRescheduleModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">New Date</label>
+                        <input type="date" class="form-control" id="rescheduleDate">
+                        <div class="form-hint" id="rescheduleDateHint"></div>
+                    </div>
+                    <div class="col-12" id="rescheduleCascadeWrap">
+                        <label class="form-label d-block">Scope</label>
+                        <div class="session-expand-radio">
+                            <label><input type="radio" name="rescheduleScope" value="one" checked onchange="updateRescheduleDateBounds()"> Only this session</label>
+                            <label><input type="radio" name="rescheduleScope" value="cascade" onchange="updateRescheduleDateBounds()"> This &amp; following sessions</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" onclick="closeRescheduleModal()">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="submitReschedule()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="completeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="completeModalTitle">Complete Session</h5>
+                <button type="button" class="btn-close" onclick="closeCompleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="session-charge-preview" id="completeNoChargeNotice" style="display:none;">No per-session charge for this plan — completing will just mark the visit as done.</div>
+
+                <div id="completeInvoiceWrap">
+                    <div class="invoice-line-items" id="completeLineItems"></div>
+
+                    <div class="invoice-summary">
+                        <div class="invoice-summary-row"><span>Total Amount</span><b id="completeTotalAmount">0.00</b></div>
+
+                        <div class="invoice-summary-row">
+                            <span>
+                                <div class="form-check form-switch d-inline-block me-2" style="vertical-align:middle;">
+                                    <input class="form-check-input" type="checkbox" id="completeDiscountToggle" onchange="onCompleteDiscountToggle()" style="width:38px;height:20px;">
+                                </div>
+                                Discount <span class="text-muted" style="font-weight:400;">(configured or manual)</span>
+                            </span>
+                            <b><span id="completeDiscountAmountDisplay">0.00</span></b>
+                        </div>
+                        <div class="row g-2" id="completeDiscountInputWrap" style="display:none;">
+                            <div class="col-12" id="completeConfiguredDiscountHint"></div>
+                            <div class="col-12">
+                                <label class="form-label">Discount Amount</label>
+                                <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="completeDiscountAmount"
+                                       onkeypress="return isCompletePriceKeyAllowed(event)" oninput="onCompleteDiscountInput(this)" disabled>
+                            </div>
+                        </div>
+
+                        <div class="invoice-summary-row"><span>VAT Amount</span><b id="completeVatAmount">0.00</b></div>
+                        <div class="invoice-summary-row total"><span>Net Amount</span><b id="completeNetAmount">0.00</b></div>
+                    </div>
+
+                    <div class="row g-3 mt-1">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Paid Amount</label>
+                            <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="completePaidAmount"
+                                   onkeypress="return isCompletePriceKeyAllowed(event)" oninput="onCompletePaidInput(this)">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Balance Amount</label>
+                            <input type="text" class="form-control" id="completeBalanceAmount" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-select" id="completeMethod">
+                                <option value="Cash">Cash</option>
+                                <option value="CreditCard">Credit Card</option>
+                                <option value="BankTransfer">Bank Transfer</option>
+                                <option value="WalletCredit">Wallet Credit</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Account</label>
+                            <select class="form-select" id="completeAccount"></select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Reference (optional)</label>
+                            <input type="text" class="form-control" id="completeReference">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" onclick="closeCompleteModal()">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="submitComplete()">Mark Completed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var PATIENT_CYCLES_DATA = @Html.Raw(ViewBag.PatientCyclesJson);
+    var CYCLE_PATIENTS_DATA = @Html.Raw(ViewBag.CyclePatientsJson);
+    var CYCLE_TREATMENT_PLANS_DATA = @Html.Raw(ViewBag.CycleTreatmentPlansJson);
+    var CYCLE_SERVICES_DATA = @Html.Raw(ViewBag.CycleServicesJson);
+    var CYCLE_PRODUCTS_DATA = @Html.Raw(ViewBag.CycleProductOptionsJson);
+    var CYCLE_PAYMENT_ACCOUNTS_DATA = @Html.Raw(ViewBag.CyclePaymentAccountsJson);
+    var CYCLE_DISCOUNTS_DATA = @Html.Raw(ViewBag.CycleDiscountsJson);
+    var CYCLE_VAT_PERCENTAGE = @Html.Raw(((decimal)ViewBag.CycleVatPercentage).ToString(System.Globalization.CultureInfo.InvariantCulture));
+    var CYCLE_CURRENCY_SYMBOL = @Html.Raw(System.Text.Json.JsonSerializer.Serialize((string)ViewBag.CycleCurrencySymbol));
+</script>
+<script src="~/scripts/Features/patient-cycles.js"></script>
+}

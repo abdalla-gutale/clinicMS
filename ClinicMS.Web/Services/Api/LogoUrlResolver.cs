@@ -12,6 +12,13 @@ public static class LogoUrlResolver
             return logoUrl;
         }
 
+        // Paths already under ClinicMS.Web's own wwwroot/assets (e.g. mock/demo logos) are
+        // resolved as-is -- only API-hosted upload paths need the API base URL prefix.
+        if (logoUrl.StartsWith("/assets/", StringComparison.OrdinalIgnoreCase))
+        {
+            return logoUrl;
+        }
+
         var apiBaseUrl = configuration["Api:BaseUrl"]?.TrimEnd('/') ?? "";
         return apiBaseUrl + logoUrl;
     }

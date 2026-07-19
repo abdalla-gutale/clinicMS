@@ -143,12 +143,7 @@
 
     <!-- LOGO -->
     <div class="navbar-brand-box sn-brand-box" style="display:flex!important;visibility:visible!important;opacity:1!important;">
-        <a href="/Home/Index" class="logo logo-dark sn-brand-link">
-            <span class="sn-brand-text">
-                <span class="sn-brand-name">ClinicMS</span>
-                <span class="sn-brand-sub">Analytics Platform</span>
-            </span>
-        </a>
+        @await Component.InvokeAsync("SidebarBrand")
         <button type="button" class="btn btn-sm p-0 fs-3xl header-item float-end btn-vertical-sm-hover" id="vertical-hover" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);">
             <i class="ri-record-circle-line"></i>
         </button>

@@ -9,7 +9,28 @@
       "Bash(taskkill //PID 17972 //F)",
       "Bash(taskkill //PID 24256 //F)",
       "Bash(taskkill //PID 9180 //F)",
-      "PowerShell(Rename-Item -Path \"C:\\\\Users\\\\E-Abdalla-SDD\\\\Desktop\\\\ICT\\\\Clinic\\\\Demo.Web\" -NewName \"ClinicMS.Web\" -ErrorAction Stop)"
+      "PowerShell(Rename-Item -Path \"C:\\\\Users\\\\E-Abdalla-SDD\\\\Desktop\\\\ICT\\\\Clinic\\\\Demo.Web\" -NewName \"ClinicMS.Web\" -ErrorAction Stop)",
+      "Bash(curl -s -X POST http://localhost:5167/Users/Create -H \"Content-Type: application/json\" -d '{\"roleId\":2,\"username\":\"test.user\",\"password\":\"Passw0rd!\",\"fullName\":\"Test User\",\"email\":\"test.user@clinicms.example\",\"phoneNumber\":null}' -c /tmp/cookies.txt -b /tmp/cookies.txt)",
+      "Bash(curl -s http://localhost:5167/Users -b /tmp/cookies.txt)",
+      "Bash(curl -s -i -X POST http://localhost:5167/Users/Create -H \"Content-Type: application/json\" -d '{\"roleId\":2,\"username\":\"test.user\",\"password\":\"Passw0rd!\",\"fullName\":\"Test User\",\"email\":\"test.user@clinicms.example\",\"phoneNumber\":null}')",
+      "Bash(powershell.exe -NoProfile -Command \"Stop-Process -Id 6388 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 500; Get-Process -Id 6388 -ErrorAction SilentlyContinue\")",
+      "PowerShell(Get-Process -Name \"ClinicMS.Web\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force)",
+      "Bash(powershell.exe -NoProfile -Command \"Stop-Process -Id 24432 -Force -ErrorAction SilentlyContinue\")",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"ClinicMS|VBCSCompiler|dotnet\" } | Select-Object Id,ProcessName)",
+      "PowerShell(Stop-Process -Id 18964,28224 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"done\")",
+      "Bash(curl -s \"https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css\")",
+      "Bash(iconv -f UTF-16LE -t UTF-8 \"C:\\\\Users\\\\E-Abdalla-SDD\\\\Documents\\\\sql-script.sql\" > \"$HOME/../E-ABDA~1/AppData/Local/Temp/claude/D--clinicMS-ClinicMS-Web/a793c4af-b812-4da8-ad7f-7c9d3dc0b0c8/scratchpad/sql-script-utf8.sql\" 2>&1; echo \"exit: $?\")",
+      "Bash(ls -la /d/clinicMS/ 2>&1)",
+      "Bash(timeout 20 sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -Q \"CREATE DATABASE [clinicMS.vera];\" -C)",
+      "Bash(timeout 20 sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -Q \"SELECT name, state_desc FROM sys.databases WHERE name = 'clinicMS.vera';\" -C)",
+      "Bash(dotnet user-secrets *)",
+      "PowerShell(& sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -C -d \"clinicMS.vera\" -Q \"SELECT t.name AS tbl, p.rows AS rowcnt FROM sys.tables t JOIN sys.partitions p ON t.object_id = p.object_id AND p.index_id IN \\(0,1\\) ORDER BY t.name;\")",
+      "PowerShell(& sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -C -d \"clinicMS.vera\" -Q $q)",
+      "Bash(dotnet add *)",
+      "PowerShell(& sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -C -d \"clinicMS.vera\" -Q \"INSERT INTO merchantAccounts \\(accountHolderName, bankName, accountNumber, iban, swiftCode, branch\\) VALUES \\('ClinicMS Demo Clinic LLC', 'Emirates NBD', '1015-2233-4455-001', 'AE07 0331 2345 6789 0123 456', 'EBILAEAD', 'Dubai Healthcare City Branch'\\);\")",
+      "PowerShell(& sqlcmd -S 34.224.230.40 -U Administrator -P 'raadso@9090' -C -d \"clinicMS.vera\" -Q \"SELECT id, patientCode, fullName, gender, dateOfBirth, currentWalletCredit FROM patients;\")"
     ]
   }
 }

@@ -1,0 +1,19 @@
+@using ClinicMS.Web.ViewComponents
+@model SidebarBrandModel
+
+<a href="/Home/Index" class="logo logo-dark sn-brand-link">
+    <span class="sn-logo-ring">
+        @if (!string.IsNullOrEmpty(Model.SidebarLogoUrl))
+        {
+            <img src="@Model.SidebarLogoUrl" alt="@Model.ClinicName">
+        }
+        else
+        {
+            <i class="ri-hospital-line" style="font-size:1.3rem;color:#fff;"></i>
+        }
+    </span>
+    <span class="sn-brand-text">
+        <span class="sn-brand-name">@Model.ClinicName</span>
+        <span class="sn-brand-sub">Analytics Platform</span>
+    </span>
+</a>

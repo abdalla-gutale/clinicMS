@@ -25,4 +25,13 @@ public class PaymentsApiClient : ApiClientBase, IPaymentsApiClient
 
     public Task<PaymentDto> CreatePaymentAsync(CreatePaymentRequest request, CancellationToken cancellationToken = default) =>
         PostAsync<PaymentDto>("api/payments", request, cancellationToken);
+
+    public Task<IReadOnlyList<AccountBreakdownDto>> GetAccountBreakdownAsync(CancellationToken cancellationToken = default) =>
+        GetAsync<IReadOnlyList<AccountBreakdownDto>>("api/payments/account-breakdown", cancellationToken);
+
+    public Task<IReadOnlyList<ProductRefundDto>> GetProductRefundsAsync(CancellationToken cancellationToken = default) =>
+        GetAsync<IReadOnlyList<ProductRefundDto>>("api/productrefunds", cancellationToken);
+
+    public Task<ProductRefundDto> CreateProductRefundAsync(CreateProductRefundRequest request, CancellationToken cancellationToken = default) =>
+        PostAsync<ProductRefundDto>("api/productrefunds", request, cancellationToken);
 }

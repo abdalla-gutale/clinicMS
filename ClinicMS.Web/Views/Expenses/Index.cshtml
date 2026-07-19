@@ -114,6 +114,7 @@
                         <th>Date</th>
                         <th>Vendor</th>
                         <th>Method</th>
+                        <th>Account</th>
                         <th>Receipt #</th>
                     </tr>
                 </thead>
@@ -171,6 +172,12 @@
                             <option value="WalletCredit">Wallet Credit</option>
                         </select>
                     </div>
+                    <div class="col-6">
+                        <label class="form-label">Paid From Account</label>
+                        <select class="form-select" id="fAccount">
+                            <option value="">— None —</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -186,6 +193,7 @@
     var EXPENSES_DATA   = @Html.Raw(ViewBag.ExpensesJson);
     var EXP_CATEGORIES  = @Html.Raw(ViewBag.CategoriesJson);
     var EXP_VENDORS     = @Html.Raw(ViewBag.VendorsJson);
+    var EXP_ACCOUNTS    = @Html.Raw(ViewBag.PaymentAccountsJson);
 </script>
 <script src="~/scripts/Features/expenses.js"></script>
 }

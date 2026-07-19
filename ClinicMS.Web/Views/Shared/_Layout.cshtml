@@ -30,6 +30,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <style>
+        /* Select2 dropdowns are appended to the document body (dropdownParent), so Bootstrap's
+           modal (z-index 1055) and its backdrop (1050) render on top of them by default when a
+           select2 is opened inside a modal -- the option list looks washed out/unreadable. */
+        .select2-container--open { z-index: 10000 !important; }
+        .select2-dropdown { z-index: 10000 !important; }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

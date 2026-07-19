@@ -14,24 +14,45 @@ namespace ClinicMS.Web.ViewComponents
         // rather than linking somewhere that 404s.
         private static readonly Dictionary<string, string> RouteByPageUrl = new(StringComparer.OrdinalIgnoreCase)
         {
+            ["/patients"] = "/Patients",
+            ["/service-types"] = "/MedicalServices/ServiceTypes",
+            ["/services"] = "/MedicalServices/Services",
+            ["/treatment-plans"] = "/MedicalServices/TreatmentPlans",
+            ["/patient-cycles"] = "/MedicalServices/PatientCycles",
+            ["/walk-in-sale"] = "/MedicalServices/WalkInSale",
+
+            ["/invoices"] = "/Payments/Invoices",
+            ["/payments"] = "/Payments",
+            ["/product-refunds"] = "/Payments/ProductRefunds",
+            ["/expense-categories"] = "/Expenses/Categories",
+            ["/expenses"] = "/Expenses",
+            ["/recurring-expenses"] = "/Expenses/RecurringExpenses",
+
+            ["/product-categories"] = "/SupplyChain/ProductCategories",
+            ["/products"] = "/SupplyChain/Products",
+            ["/product-skus"] = "/SupplyChain/ProductSkus",
+            ["/stock-movements"] = "/SupplyChain/StockMovements",
+            ["/suppliers"] = "/SupplyChain/Suppliers",
+            ["/purchase-orders"] = "/SupplyChain/PurchaseOrders",
+            ["/vendors"] = "/SupplyChain/Vendors",
+
+            ["/settings/clinic"] = "/Settings/General",
+
             ["/admin/users"] = "/Users",
             ["/admin/roles"] = "/Roles",
+            ["/admin/modules"] = "/Administration/Modules",
+            ["/admin/nav-pages"] = "/Administration/NavPages",
+            ["/admin/report-pages"] = "/Administration/ReportPages",
             ["/admin/audit"] = "/Activity",
-            ["/payments"] = "/Payments",
-            ["/invoices"] = "/Payments/Invoices",
-            ["/expenses"] = "/Expenses",
-            ["/expense-categories"] = "/Expenses/Categories",
-            ["/settings/clinic"] = "/Settings/General",
-            ["/settings/sms-templates"] = "/Sms",
         };
 
-        // Keyed on the module names actually seeded on the live database (Registrations, Finance,
+        // Keyed on the module names actually seeded on the live database (Registration, Finance,
         // Supply Chain, Configuration, Administration, Reports) -- confirmed directly against the
         // Modules table rather than DataSeeder.cs's current source, since this DB was seeded before
         // that source's module names were last changed and never re-seeded.
         private static readonly Dictionary<string, string> IconByModuleName = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["Registrations"] = "ri-file-list-3-line",
+            ["Registration"] = "ri-file-list-3-line",
             ["Finance"] = "ri-bank-card-line",
             ["Supply Chain"] = "ri-truck-line",
             ["Configuration"] = "ri-settings-3-line",

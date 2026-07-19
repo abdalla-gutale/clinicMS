@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "http",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--urls", "http://localhost:5167"],
+      "port": 5167
+    }
+  ]
+}

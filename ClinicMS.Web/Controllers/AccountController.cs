@@ -7,14 +7,18 @@ namespace ClinicMS.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthApiClient _authApiClient;
+        // Backend is not wired up yet -- login/OTP is stubbed against these fixed values so the
+        // frontend can be designed and clicked through without ClinicMS.API running.
+        private const string StaticUsername = "admin";
+        private const string StaticPassword = "Admin@123";
+        private const string StaticOtpCode = "123456";
+
         private readonly ISettingsApiClient _settingsApiClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IAuthApiClient authApiClient, ISettingsApiClient settingsApiClient, IConfiguration configuration, ILogger<AccountController> logger)
+        public AccountController(ISettingsApiClient settingsApiClient, IConfiguration configuration, ILogger<AccountController> logger)
         {
-            _authApiClient = authApiClient;
             _settingsApiClient = settingsApiClient;
             _configuration = configuration;
             _logger = logger;
@@ -56,26 +60,21 @@ namespace ClinicMS.Web.Controllers
         public IActionResult Profile() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
+        public IActionResult Login([FromBody] LoginRequest request)
         {
-            try
+            if (!string.Equals(request.Username, StaticUsername, StringComparison.OrdinalIgnoreCase) ||
+                request.Password != StaticPassword)
             {
-                var challenge = await _authApiClient.LoginAsync(request.Username, request.Password, cancellationToken);
-                HttpContext.Session.SetInt32(SessionKeys.PendingLoginUserId, challenge.UserId);
-                return Json(new { maskedEmail = challenge.MaskedEmail, otpExpiresAt = challenge.OtpExpiresAt });
+                return StatusCode(401, new { message = "Invalid username or password." });
             }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, new { message = ex.Message });
-            }
-            catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
-            {
-                return ServiceUnavailable(ex);
-            }
+
+            const int staticUserId = 1;
+            HttpContext.Session.SetInt32(SessionKeys.PendingLoginUserId, staticUserId);
+            return Json(new { maskedEmail = "ad***@clinic.com", otpExpiresAt = DateTime.UtcNow.AddMinutes(5) });
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpModel model, CancellationToken cancellationToken)
+        public IActionResult VerifyOtp([FromBody] VerifyOtpModel model)
         {
             var userId = HttpContext.Session.GetInt32(SessionKeys.PendingLoginUserId);
             if (userId is null)
@@ -83,28 +82,21 @@ namespace ClinicMS.Web.Controllers
                 return StatusCode(400, new { message = "Your login attempt has expired. Please sign in again." });
             }
 
-            try
+            if (model.OtpCode != StaticOtpCode)
             {
-                var result = await _authApiClient.VerifyLoginOtpAsync(userId.Value, model.OtpCode, cancellationToken);
+                return StatusCode(400, new { message = "Invalid verification code." });
+            }
 
-                HttpContext.Session.SetString(SessionKeys.AuthToken, result.AccessToken);
-                HttpContext.Session.SetString(SessionKeys.AuthUser, System.Text.Json.JsonSerializer.Serialize(result.User));
-                HttpContext.Session.Remove(SessionKeys.PendingLoginUserId);
+            var user = new UserSummary(userId.Value, StaticUsername, "Admin User", "admin@clinic.com", 1, "Administrator");
+            HttpContext.Session.SetString(SessionKeys.AuthToken, "static-dev-token");
+            HttpContext.Session.SetString(SessionKeys.AuthUser, System.Text.Json.JsonSerializer.Serialize(user));
+            HttpContext.Session.Remove(SessionKeys.PendingLoginUserId);
 
-                return Json(new { success = true });
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, new { message = ex.Message });
-            }
-            catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
-            {
-                return ServiceUnavailable(ex);
-            }
+            return Json(new { success = true });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResendOtp(CancellationToken cancellationToken)
+        public IActionResult ResendOtp()
         {
             var userId = HttpContext.Session.GetInt32(SessionKeys.PendingLoginUserId);
             if (userId is null)
@@ -112,25 +104,7 @@ namespace ClinicMS.Web.Controllers
                 return StatusCode(400, new { message = "Your login attempt has expired. Please sign in again." });
             }
 
-            try
-            {
-                await _authApiClient.RequestOtpAsync(userId.Value, OtpPurpose.Login, cancellationToken);
-                return Json(new { success = true });
-            }
-            catch (ApiException ex)
-            {
-                return StatusCode(ex.StatusCode, new { message = ex.Message });
-            }
-            catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
-            {
-                return ServiceUnavailable(ex);
-            }
-        }
-
-        private IActionResult ServiceUnavailable(Exception ex)
-        {
-            _logger.LogWarning(ex, "ClinicMS.API is unreachable.");
-            return StatusCode(503, new { message = "The server is temporarily unavailable. Please try again shortly." });
+            return Json(new { success = true });
         }
 
         [HttpPost]

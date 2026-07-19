@@ -1,0 +1,157 @@
+@{
+    ViewData["Title"] = "Purchase Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Purchase Orders";
+}
+
+@section styles {
+<style>
+
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-select { height:38px; padding:0 10px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; color:#475569; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-green { background:#dcfce7; color:#15803d; }
+.gp-badge-red { background:#fee2e2; color:#b91c1c; }
+.gp-badge-amber { background:#fef3c7; color:#b45309; }
+.gp-badge-slate { background:#e2e8f0; color:#475569; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.po-item-row { display:grid; grid-template-columns:1fr 90px 110px 110px 32px; gap:8px; align-items:center; margin-bottom:8px; }
+.po-item-header { font-size:.68rem; font-weight:800; text-transform:uppercase; color:#94a3b8; }
+.po-total-row { display:flex; justify-content:space-between; align-items:center; padding-top:12px; margin-top:8px; border-top:1px solid #f1f5f9; font-weight:800; color:#1e293b; }
+.action-btns { display:flex; gap:6px; flex-wrap:wrap; }
+.gp-btn-sm { border:none; border-radius:8px; padding:5px 10px; font-size:.72rem; font-weight:700; cursor:pointer; }
+.gp-btn-order { background:#e0f2fe; color:#0369a1; }
+.gp-btn-receive { background:#dcfce7; color:#15803d; }
+.gp-btn-cancel { background:#fee2e2; color:#b91c1c; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Purchase Orders</h4>
+            <p class="gp-sub">Create and track purchase orders placed with suppliers</p>
+        </div>
+        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+            <i class="ri-add-line me-1"></i> New Purchase Order
+        </button>
+    </div>
+
+    <div class="gp-card">
+        <div class="gp-filters">
+            <div class="gp-search">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Search by PO # or supplier..." oninput="handleSearch(this.value)">
+            </div>
+            <select class="gp-select" id="statusFilter" onchange="handleFilter()">
+                <option value="">All Status</option>
+                <option value="Draft">Draft</option>
+                <option value="Ordered">Ordered</option>
+                <option value="Received">Received</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>PO Number</th>
+                        <th>Supplier</th>
+                        <th>Order Date</th>
+                        <th>Expected Delivery</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+            </table>
+        </div>
+        <div class="gp-pagination">
+            <span class="gp-page-info" id="pageInfo"></span>
+            <div class="gp-page-btns" id="pageBtns"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Purchase Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label">Supplier</label>
+                        <select class="form-select" id="fSupplier"></select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Expected Delivery (optional)</label>
+                        <input type="date" class="form-control" id="fExpectedDelivery">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Notes (optional)</label>
+                        <textarea class="form-control" id="fNotes" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <div class="po-item-row po-item-header">
+                    <span>SKU</span><span>Qty</span><span>Unit Cost</span><span>Line Total</span><span></span>
+                </div>
+                <div id="poItemsContainer"></div>
+                <button type="button" class="btn btn-sm btn-light mt-1" onclick="addItemRow()"><i class="ri-add-line me-1"></i>Add Item</button>
+
+                <div class="po-total-row">
+                    <span>Total Amount</span>
+                    <span id="poTotal">0.00</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveOrder()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var PURCHASE_ORDERS_DATA = @Html.Raw(ViewBag.PurchaseOrdersJson);
+    var PO_SUPPLIERS_DATA = @Html.Raw(ViewBag.SuppliersJson);
+    var PO_SKUS_DATA = @Html.Raw(ViewBag.ProductSkusJson);
+</script>
+<script src="~/scripts/Features/purchase-orders.js"></script>
+}

@@ -1,4 +1,20 @@
 var outstanding = (typeof OUTSTANDING_DATA !== 'undefined' ? OUTSTANDING_DATA : []);
+var paymentAccounts = (typeof PAYMENT_ACCOUNTS_DATA !== 'undefined' ? PAYMENT_ACCOUNTS_DATA : []);
+var accountBreakdown = (typeof ACCOUNT_BREAKDOWN_DATA !== 'undefined' ? ACCOUNT_BREAKDOWN_DATA : []);
+
+function renderAccountBreakdown() {
+    var tbody = document.getElementById('accountBreakdownBody');
+    if (!tbody) return;
+    tbody.innerHTML = accountBreakdown.length ? accountBreakdown.map(function (a) {
+        var netColor = a.net >= 0 ? '#15803d' : '#dc2626';
+        return `<tr>
+            <td><span style="font-weight:700;color:#1e293b;">${a.accountName}</span></td>
+            <td style="color:#15803d;">${a.totalIncome.toLocaleString()}</td>
+            <td style="color:#dc2626;">${a.totalExpense.toLocaleString()}</td>
+            <td style="font-weight:700;color:${netColor};">${a.net.toLocaleString()}</td>
+        </tr>`;
+    }).join('') : '<tr><td colspan="4" class="text-center py-3 text-muted">No account activity yet</td></tr>';
+}
 
 var currentPage = 1, perPage = 8, searchQuery = '';
 var statusBadge = { Paid: 'gp-badge-green', Partial: 'gp-badge-orange', Unpaid: 'gp-badge-red' };
@@ -59,6 +75,8 @@ function openModal(invoiceId, patientId, patientName, balanceDue) {
     }).join('');
     document.getElementById('fAmount').value = balanceDue || '';
     document.getElementById('fReference').value = '';
+    document.getElementById('fAccount').innerHTML = '<option value="">— None —</option>' +
+        paymentAccounts.map(function (a) { return `<option value="${a.id}">${a.name}</option>`; }).join('');
     new bootstrap.Modal(document.getElementById('paymentModal')).show();
 }
 
@@ -68,12 +86,14 @@ function savePayment() {
     if (!patientId || isNaN(amount) || amount <= 0) { toastr.error('A patient and a valid amount are required'); return; }
 
     var invoiceIdVal = document.getElementById('fInvoiceId').value;
+    var accountVal = document.getElementById('fAccount').value;
     var body = {
         invoiceId: invoiceIdVal ? parseInt(invoiceIdVal, 10) : null,
         patientId: patientId,
         amountPaid: amount,
         paymentMethod: document.getElementById('fMethod').value,
-        referenceNumber: document.getElementById('fReference').value.trim() || null
+        referenceNumber: document.getElementById('fReference').value.trim() || null,
+        accountId: accountVal ? parseInt(accountVal, 10) : null
     };
 
     fetch('/Payments/RecordPayment', {
@@ -92,7 +112,7 @@ function savePayment() {
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }
 
-document.addEventListener('DOMContentLoaded', renderTable);
+document.addEventListener('DOMContentLoaded', function () { renderTable(); renderAccountBreakdown(); });
 
 function initSelect2() {
     if (typeof $ !== 'undefined' && $.fn && $.fn.select2) {
