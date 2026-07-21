@@ -102,11 +102,11 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Page Name</label>
+                        <label class="form-label required">Page Name</label>
                         <input type="text" class="form-control" id="fPageName" placeholder="e.g. Patient">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Module</label>
+                        <label class="form-label required">Module</label>
                         <select class="form-select" id="fModule" onchange="onModuleChange()"></select>
                     </div>
                     <div class="col-12">
@@ -114,11 +114,11 @@
                         <select class="form-select" id="fParentPage"></select>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Page URL</label>
+                        <label class="form-label required">Page URL</label>
                         <input type="text" class="form-control" id="fPageUrl" placeholder="e.g. /patients">
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Display Order</label>
+                        <label class="form-label required">Display Order</label>
                         <input type="text" inputmode="numeric" class="form-control" id="fDisplayOrder" oninput="this.value = this.value.replace(/[^0-9]/g,'')">
                     </div>
                     <div class="col-6">

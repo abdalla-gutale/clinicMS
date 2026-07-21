@@ -59,7 +59,19 @@
 .invoice-totals table { margin-left:auto; }
 .invoice-totals td { padding:4px 8px; font-size:.875rem; }
 .invoice-totals .total-row td { font-weight:800; font-size:1rem; color:#0d9488; border-top:2px solid #0d9488; }
-@@media print { .modal-footer, .btn-close { display:none!important; } }
+/* Print only the invoice itself -- hide everything else (sidebar/topbar are already handled by
+   app.css's own print rules, but the modal backdrop and rest of the page still need suppressing,
+   and the invoice needs pulling out of the modal's fixed positioning so long invoices paginate
+   correctly instead of being clipped to one viewport-height page). */
+@@media print {
+    body * { visibility: hidden; }
+    #invoicePrintArea, #invoicePrintArea * { visibility: visible; }
+    #invoicePrintArea {
+        position: absolute; left: 0; top: 0; width: 100%;
+        padding: 24px;
+    }
+    .modal-footer, .btn-close { display: none !important; }
+}
 </style>
 }
 
@@ -125,7 +137,7 @@
 
 @section Scripts {
 <script>
-    var OUTSTANDING_DATA = @Html.Raw(ViewBag.OutstandingJson);
+    var INVOICES_PAGE_DATA = @Html.Raw(ViewBag.OutstandingPageJson);
     var REPORT_LOGO_URL = @Html.Raw(ViewBag.ReportLogoUrl is not null ? $"\"{ViewBag.ReportLogoUrl}\"" : "null");
     var REPORT_CLINIC_NAME = @Html.Raw(System.Text.Json.JsonSerializer.Serialize((string)ViewBag.ClinicName));
 </script>

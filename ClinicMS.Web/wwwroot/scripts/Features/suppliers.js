@@ -19,10 +19,10 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (s, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${s.supplierName}</span></td>
-            <td>${s.contactPerson || ''}</td>
-            <td style="color:#64748b;">${s.phone || ''}</td>
-            <td style="color:#64748b;">${s.email || ''}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(s.supplierName)}</span></td>
+            <td>${escapeHtml(s.contactPerson || '')}</td>
+            <td style="color:#64748b;">${escapeHtml(s.phone || '')}</td>
+            <td style="color:#64748b;">${escapeHtml(s.email || '')}</td>
             <td><span class="gp-badge ${s.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${s.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openModal(${s.id})" title="Edit"><i class="ri-pencil-line"></i></button>
@@ -101,17 +101,19 @@ function saveSupplier() {
 }
 
 function deleteSupplier(id) {
-    if (!confirm('Delete this supplier?')) return;
-    fetch('/SupplyChain/DeleteSupplier?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete supplier'); return; }
-            suppliers = suppliers.filter(function (s) { return s.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This supplier will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/DeleteSupplier?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete supplier'); return; }
+                suppliers = suppliers.filter(function (s) { return s.id !== id; });
+                deletedAlert('Supplier deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

@@ -71,7 +71,7 @@ function renderPausedAlert() {
     el.innerHTML =
         '<div class="paused-alert"><i class="ri-alarm-warning-line"></i><div>' +
         '<div><b>' + paused.length + (paused.length > 1 ? ' cycles are' : ' cycle is') + ' paused</b> — a scheduled session passed without being completed or rescheduled.</div>' +
-        '<div class="paused-list">' + paused.map(function (c) { return c.patientName + ' (' + c.planName + ')'; }).join(' &middot; ') + '</div>' +
+        '<div class="paused-list">' + paused.map(function (c) { return escapeHtml(c.patientName) + ' (' + escapeHtml(c.planName) + ')'; }).join(' &middot; ') + '</div>' +
         '</div></div>';
 }
 
@@ -85,8 +85,8 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (c, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${c.patientName}</span></td>
-            <td>${c.planName}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(c.patientName)}</span></td>
+            <td>${escapeHtml(c.planName)}</td>
             <td><span class="gp-badge gp-badge-purple">${pricingLabel(c)}</span></td>
             <td>${cycleStatusBadge(c.status)}</td>
             <td>${c.frequency}</td>
@@ -127,12 +127,12 @@ var assignSessions = []; // [{ sessionNumber, label, serviceIds:[int], productId
 function openAssignModal() {
     var patientSelect = document.getElementById('fPatient');
     patientSelect.innerHTML = '<option value="">Select a patient…</option>' + cyclePatients.map(function (p) {
-        return '<option value="' + p.id + '">' + p.fullName + '</option>';
+        return '<option value="' + p.id + '">' + escapeHtml(p.fullName) + '</option>';
     }).join('');
 
     var planSelect = document.getElementById('fTreatmentPlan');
     planSelect.innerHTML = '<option value="">Select a treatment plan…</option>' + cycleTreatmentPlans.map(function (p) {
-        return '<option value="' + p.id + '">' + p.planName + '</option>';
+        return '<option value="' + p.id + '">' + escapeHtml(p.planName) + '</option>';
     }).join('');
 
     document.getElementById('fStartDate').min = todayIso();
@@ -187,10 +187,10 @@ function onAssignStartDateChange() {
 
 function renderAssignSessionRowHtml(index, session, editable, dateText) {
     var serviceOptions = cycleServices.map(function (s) {
-        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + s.serviceName + '</option>';
+        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(s.serviceName) + '</option>';
     }).join('');
     var productOptions = cycleProducts.map(function (p) {
-        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + p.name + ' (' + money(p.price) + ')</option>';
+        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(p.name) + ' (' + money(p.price) + ')</option>';
     }).join('');
     var disabledAttr = editable ? '' : ' disabled';
     return '<tr id="assignSessionRow_' + index + '">' +
@@ -326,17 +326,19 @@ function assignCycle() {
 }
 
 function deleteCycle(id) {
-    if (!confirm('Remove this patient cycle?')) return;
-    fetch('/MedicalServices/DeletePatientCycle?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not remove patient cycle'); return; }
-            cycles = cycles.filter(function (c) { return c.id !== id; });
-            toastr.success('Removed');
-            renderTable();
-        });
+    confirmDelete('This patient cycle will be permanently removed.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/MedicalServices/DeletePatientCycle?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not remove patient cycle'); return; }
+                cycles = cycles.filter(function (c) { return c.id !== id; });
+                deletedAlert('Patient cycle removed.');
+                renderTable();
+            });
+    });
 }
 
 // ── Sessions modal (post-assignment: status, reschedule, complete + payment) ──
@@ -355,10 +357,10 @@ function sessionStatusBadge(session) {
 
 function renderCycleSessionRowHtml(index, session, editable) {
     var serviceOptions = cycleServices.map(function (s) {
-        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + s.serviceName + '</option>';
+        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(s.serviceName) + '</option>';
     }).join('');
     var productOptions = cycleProducts.map(function (p) {
-        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + p.name + ' (' + p.price.toFixed(2) + ')</option>';
+        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(p.name) + ' (' + p.price.toFixed(2) + ')</option>';
     }).join('');
     var completed = session.status === 'Completed';
     var disabledAttr = (editable && !completed) ? '' : ' disabled';
@@ -428,7 +430,7 @@ function toggleRecordPaymentForm() {
     if (wrap.innerHTML) { wrap.innerHTML = ''; return; }
     wrap.innerHTML =
         '<div class="session-expand-form" style="margin-top:10px;">' +
-        '<div class="fld"><label>Amount</label><input type="text" inputmode="decimal" id="recordPaymentAmount" placeholder="0.00"></div>' +
+        '<div class="fld"><label class="required">Amount</label><input type="text" inputmode="decimal" id="recordPaymentAmount" placeholder="0.00"></div>' +
         '<div class="fld"><label>Method</label><select id="recordPaymentMethod">' +
         '<option value="Cash">Cash</option><option value="CreditCard">Credit Card</option><option value="BankTransfer">Bank Transfer</option><option value="WalletCredit">Wallet Credit</option>' +
         '</select></div>' +
@@ -619,7 +621,7 @@ function renderCompleteLineItems(session) {
         if (prod) rows.push({ name: prod.name, price: prod.price });
     });
     document.getElementById('completeLineItems').innerHTML = rows.length ? rows.map(function (r) {
-        return '<div class="invoice-line-item"><span>' + r.name + '</span><span>' + money(r.price) + '</span></div>';
+        return '<div class="invoice-line-item"><span>' + escapeHtml(r.name) + '</span><span>' + money(r.price) + '</span></div>';
     }).join('') : '<div class="invoice-line-item"><span class="text-muted">No items</span></div>';
 }
 
@@ -629,7 +631,7 @@ function renderConfiguredDiscountHint() {
     var amount = Math.round(completeTotalAmountValue * completeConfiguredDiscount.discountValue) / 100;
     hint.innerHTML =
         '<div class="configured-discount-hint">' +
-        '<span>Configured discount available: <b>' + completeConfiguredDiscount.discountName + '</b> (' + completeConfiguredDiscount.discountValue + '%)</span>' +
+        '<span>Configured discount available: <b>' + escapeHtml(completeConfiguredDiscount.discountName) + '</b> (' + completeConfiguredDiscount.discountValue + '%)</span>' +
         '<button type="button" class="session-action-btn" onclick="applyConfiguredDiscount()">Apply ' + money(amount) + '</button>' +
         '</div>';
 }

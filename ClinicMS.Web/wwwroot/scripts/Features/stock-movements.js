@@ -27,12 +27,12 @@ function renderTable() {
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
             <td style="color:#64748b;">${new Date(m.movementDate).toLocaleString()}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${m.skuCode}</span></td>
-            <td>${m.productName}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(m.skuCode)}</span></td>
+            <td>${escapeHtml(m.productName)}</td>
             <td><span class="gp-badge ${typeBadge[m.movementType] || ''}">${m.movementType}</span></td>
             <td style="font-weight:700;">${qtyPrefix}${Math.abs(m.quantity)}</td>
-            <td style="color:#64748b;">${m.referenceId || ''}</td>
-            <td style="color:#64748b;">${m.notes || ''}</td>
+            <td style="color:#64748b;">${escapeHtml(m.referenceId || '')}</td>
+            <td style="color:#64748b;">${escapeHtml(m.notes || '')}</td>
         </tr>`; }).join('') : '<tr><td colspan="8" class="text-center py-4 text-muted">No stock movements found</td></tr>';
     document.getElementById('pageInfo').textContent = `Showing ${slice.length} of ${total}`;
     var btns = document.getElementById('pageBtns');
@@ -49,7 +49,7 @@ function renderTable() {
 function populateSkuSelect() {
     var sel = document.getElementById('fSku');
     sel.innerHTML = movementSkus.map(function (s) {
-        return `<option value="${s.id}">${s.skuCode} — ${s.productName} (${s.stockQuantity} in stock)</option>`;
+        return `<option value="${s.id}">${escapeHtml(s.skuCode)} — ${escapeHtml(s.productName)} (${s.stockQuantity} in stock)</option>`;
     }).join('');
 }
 

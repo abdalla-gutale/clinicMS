@@ -20,10 +20,10 @@ function renderTable() {
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
             <td style="color:#64748b;">${new Date(r.refundDate).toLocaleString()}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${r.invoiceNumber}</span></td>
-            <td>${r.patientName || '—'}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(r.invoiceNumber)}</span></td>
+            <td>${escapeHtml(r.patientName || '—')}</td>
             <td><span class="gp-badge ${r.refundType === 'Full' ? 'gp-badge-amber' : 'gp-badge-green'}">${r.refundType}</span></td>
-            <td style="color:#64748b;">${r.reason || ''}</td>
+            <td style="color:#64748b;">${escapeHtml(r.reason || '')}</td>
             <td style="font-weight:700;color:#dc2626;">-${r.totalRefundAmount.toLocaleString()}</td>
         </tr>`; }).join('') : '<tr><td colspan="7" class="text-center py-4 text-muted">No product refunds found</td></tr>';
     document.getElementById('pageInfo').textContent = `Showing ${slice.length} of ${total}`;
@@ -71,7 +71,7 @@ function lookupInvoice() {
             container.innerHTML = productItems.map(function (it, idx) { return `
                 <div class="refund-item-row" data-idx="${idx}">
                     <input type="checkbox" class="form-check-input refund-include" checked onchange="recomputeRefundTotal()">
-                    <span>${it.productName} <span style="color:#94a3b8;">(${it.skuCode || ''})</span></span>
+                    <span>${escapeHtml(it.productName)} <span style="color:#94a3b8;">(${escapeHtml(it.skuCode || '')})</span></span>
                     <input type="text" inputmode="numeric" class="form-control refund-qty" value="${it.quantity}" oninput="sanitizeRefundQty(this, ${it.quantity}); recomputeRefundTotal();">
                     <input type="text" inputmode="decimal" class="form-control refund-price" value="${it.unitPrice}" oninput="sanitizeRefundPrice(this); recomputeRefundTotal();">
                     <input type="checkbox" class="form-check-input refund-restock" checked>

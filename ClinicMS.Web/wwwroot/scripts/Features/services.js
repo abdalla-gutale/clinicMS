@@ -23,10 +23,10 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (s, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${s.serviceName}</span></td>
-            <td><span class="gp-badge gp-badge-teal">${s.serviceTypeName}</span></td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(s.serviceName)}</span></td>
+            <td><span class="gp-badge gp-badge-teal">${escapeHtml(s.serviceTypeName)}</span></td>
             <td style="font-weight:700;color:#0d9488;">${s.price.toLocaleString()}</td>
-            <td style="color:#64748b;">${s.description || ''}</td>
+            <td style="color:#64748b;">${escapeHtml(s.description || '')}</td>
             <td><span class="gp-badge ${s.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${s.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openModal(${s.id})" title="Edit"><i class="ri-pencil-line"></i></button>
@@ -134,17 +134,19 @@ function saveService() {
 }
 
 function deleteService(id) {
-    if (!confirm('Delete this service?')) return;
-    fetch('/MedicalServices/DeleteService?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete service'); return; }
-            services = services.filter(function (s) { return s.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This service will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/MedicalServices/DeleteService?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete service'); return; }
+                services = services.filter(function (s) { return s.id !== id; });
+                deletedAlert('Service deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

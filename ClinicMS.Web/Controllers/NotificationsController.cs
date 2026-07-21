@@ -15,6 +15,7 @@ namespace ClinicMS.Web.Controllers
             _notificationsApiClient = notificationsApiClient;
         }
 
+        [RequirePermission("/notifications", PermissionAction.View)]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var patients = await _notificationsApiClient.GetPatientsAsync(cancellationToken);
@@ -23,6 +24,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/notifications", PermissionAction.Create)]
         public async Task<IActionResult> SendEmail([FromBody] SendPatientEmailRequest request, CancellationToken cancellationToken)
         {
             try
@@ -37,6 +39,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/notifications", PermissionAction.Create)]
         public async Task<IActionResult> SendWhatsApp([FromBody] SendPatientWhatsAppRequest request, CancellationToken cancellationToken)
         {
             try

@@ -23,9 +23,9 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (p, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${p.productName}</span></td>
-            <td><span class="gp-badge gp-badge-teal">${p.productCategoryName}</span></td>
-            <td style="color:#64748b;">${p.description || ''}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(p.productName)}</span></td>
+            <td><span class="gp-badge gp-badge-teal">${escapeHtml(p.productCategoryName)}</span></td>
+            <td style="color:#64748b;">${escapeHtml(p.description || '')}</td>
             <td><span class="gp-badge ${p.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${p.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openModal(${p.id})" title="Edit"><i class="ri-pencil-line"></i></button>
@@ -109,17 +109,19 @@ function saveProduct() {
 }
 
 function deleteProduct(id) {
-    if (!confirm('Delete this product?')) return;
-    fetch('/SupplyChain/DeleteProduct?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete product'); return; }
-            products = products.filter(function (p) { return p.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This product will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/DeleteProduct?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete product'); return; }
+                products = products.filter(function (p) { return p.id !== id; });
+                deletedAlert('Product deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

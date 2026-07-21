@@ -19,8 +19,8 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (t, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${t.typeName}</span></td>
-            <td style="color:#64748b;">${t.description || ''}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(t.typeName)}</span></td>
+            <td style="color:#64748b;">${escapeHtml(t.description || '')}</td>
             <td><span class="gp-badge ${t.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${t.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openModal(${t.id})" title="Edit"><i class="ri-pencil-line"></i></button>
@@ -86,17 +86,19 @@ function saveType() {
 }
 
 function deleteType(id) {
-    if (!confirm('Delete this service type?')) return;
-    fetch('/MedicalServices/DeleteServiceType?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete service type'); return; }
-            serviceTypes = serviceTypes.filter(function (t) { return t.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This service type will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/MedicalServices/DeleteServiceType?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete service type'); return; }
+                serviceTypes = serviceTypes.filter(function (t) { return t.id !== id; });
+                deletedAlert('Service type deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

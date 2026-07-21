@@ -25,9 +25,9 @@ function renderTable() {
         <tr>
             <td>${(currentPage-1)*perPage+i+1}</td>
             <td><span class="gp-badge ${typeBadge[n.type]||'gp-badge-gray'}">${n.type}</span></td>
-            <td><span style="font-weight:600;">${n.recipient}</span></td>
-            <td>${n.title}</td>
-            <td class="msg-preview" style="font-size:.8rem;color:#64748b;">${n.message}</td>
+            <td><span style="font-weight:600;">${escapeHtml(n.recipient)}</span></td>
+            <td>${escapeHtml(n.title)}</td>
+            <td class="msg-preview" style="font-size:.8rem;color:#64748b;">${escapeHtml(n.message)}</td>
             <td><span class="gp-badge ${statusBadge[n.status]||'gp-badge-gray'}">${n.status}</span></td>
             <td style="font-size:.78rem;color:#64748b;">${n.sentAt}</td>
         </tr>`; }).join('') : '<tr><td colspan="7" class="text-center py-4 text-muted">No notifications sent this session</td></tr>';
@@ -48,7 +48,7 @@ function renderTable() {
 
 function populateRecipients() {
     document.getElementById('fRecipients').innerHTML = patients.map(function (p) {
-        return `<option value="${p.id}">${p.fullName}</option>`;
+        return `<option value="${p.id}">${escapeHtml(p.fullName)}</option>`;
     }).join('');
 }
 

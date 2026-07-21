@@ -1,0 +1,391 @@
+@{
+    ViewData["Title"] = "Expense Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Expense Setup";
+}
+
+@section styles {
+<style>
+
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.gp-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.gp-search { position:relative; flex:1; min-width:220px; }
+.gp-search input { width:100%; height:38px; padding:0 12px 0 38px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; }
+.gp-search input:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+.gp-search i { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#94a3b8; }
+.gp-select { height:38px; padding:0 10px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; font-size:.875rem; outline:none; color:#475569; }
+.gp-table { width:100%; border-collapse:collapse; }
+.gp-table thead th { font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#94a3b8; background:#f8fafc; border-bottom:2px solid #f1f5f9; padding:10px 14px; white-space:nowrap; }
+.gp-table tbody td { padding:12px 14px; border-bottom:1px solid #f8fafc; font-size:.875rem; color:#334155; vertical-align:middle; }
+.gp-table tbody tr:hover td { background:#f8fafc; }
+.gp-table tbody tr:last-child td { border-bottom:none; }
+.gp-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
+.gp-badge-green { background:#dcfce7; color:#15803d; }
+.gp-badge-red { background:#fee2e2; color:#b91c1c; }
+.gp-badge-amber { background:#fef3c7; color:#b45309; }
+.gp-badge-teal { background:#ccfbf1; color:#0f766e; }
+.gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
+.gp-btn-edit { background:#f0fdfa; color:#0d9488; }
+.gp-btn-edit:hover { background:#0d9488; color:#fff; }
+.gp-btn-delete { background:#fef2f2; color:#dc2626; }
+.gp-btn-delete:hover { background:#dc2626; color:#fff; }
+.gp-pagination { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:10px; }
+.gp-page-info { font-size:.78rem; color:#64748b; }
+.gp-page-btns { display:flex; gap:4px; }
+.gp-page-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid #e2e8f0; background:#fff; color:#475569; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.gp-page-btn.active, .gp-page-btn:hover { border-color:#0d9488; background:#0d9488; color:#fff; }
+.modal-content { border-radius:20px; border:none; }
+.modal-header { background:#f8fafc; border-radius:20px 20px 0 0; border-bottom:1px solid #f1f5f9; padding:18px 24px; }
+.modal-title { font-weight:800; color:#1e293b; font-size:1rem; }
+.modal-body { padding:24px; }
+.modal-footer { border-top:1px solid #f1f5f9; padding:16px 24px; }
+.form-label { font-size:.8rem; font-weight:700; color:#475569; margin-bottom:5px; }
+.form-control, .form-select { border-radius:10px; border:1.5px solid #e2e8f0; font-size:.875rem; padding:8px 12px; }
+.form-control:focus, .form-select:focus { border-color:#0d9488; box-shadow:0 0 0 3px rgba(13,148,136,.1); }
+
+.es-tabs { display:flex; gap:4px; border-bottom:1px solid #e2e8f0; margin-bottom:20px; flex-wrap:wrap; }
+.es-tab { border:none; background:none; padding:12px 18px; font-size:.85rem; font-weight:700; color:#64748b; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer; white-space:nowrap; }
+.es-tab:hover { color:#0d9488; }
+.es-tab.active { color:#0d9488; border-bottom-color:#0d9488; }
+.es-pane { display:none; }
+.es-pane.active { display:block; }
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Expense Setup</h4>
+            <p class="gp-sub">Categories, vendors, monthly budgets and recurring schedules used by Expense Entry</p>
+        </div>
+    </div>
+
+    <div class="es-tabs">
+        <button class="es-tab active" data-pane="pane-categories" onclick="switchTab('pane-categories')">Expense Categories</button>
+        <button class="es-tab" data-pane="pane-vendors" onclick="switchTab('pane-vendors')">Vendors</button>
+        <button class="es-tab" data-pane="pane-budget" onclick="switchTab('pane-budget')">Budget Estimation</button>
+        <button class="es-tab" data-pane="pane-schedules" onclick="switchTab('pane-schedules')">Setup Expenses</button>
+    </div>
+
+    <!-- ══════════ TAB: Expense Categories ══════════ -->
+    <div class="es-pane active" id="pane-categories">
+        <div class="gp-header">
+            <div></div>
+            <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openCategoryModal()">
+                <i class="ri-add-line me-1"></i> Add Category
+            </button>
+        </div>
+        <div class="gp-card">
+            <div class="gp-filters">
+                <div class="gp-search">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="catSearchInput" placeholder="Search categories..." oninput="handleCategorySearch(this.value)">
+                </div>
+            </div>
+            <table class="gp-table">
+                <thead>
+                    <tr><th>#</th><th>Name</th><th>Description</th><th>Total Expenses</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="catsTableBody"></tbody>
+            </table>
+            <div class="gp-pagination">
+                <span class="gp-page-info" id="catPageInfo"></span>
+                <div class="gp-page-btns" id="catPageBtns"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════ TAB: Vendors ══════════ -->
+    <div class="es-pane" id="pane-vendors">
+        <div class="gp-header">
+            <div></div>
+            <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openVendorModal()">
+                <i class="ri-add-line me-1"></i> Add Vendor
+            </button>
+        </div>
+        <div class="gp-card">
+            <div class="gp-filters">
+                <div class="gp-search">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="vendorSearchInput" placeholder="Search vendors..." oninput="handleVendorSearch(this.value)">
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="gp-table">
+                    <thead>
+                        <tr><th>#</th><th>Vendor Name</th><th>Contact Person</th><th>Phone</th><th>Email</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="vendorsTableBody"></tbody>
+                </table>
+            </div>
+            <div class="gp-pagination">
+                <span class="gp-page-info" id="vendorPageInfo"></span>
+                <div class="gp-page-btns" id="vendorPageBtns"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════ TAB: Budget Estimation ══════════ -->
+    <div class="es-pane" id="pane-budget">
+        <div class="gp-header">
+            <div></div>
+            <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openBudgetModal()">
+                <i class="ri-add-line me-1"></i> Add Account
+            </button>
+        </div>
+        <div class="gp-card">
+            <p class="gp-sub" style="margin-bottom:16px;">
+                The monthly estimate is what Expense Entry checks new expenses against for each payment account. Spent/remaining reset at the start of each calendar month.
+            </p>
+            <div style="overflow-x:auto;">
+                <table class="gp-table">
+                    <thead>
+                        <tr><th>#</th><th>Account</th><th>Type</th><th>Sub Type</th><th>Monthly Estimate</th><th>Spent This Month</th><th>Remaining</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="budgetTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════ TAB: Setup Expenses (recurring schedules) ══════════ -->
+    <div class="es-pane" id="pane-schedules">
+        <div class="gp-header">
+            <div></div>
+            <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openScheduleModal()">
+                <i class="ri-add-line me-1"></i> Add Schedule
+            </button>
+        </div>
+        <div class="gp-card">
+            <div class="gp-filters">
+                <div class="gp-search">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="schedSearchInput" placeholder="Search schedules..." oninput="handleScheduleSearch(this.value)">
+                </div>
+                <select class="gp-select" id="schedStatusFilter" onchange="handleScheduleFilter()">
+                    <option value="">All Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="gp-table">
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Title</th><th>Category</th><th>Vendor</th><th>Amount</th>
+                            <th>Frequency</th><th>Next Due</th><th>Auto Generate</th><th>Status</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedulesTableBody"></tbody>
+                </table>
+            </div>
+            <div class="gp-pagination">
+                <span class="gp-page-info" id="schedPageInfo"></span>
+                <div class="gp-page-btns" id="schedPageBtns"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category modal -->
+<div class="modal fade" id="catModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="catModalTitle">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label required">Name</label>
+                    <input type="text" class="form-control" id="fCatName" placeholder="Category name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" id="fCatDesc" rows="3" placeholder="Description..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveCategory()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Vendor modal -->
+<div class="modal fade" id="vendorModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vendorModalTitle">Add Vendor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label required">Vendor Name</label>
+                        <input type="text" class="form-control" id="fVendorName" placeholder="e.g. Gulf Facilities Mgmt">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Contact Person</label>
+                        <input type="text" class="form-control" id="fContactPerson" placeholder="Optional">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="fVendorPhone" placeholder="Optional">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="fVendorEmail" placeholder="Optional">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label d-block">Status</label>
+                        <div class="form-check form-switch mt-1">
+                            <input class="form-check-input" type="checkbox" id="fVendorActive" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fVendorActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveVendor()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Budget estimate modal -->
+<div class="modal fade" id="budgetModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="budgetModalTitle">Edit Monthly Estimate</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label required">Account Name</label>
+                        <input type="text" class="form-control" id="fBudgetAccountName" placeholder="e.g. Main Cash Drawer">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label required">Account Type</label>
+                        <select class="form-select" id="fBudgetAccountType" onchange="toggleBudgetNumberField()">
+                            <option value="Cash">Cash</option>
+                            <option value="Merchant">Merchant</option>
+                            <option value="MasterCard">Master Card</option>
+                        </select>
+                    </div>
+                    <div class="col-6" id="budgetTypeSubGroup">
+                        <label class="form-label">Account Type Sub</label>
+                        <select class="form-select" id="fBudgetAccountTypeSub" onchange="toggleBudgetNumberField()">
+                            <option value="None">None</option>
+                            <option value="Evc">EVC</option>
+                            <option value="Zaad">ZAAD</option>
+                            <option value="Somtel">SOMTEL</option>
+                        </select>
+                    </div>
+                    <div class="col-6" id="budgetNumberGroup" style="display:none;">
+                        <label class="form-label required">Account No</label>
+                        <input type="text" class="form-control" id="fBudgetAccountNumber" placeholder="Phone / card number">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label required">Monthly Estimate</label>
+                        <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fBudgetAmount" onkeypress="return isDecimalKeyAllowed(event)" oninput="sanitizeDecimal(this)" placeholder="0 = no cap">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label d-block">Status</label>
+                        <div class="form-check form-switch mt-1">
+                            <input class="form-check-input" type="checkbox" id="fBudgetActive" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fBudgetActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveBudgetEstimate()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="schedModalTitle">Add Schedule</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label required">Title</label>
+                        <input type="text" class="form-control" id="fSchedTitle" placeholder="e.g. Monthly clinic space rent">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label required">Category</label>
+                        <select class="form-select" id="fSchedCategory"></select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Vendor (optional)</label>
+                        <select class="form-select" id="fSchedVendor"></select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label required">Amount</label>
+                        <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fSchedAmount" onkeypress="return isDecimalKeyAllowed(event)" oninput="sanitizeDecimal(this)">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Frequency</label>
+                        <select class="form-select" id="fSchedFrequency">
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly" selected>Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label required">Next Due Date</label>
+                        <input type="date" class="form-control" id="fSchedNextDueDate">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label d-block">Auto Generate</label>
+                        <div class="form-check form-switch mt-1">
+                            <input class="form-check-input" type="checkbox" id="fSchedAutoGenerate" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fSchedAutoGenerate">Enabled</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label d-block">Status</label>
+                        <div class="form-check form-switch mt-1">
+                            <input class="form-check-input" type="checkbox" id="fSchedActive" checked style="width:42px;height:22px;">
+                            <label class="form-check-label ms-2" for="fSchedActive">Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="saveSchedule()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var CATEGORIES_DATA = @Html.Raw(ViewBag.CategoriesJson);
+    var CATEGORY_TOTALS = @Html.Raw(ViewBag.CategoryTotalsJson);
+    var VENDORS_DATA = @Html.Raw(ViewBag.VendorsJson);
+    var PAYMENT_ACCOUNTS_DATA = @Html.Raw(ViewBag.PaymentAccountsJson);
+    var BUDGET_SUMMARY_DATA = @Html.Raw(ViewBag.BudgetSummaryJson ?? "[]");
+    var RECURRING_EXPENSES_DATA = @Html.Raw(ViewBag.RecurringExpensesJson);
+</script>
+<script src="~/scripts/Features/expense-setup.js"></script>
+}

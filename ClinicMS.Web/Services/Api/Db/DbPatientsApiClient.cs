@@ -1,4 +1,5 @@
 using ClinicMS.Web.Data;
+using ClinicMS.Web.Models.Api;
 using ClinicMS.Web.Models.Api.Patients;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,38 @@ public class DbPatientsApiClient : IPatientsApiClient
         return patients.Select(ToDto).ToList();
     }
 
+    public async Task<PagedResult<PatientDto>> GetPagedAsync(int page, int pageSize, string? search, PatientGender? gender, CancellationToken cancellationToken = default)
+    {
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var query = _db.Patients.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim().ToLower();
+            query = query.Where(p =>
+                p.FullName.ToLower().Contains(term) ||
+                p.Phone.ToLower().Contains(term) ||
+                (p.Email != null && p.Email.ToLower().Contains(term)));
+        }
+
+        if (gender is PatientGender g)
+        {
+            var genderValue = g.ToString();
+            query = query.Where(p => p.Gender == genderValue);
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+        var entities = await query
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return new PagedResult<PatientDto>(entities.Select(ToDto).ToList(), page, pageSize, totalCount);
+    }
+
     public async Task<PatientDto> CreateAsync(CreatePatientRequest request, CancellationToken cancellationToken = default)
     {
         var patientCode = await NextPatientCodeAsync(cancellationToken);
@@ -30,6 +63,7 @@ public class DbPatientsApiClient : IPatientsApiClient
             DateOfBirth = request.DateOfBirth,
             Phone = request.Phone,
             Email = request.Email,
+            ImageUrl = request.ImageUrl,
             CurrentWalletCredit = 0m,
             CreatedAt = DateTime.UtcNow,
         };
@@ -48,15 +82,20 @@ public class DbPatientsApiClient : IPatientsApiClient
         entity.DateOfBirth = request.DateOfBirth;
         entity.Phone = request.Phone;
         entity.Email = request.Email;
+        entity.ImageUrl = request.ImageUrl;
         await _db.SaveChangesAsync(cancellationToken);
         return ToDto(entity);
     }
 
+    // Soft delete -- a patient's clinical/financial history (cycles, invoices, payments) must stay
+    // recoverable rather than vanish on a single accidental click. The global query filter on
+    // PatientEntity keeps deleted patients out of every normal read from here on.
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var entity = await _db.Patients.FirstOrDefaultAsync(p => p.Id == id, cancellationToken)
             ?? throw new ApiException(404, "Patient not found.");
-        _db.Patients.Remove(entity);
+        entity.IsDeleted = true;
+        entity.DeletedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync(cancellationToken);
     }
 
@@ -80,7 +119,7 @@ public class DbPatientsApiClient : IPatientsApiClient
     /// for DOB, both obviously flagging "needs re-entry" without breaking the page.</summary>
     private static PatientDto ToDto(PatientEntity p) => new(
         p.Id,
-        null,
+        p.ImageUrl,
         p.FullName,
         Enum.TryParse<PatientGender>(p.Gender, out var gender) ? gender : PatientGender.Other,
         p.DateOfBirth ?? new DateOnly(1900, 1, 1),

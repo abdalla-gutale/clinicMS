@@ -68,6 +68,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Icon</th>
                         <th>Module Name</th>
                         <th>Display Order</th>
                         <th>Status</th>
@@ -94,11 +95,23 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Module Name</label>
+                        <label class="form-label required">Module Name</label>
                         <input type="text" class="form-control" id="fModuleName" placeholder="e.g. Registration">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Display Order</label>
+                        <label class="form-label required">Icon</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <span id="fModuleIconPreview" style="width:38px;height:38px;flex-shrink:0;border-radius:10px;background:#f0fdfa;color:#0d9488;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;">
+                                <i class="ri-question-line"></i>
+                            </span>
+                            <input type="text" class="form-control" id="fModuleIcon" placeholder="e.g. ri-folder-3-line" oninput="updateModuleIconPreview()">
+                        </div>
+                        <div class="form-text" style="font-size:.74rem;">
+                            Pick a class name from <a href="https://remixicon.com" target="_blank" rel="noopener noreferrer">remixicon.com</a> (e.g. ri-folder-3-line). Shown next to the module in the sidebar.
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label required">Display Order</label>
                         <input type="text" inputmode="numeric" class="form-control" id="fDisplayOrder" oninput="this.value = this.value.replace(/[^0-9]/g,'')">
                     </div>
                     <div class="col-12">

@@ -37,8 +37,8 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (o, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${o.poNumber}</span></td>
-            <td>${o.supplierName}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(o.poNumber)}</span></td>
+            <td>${escapeHtml(o.supplierName)}</td>
             <td style="color:#64748b;">${new Date(o.orderDate).toLocaleDateString()}</td>
             <td style="color:#64748b;">${o.expectedDeliveryDate ? new Date(o.expectedDeliveryDate).toLocaleDateString() : '—'}</td>
             <td style="font-weight:700;color:#0d9488;">${o.totalAmount.toLocaleString()}</td>
@@ -59,12 +59,12 @@ function renderTable() {
 
 function populateSupplierSelect() {
     var sel = document.getElementById('fSupplier');
-    sel.innerHTML = poSuppliers.map(function (s) { return `<option value="${s.id}">${s.supplierName}</option>`; }).join('');
+    sel.innerHTML = poSuppliers.map(function (s) { return `<option value="${s.id}">${escapeHtml(s.supplierName)}</option>`; }).join('');
 }
 
 function skuOptionsHtml(selectedId) {
     return poSkus.map(function (s) {
-        return `<option value="${s.id}" data-cost="${s.costPrice}" ${s.id === selectedId ? 'selected' : ''}>${s.skuCode} — ${s.productName}</option>`;
+        return `<option value="${s.id}" data-cost="${s.costPrice}" ${s.id === selectedId ? 'selected' : ''}>${escapeHtml(s.skuCode)} — ${escapeHtml(s.productName)}</option>`;
     }).join('');
 }
 
@@ -175,35 +175,38 @@ function saveOrder() {
 
 function changeStatus(id, status) {
     var verb = status === 'Received' ? 'mark this order as received (this will add stock)' : status === 'Cancelled' ? 'cancel this order' : 'mark this order as ordered';
-    if (!confirm('Are you sure you want to ' + verb + '?')) return;
-
-    fetch('/SupplyChain/UpdatePurchaseOrderStatus?id=' + id, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: status })
-    }).then(function (res) {
-        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-    }).then(function (result) {
-        if (!result.ok) { toastr.error(result.data.message || 'Could not update status'); return; }
-        var idx = orders.findIndex(function (o) { return o.id === id; });
-        if (idx >= 0) orders[idx] = result.data;
-        toastr.success('Status updated');
-        renderTable();
+    confirmAction('Are you sure you want to ' + verb + '?').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/UpdatePurchaseOrderStatus?id=' + id, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+        }).then(function (res) {
+            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        }).then(function (result) {
+            if (!result.ok) { toastr.error(result.data.message || 'Could not update status'); return; }
+            var idx = orders.findIndex(function (o) { return o.id === id; });
+            if (idx >= 0) orders[idx] = result.data;
+            toastr.success('Status updated');
+            renderTable();
+        });
     });
 }
 
 function deleteOrder(id) {
-    if (!confirm('Delete this draft purchase order?')) return;
-    fetch('/SupplyChain/DeletePurchaseOrder?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete purchase order'); return; }
-            orders = orders.filter(function (o) { return o.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This draft purchase order will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/DeletePurchaseOrder?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete purchase order'); return; }
+                orders = orders.filter(function (o) { return o.id !== id; });
+                deletedAlert('Purchase order deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

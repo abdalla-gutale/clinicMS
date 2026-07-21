@@ -15,6 +15,7 @@ namespace ClinicMS.Web.Controllers
             _rolesApiClient = rolesApiClient;
         }
 
+        [RequirePermission("/admin/modules", PermissionAction.View)]
         public async Task<IActionResult> Modules(CancellationToken cancellationToken)
         {
             var modules = await _rolesApiClient.GetModulesAsync(cancellationToken);
@@ -23,6 +24,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/modules", PermissionAction.Create)]
         public async Task<IActionResult> CreateModule([FromBody] CreateModuleRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.CreateModuleAsync(request, cancellationToken)); }
@@ -30,6 +32,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/modules", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateModule(int id, [FromBody] UpdateModuleRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.UpdateModuleAsync(id, request, cancellationToken)); }
@@ -37,12 +40,14 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/modules", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteModule(int id, CancellationToken cancellationToken)
         {
             try { await _rolesApiClient.DeleteModuleAsync(id, cancellationToken); return Json(new { success = true }); }
             catch (ApiException ex) { return StatusCode(ex.StatusCode, new { message = ex.Message }); }
         }
 
+        [RequirePermission("/admin/nav-pages", PermissionAction.View)]
         public async Task<IActionResult> NavPages(CancellationToken cancellationToken)
         {
             var navPages = await _rolesApiClient.GetNavPagesAsync(cancellationToken);
@@ -53,6 +58,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/nav-pages", PermissionAction.Create)]
         public async Task<IActionResult> CreateNavPage([FromBody] CreateNavPageRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.CreateNavPageAsync(request, cancellationToken)); }
@@ -60,6 +66,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/nav-pages", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateNavPage(int id, [FromBody] UpdateNavPageRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.UpdateNavPageAsync(id, request, cancellationToken)); }
@@ -67,12 +74,14 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/nav-pages", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteNavPage(int id, CancellationToken cancellationToken)
         {
             try { await _rolesApiClient.DeleteNavPageAsync(id, cancellationToken); return Json(new { success = true }); }
             catch (ApiException ex) { return StatusCode(ex.StatusCode, new { message = ex.Message }); }
         }
 
+        [RequirePermission("/admin/report-pages", PermissionAction.View)]
         public async Task<IActionResult> ReportPages(CancellationToken cancellationToken)
         {
             var reportPages = await _rolesApiClient.GetReportPagesAsync(cancellationToken);
@@ -83,6 +92,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/report-pages", PermissionAction.Create)]
         public async Task<IActionResult> CreateReportPage([FromBody] CreateReportPageRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.CreateReportPageAsync(request, cancellationToken)); }
@@ -90,6 +100,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/report-pages", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateReportPage(int id, [FromBody] UpdateReportPageRequest request, CancellationToken cancellationToken)
         {
             try { return Json(await _rolesApiClient.UpdateReportPageAsync(id, request, cancellationToken)); }
@@ -97,6 +108,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/report-pages", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteReportPage(int id, CancellationToken cancellationToken)
         {
             try { await _rolesApiClient.DeleteReportPageAsync(id, cancellationToken); return Json(new { success = true }); }

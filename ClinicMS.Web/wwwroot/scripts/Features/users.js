@@ -33,10 +33,10 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (u, i) { return `
         <tr>
             <td>${(currentPage-1)*perPage+i+1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${u.username}</span></td>
-            <td>${u.fullName}</td>
-            <td>${u.email}</td>
-            <td><span class="gp-badge gp-badge-${roleColor(u.roleName)}">${u.roleName}</span></td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(u.username)}</span></td>
+            <td>${escapeHtml(u.fullName)}</td>
+            <td>${escapeHtml(u.email)}</td>
+            <td><span class="gp-badge gp-badge-${roleColor(u.roleName)}">${escapeHtml(u.roleName)}</span></td>
             <td><span class="gp-badge ${u.isActive?'gp-badge-green':'gp-badge-red'}">${u.isActive?'Active':'Inactive'}</span></td>
             <td style="font-size:.78rem;color:#64748b;">${formatDate(u.createdAt)}</td>
             <td><div style="display:flex;gap:6px;">
@@ -140,17 +140,19 @@ function saveUser() {
 }
 
 function deleteUser(id) {
-    if (!confirm('Delete this user?')) return;
-    fetch('/Users/Delete?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete user'); return; }
-            users = users.filter(function (u) { return u.id !== id; });
-            toastr.success('User deleted');
-            renderTable();
-        });
+    confirmDelete('This user account will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Users/Delete?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete user'); return; }
+                users = users.filter(function (u) { return u.id !== id; });
+                deletedAlert('User deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

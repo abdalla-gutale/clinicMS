@@ -15,4 +15,7 @@ public interface IUsersApiClient
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 
     Task ChangePasswordAsync(int id, string newPassword, CancellationToken cancellationToken = default);
+
+    /// <summary>Looks up an active user by username or email (case-insensitive) for the login flow.</summary>
+    Task<UserCredentialLookup?> FindForLoginAsync(string usernameOrEmail, CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,9 @@
+using System.Text.Json;
+using ClinicMS.Web.Models.Api.Auth;
+using ClinicMS.Web.Services.Api;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ClinicMS.Web.Data;
 
@@ -7,8 +12,11 @@ namespace ClinicMS.Web.Data;
 /// pushed from here without updating the source schema script too.</summary>
 public class ClinicMsDbContext : DbContext
 {
-    public ClinicMsDbContext(DbContextOptions<ClinicMsDbContext> options) : base(options)
+    private readonly IHttpContextAccessor? _httpContextAccessor;
+
+    public ClinicMsDbContext(DbContextOptions<ClinicMsDbContext> options, IHttpContextAccessor? httpContextAccessor = null) : base(options)
     {
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public DbSet<ClinicSettingEntity> ClinicSettings => Set<ClinicSettingEntity>();
@@ -23,13 +31,36 @@ public class ClinicMsDbContext : DbContext
     public DbSet<SessionItemEntity> SessionItems => Set<SessionItemEntity>();
     public DbSet<DiscountEntity> Discounts => Set<DiscountEntity>();
     public DbSet<SmsConfigurationEntity> SmsConfigurations => Set<SmsConfigurationEntity>();
-    public DbSet<TemplateTypeEntity> TemplateTypes => Set<TemplateTypeEntity>();
     public DbSet<SmsTemplateEntity> SmsTemplates => Set<SmsTemplateEntity>();
     public DbSet<IdSequenceEntity> IdSequences => Set<IdSequenceEntity>();
     public DbSet<InvoiceEntity> Invoices => Set<InvoiceEntity>();
     public DbSet<PaymentEntity> Payments => Set<PaymentEntity>();
     public DbSet<ProductSkuEntity> ProductSkus => Set<ProductSkuEntity>();
     public DbSet<ProductEntity> Products => Set<ProductEntity>();
+    public DbSet<ProductCategoryEntity> ProductCategories => Set<ProductCategoryEntity>();
+    public DbSet<SupplierEntity> Suppliers => Set<SupplierEntity>();
+    public DbSet<PurchaseOrderEntity> PurchaseOrders => Set<PurchaseOrderEntity>();
+    public DbSet<PurchaseOrderItemEntity> PurchaseOrderItems => Set<PurchaseOrderItemEntity>();
+    public DbSet<StockMovementEntity> StockMovements => Set<StockMovementEntity>();
+    public DbSet<PurchaseReturnEntity> PurchaseReturns => Set<PurchaseReturnEntity>();
+    public DbSet<PurchaseReturnItemEntity> PurchaseReturnItems => Set<PurchaseReturnItemEntity>();
+    public DbSet<ExpenseCategoryEntity> ExpenseCategories => Set<ExpenseCategoryEntity>();
+    public DbSet<VendorEntity> Vendors => Set<VendorEntity>();
+    public DbSet<RecurringExpenseScheduleEntity> RecurringExpenseSchedules => Set<RecurringExpenseScheduleEntity>();
+    public DbSet<ExpenseEntity> Expenses => Set<ExpenseEntity>();
+    public DbSet<PaymentAccountEntity> PaymentAccounts => Set<PaymentAccountEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<RoleEntity> Roles => Set<RoleEntity>();
+    public DbSet<ModuleEntity> Modules => Set<ModuleEntity>();
+    public DbSet<NavPageEntity> NavPages => Set<NavPageEntity>();
+    public DbSet<PermissionEntity> Permissions => Set<PermissionEntity>();
+    public DbSet<ReportPageEntity> ReportPages => Set<ReportPageEntity>();
+    public DbSet<ReportPermissionEntity> ReportPermissions => Set<ReportPermissionEntity>();
+    public DbSet<UserLogEntity> UserLogs => Set<UserLogEntity>();
+    public DbSet<AuditTrailEntity> AuditTrail => Set<AuditTrailEntity>();
+    public DbSet<InvoiceItemEntity> InvoiceItems => Set<InvoiceItemEntity>();
+    public DbSet<ProductRefundEntity> ProductRefunds => Set<ProductRefundEntity>();
+    public DbSet<RefundItemEntity> RefundItems => Set<RefundItemEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -76,8 +107,12 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.DateOfBirth).HasColumnName("dateOfBirth");
             e.Property(x => x.Phone).HasColumnName("phone");
             e.Property(x => x.Email).HasColumnName("email");
+            e.Property(x => x.ImageUrl).HasColumnName("imageUrl");
             e.Property(x => x.CurrentWalletCredit).HasColumnName("currentWalletCredit");
             e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+            e.Property(x => x.IsDeleted).HasColumnName("isDeleted");
+            e.Property(x => x.DeletedAt).HasColumnName("deletedAt");
+            e.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<ServiceTypeEntity>(e =>
@@ -143,6 +178,9 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.StartDate).HasColumnName("startDate");
             e.Property(x => x.Status).HasColumnName("status");
             e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+            e.Property(x => x.IsDeleted).HasColumnName("isDeleted");
+            e.Property(x => x.DeletedAt).HasColumnName("deletedAt");
+            e.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<CycleSessionEntity>(e =>
@@ -157,6 +195,9 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.CompletedDate).HasColumnName("completedDate");
             e.Property(x => x.Status).HasColumnName("status");
             e.Property(x => x.Notes).HasColumnName("notes");
+            e.Property(x => x.IsDeleted).HasColumnName("isDeleted");
+            e.Property(x => x.DeletedAt).HasColumnName("deletedAt");
+            e.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<SessionItemEntity>(e =>
@@ -200,23 +241,16 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.PortNumber).HasColumnName("portNumber");
         });
 
-        modelBuilder.Entity<TemplateTypeEntity>(e =>
-        {
-            e.ToTable("templateTypes");
-            e.HasKey(x => x.Id);
-            e.Property(x => x.Id).HasColumnName("id");
-            e.Property(x => x.TypeName).HasColumnName("typeName");
-        });
-
         modelBuilder.Entity<SmsTemplateEntity>(e =>
         {
             e.ToTable("smsTemplates");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.TemplateName).HasColumnName("templateName");
             e.Property(x => x.MessageBody).HasColumnName("messageBody");
             e.Property(x => x.IsActive).HasColumnName("isActive");
             e.Property(x => x.ChannelType).HasColumnName("channelType");
-            e.Property(x => x.TemplateTypeId).HasColumnName("templateTypeId");
+            e.Property(x => x.CreatedAt).HasColumnName("createdAt");
         });
 
         modelBuilder.Entity<IdSequenceEntity>(e =>
@@ -248,6 +282,9 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.PaymentStatus).HasColumnName("paymentStatus");
             e.Property(x => x.InvoiceDate).HasColumnName("invoiceDate");
             e.Property(x => x.VatAmount).HasColumnName("vatAmount");
+            e.Property(x => x.IsDeleted).HasColumnName("isDeleted");
+            e.Property(x => x.DeletedAt).HasColumnName("deletedAt");
+            e.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<PaymentEntity>(e =>
@@ -261,6 +298,10 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.PaymentMethod).HasColumnName("paymentMethod");
             e.Property(x => x.ReferenceNumber).HasColumnName("referenceNumber");
             e.Property(x => x.PaymentDate).HasColumnName("paymentDate");
+            e.Property(x => x.AccountId).HasColumnName("accountId");
+            e.Property(x => x.IsDeleted).HasColumnName("isDeleted");
+            e.Property(x => x.DeletedAt).HasColumnName("deletedAt");
+            e.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<ProductSkuEntity>(e =>
@@ -288,5 +329,422 @@ public class ClinicMsDbContext : DbContext
             e.Property(x => x.Description).HasColumnName("description");
             e.Property(x => x.IsActive).HasColumnName("isActive");
         });
+
+        modelBuilder.Entity<ProductCategoryEntity>(e =>
+        {
+            e.ToTable("productCategories");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.CategoryName).HasColumnName("categoryName");
+            e.Property(x => x.Description).HasColumnName("description");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<SupplierEntity>(e =>
+        {
+            e.ToTable("suppliers");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.SupplierName).HasColumnName("supplierName");
+            e.Property(x => x.ContactPerson).HasColumnName("contactPerson");
+            e.Property(x => x.Phone).HasColumnName("phone");
+            e.Property(x => x.Email).HasColumnName("email");
+            e.Property(x => x.Address).HasColumnName("address");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<PurchaseOrderEntity>(e =>
+        {
+            e.ToTable("purchaseOrders");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.PoNumber).HasColumnName("poNumber");
+            e.Property(x => x.SupplierId).HasColumnName("supplierId");
+            e.Property(x => x.OrderDate).HasColumnName("orderDate");
+            e.Property(x => x.ExpectedDeliveryDate).HasColumnName("expectedDeliveryDate");
+            e.Property(x => x.TotalAmount).HasColumnName("totalAmount");
+            e.Property(x => x.Status).HasColumnName("status");
+            e.Property(x => x.Notes).HasColumnName("notes");
+        });
+
+        modelBuilder.Entity<PurchaseOrderItemEntity>(e =>
+        {
+            e.ToTable("purchaseOrderItems");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.PurchaseOrderId).HasColumnName("purchaseOrderId");
+            e.Property(x => x.ProductSkuId).HasColumnName("productSkuId");
+            e.Property(x => x.QuantityOrdered).HasColumnName("quantityOrdered");
+            e.Property(x => x.QuantityReceived).HasColumnName("quantityReceived");
+            e.Property(x => x.UnitCost).HasColumnName("unitCost");
+            e.Property(x => x.TotalCost).HasColumnName("totalCost");
+        });
+
+        modelBuilder.Entity<StockMovementEntity>(e =>
+        {
+            e.ToTable("stockMovements");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ProductSkuId).HasColumnName("productSkuId");
+            e.Property(x => x.MovementType).HasColumnName("movementType");
+            e.Property(x => x.Quantity).HasColumnName("quantity");
+            e.Property(x => x.ReferenceId).HasColumnName("referenceId");
+            e.Property(x => x.MovementDate).HasColumnName("movementDate");
+            e.Property(x => x.Notes).HasColumnName("notes");
+        });
+
+        modelBuilder.Entity<PurchaseReturnEntity>(e =>
+        {
+            e.ToTable("purchaseReturns");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.PurchaseOrderId).HasColumnName("purchaseOrderId");
+            e.Property(x => x.SupplierId).HasColumnName("supplierId");
+            e.Property(x => x.ReturnDate).HasColumnName("returnDate");
+            e.Property(x => x.TotalAmount).HasColumnName("totalAmount");
+            e.Property(x => x.Reason).HasColumnName("reason");
+        });
+
+        modelBuilder.Entity<PurchaseReturnItemEntity>(e =>
+        {
+            e.ToTable("purchaseReturnItems");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.PurchaseReturnId).HasColumnName("purchaseReturnId");
+            e.Property(x => x.ProductSkuId).HasColumnName("productSkuId");
+            e.Property(x => x.Quantity).HasColumnName("quantity");
+            e.Property(x => x.UnitCost).HasColumnName("unitCost");
+            e.Property(x => x.TotalCost).HasColumnName("totalCost");
+        });
+
+        modelBuilder.Entity<ExpenseCategoryEntity>(e =>
+        {
+            e.ToTable("expenseCategories");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.CategoryName).HasColumnName("categoryName");
+            e.Property(x => x.Description).HasColumnName("description");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<VendorEntity>(e =>
+        {
+            e.ToTable("vendors");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.VendorName).HasColumnName("vendorName");
+            e.Property(x => x.ContactPerson).HasColumnName("contactPerson");
+            e.Property(x => x.Phone).HasColumnName("phone");
+            e.Property(x => x.Email).HasColumnName("email");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<RecurringExpenseScheduleEntity>(e =>
+        {
+            e.ToTable("recurringExpenseSchedules");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ExpenseCategoryId).HasColumnName("expenseCategoryId");
+            e.Property(x => x.VendorId).HasColumnName("vendorId");
+            e.Property(x => x.Title).HasColumnName("title");
+            e.Property(x => x.Amount).HasColumnName("amount");
+            e.Property(x => x.Frequency).HasColumnName("frequency");
+            e.Property(x => x.NextDueDate).HasColumnName("nextDueDate");
+            e.Property(x => x.AutoGenerate).HasColumnName("autoGenerate");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<ExpenseEntity>(e =>
+        {
+            e.ToTable("expenses");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ExpenseCategoryId).HasColumnName("expenseCategoryId");
+            e.Property(x => x.VendorId).HasColumnName("vendorId");
+            e.Property(x => x.ScheduleId).HasColumnName("scheduleId");
+            e.Property(x => x.AccountId).HasColumnName("accountId");
+            e.Property(x => x.Title).HasColumnName("title");
+            e.Property(x => x.Amount).HasColumnName("amount");
+            e.Property(x => x.ExpenseDate).HasColumnName("expenseDate");
+            e.Property(x => x.PaymentMethod).HasColumnName("paymentMethod");
+            e.Property(x => x.ReceiptNumber).HasColumnName("receiptNumber");
+            e.Property(x => x.Notes).HasColumnName("notes");
+            e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+        });
+
+        modelBuilder.Entity<InvoiceItemEntity>(e =>
+        {
+            e.ToTable("invoiceItems");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.InvoiceId).HasColumnName("invoiceId");
+            e.Property(x => x.ItemType).HasColumnName("itemType");
+            e.Property(x => x.ServiceId).HasColumnName("serviceId");
+            e.Property(x => x.ProductSkuId).HasColumnName("productSkuId");
+            e.Property(x => x.Quantity).HasColumnName("quantity");
+            e.Property(x => x.UnitPrice).HasColumnName("unitPrice");
+            e.Property(x => x.TotalPrice).HasColumnName("totalPrice");
+        });
+
+        modelBuilder.Entity<ProductRefundEntity>(e =>
+        {
+            e.ToTable("productRefunds");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.InvoiceId).HasColumnName("invoiceId");
+            e.Property(x => x.PatientId).HasColumnName("patientId");
+            e.Property(x => x.TotalRefundAmount).HasColumnName("totalRefundAmount");
+            e.Property(x => x.RefundType).HasColumnName("refundType");
+            e.Property(x => x.Reason).HasColumnName("reason");
+            e.Property(x => x.RefundDate).HasColumnName("refundDate");
+        });
+
+        modelBuilder.Entity<RefundItemEntity>(e =>
+        {
+            e.ToTable("refundItems");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.RefundId).HasColumnName("refundId");
+            e.Property(x => x.ProductSkuId).HasColumnName("productSkuId");
+            e.Property(x => x.Quantity).HasColumnName("quantity");
+            e.Property(x => x.RefundUnitPrice).HasColumnName("refundUnitPrice");
+            e.Property(x => x.RestockItem).HasColumnName("restockItem");
+        });
+
+        modelBuilder.Entity<PaymentAccountEntity>(e =>
+        {
+            e.ToTable("paymentAccounts");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.Name).HasColumnName("name");
+            e.Property(x => x.AccountType).HasColumnName("accountType");
+            e.Property(x => x.AccountTypeSub).HasColumnName("accountTypeSub");
+            e.Property(x => x.Number).HasColumnName("number");
+            e.Property(x => x.MonthlyBudgetEstimate).HasColumnName("monthlyBudgetEstimate");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<UserEntity>(e =>
+        {
+            e.ToTable("users");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.RoleId).HasColumnName("roleId");
+            e.Property(x => x.Username).HasColumnName("username");
+            e.Property(x => x.PasswordHash).HasColumnName("passwordHash");
+            e.Property(x => x.FullName).HasColumnName("fullName");
+            e.Property(x => x.Email).HasColumnName("email");
+            e.Property(x => x.PhoneNumber).HasColumnName("phoneNumber");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+            e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+        });
+
+        modelBuilder.Entity<RoleEntity>(e =>
+        {
+            e.ToTable("roles");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.RoleName).HasColumnName("roleName");
+            e.Property(x => x.Description).HasColumnName("description");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<ModuleEntity>(e =>
+        {
+            e.ToTable("modules");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ModuleName).HasColumnName("moduleName");
+            e.Property(x => x.ModuleIcon).HasColumnName("moduleIcon");
+            e.Property(x => x.DisplayOrder).HasColumnName("displayOrder");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<NavPageEntity>(e =>
+        {
+            e.ToTable("navPages");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ModuleId).HasColumnName("moduleId");
+            e.Property(x => x.PageName).HasColumnName("pageName");
+            e.Property(x => x.PageUrl).HasColumnName("pageUrl");
+            e.Property(x => x.DisplayOrder).HasColumnName("displayOrder");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+            e.Property(x => x.ParentPageId).HasColumnName("parentPageId");
+        });
+
+        modelBuilder.Entity<PermissionEntity>(e =>
+        {
+            e.ToTable("permissions");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.RoleId).HasColumnName("roleId");
+            e.Property(x => x.NavPageId).HasColumnName("navPageId");
+            e.Property(x => x.CanView).HasColumnName("canView");
+            e.Property(x => x.CanCreate).HasColumnName("canCreate");
+            e.Property(x => x.CanEdit).HasColumnName("canEdit");
+            e.Property(x => x.CanDelete).HasColumnName("canDelete");
+        });
+
+        modelBuilder.Entity<ReportPageEntity>(e =>
+        {
+            e.ToTable("reportPages");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.ModuleId).HasColumnName("moduleId");
+            e.Property(x => x.ReportName).HasColumnName("reportName");
+            e.Property(x => x.ReportUrl).HasColumnName("reportUrl");
+            e.Property(x => x.DisplayOrder).HasColumnName("displayOrder");
+            e.Property(x => x.IsActive).HasColumnName("isActive");
+        });
+
+        modelBuilder.Entity<ReportPermissionEntity>(e =>
+        {
+            e.ToTable("reportPermissions");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.RoleId).HasColumnName("roleId");
+            e.Property(x => x.ReportPageId).HasColumnName("reportPageId");
+            e.Property(x => x.CanAccess).HasColumnName("canAccess");
+        });
+
+        modelBuilder.Entity<UserLogEntity>(e =>
+        {
+            e.ToTable("userLogs");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.UserId).HasColumnName("userId");
+            e.Property(x => x.Action).HasColumnName("action");
+            e.Property(x => x.IpAddress).HasColumnName("ipAddress");
+            e.Property(x => x.UserAgent).HasColumnName("userAgent");
+            e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+        });
+
+        modelBuilder.Entity<AuditTrailEntity>(e =>
+        {
+            e.ToTable("fullAuditTrailLog");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.UserId).HasColumnName("userId");
+            e.Property(x => x.TableName).HasColumnName("tableName");
+            e.Property(x => x.RecordId).HasColumnName("recordId");
+            e.Property(x => x.Action).HasColumnName("action");
+            e.Property(x => x.OldData).HasColumnName("oldData");
+            e.Property(x => x.NewData).HasColumnName("newData");
+            e.Property(x => x.IpAddress).HasColumnName("ipAddress");
+            e.Property(x => x.CreatedAt).HasColumnName("createdAt");
+        });
     }
+
+    /// <summary>Auto-logs every Add/Modify/Delete to fullAuditTrailLog by inspecting the change
+    /// tracker on every save -- so every mutation across every Db*ApiClient gets an audit row for
+    /// free, with no per-call-site logging code to remember to add. Runs as a second SaveChanges
+    /// pass because Added entities don't have their generated id until after the first save.
+    /// AuditTrailEntity/UserLogEntity themselves are never audited (nothing to attribute a log
+    /// entry about a log entry to).</summary>
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var pending = CaptureAuditableChanges();
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        if (pending.Count > 0)
+        {
+            var userId = GetCurrentUserId();
+            var ipAddress = _httpContextAccessor?.HttpContext?.Connection.RemoteIpAddress?.ToString();
+
+            foreach (var change in pending)
+            {
+                // Added entities have no real id (and EF fills their key properties with a negative
+                // placeholder) until after the first save above, so their NewData can only be
+                // serialized now -- doing it during CaptureAuditableChanges would bake in that
+                // placeholder instead of the generated id.
+                var newData = change.Action == "Create" ? SerializeCurrent(change.Entry) : change.NewData;
+
+                AuditTrail.Add(new AuditTrailEntity
+                {
+                    UserId = userId,
+                    TableName = change.TableName,
+                    RecordId = GetPrimaryKeyValue(change.Entry),
+                    Action = change.Action,
+                    OldData = change.OldData,
+                    NewData = newData,
+                    IpAddress = ipAddress,
+                    CreatedAt = DateTime.UtcNow,
+                });
+            }
+
+            await base.SaveChangesAsync(cancellationToken);
+        }
+
+        return result;
+    }
+
+    private List<AuditableChange> CaptureAuditableChanges()
+    {
+        var changes = new List<AuditableChange>();
+
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            if (entry.Entity is AuditTrailEntity or UserLogEntity)
+            {
+                continue;
+            }
+
+            var tableName = entry.Metadata.GetTableName() ?? entry.Entity.GetType().Name;
+
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    changes.Add(new AuditableChange(entry, tableName, "Create", null, SerializeCurrent(entry)));
+                    break;
+                case EntityState.Modified:
+                    changes.Add(new AuditableChange(entry, tableName, "Update", SerializeOriginal(entry), SerializeCurrent(entry)));
+                    break;
+                case EntityState.Deleted:
+                    changes.Add(new AuditableChange(entry, tableName, "Delete", SerializeOriginal(entry), null));
+                    break;
+            }
+        }
+
+        return changes;
+    }
+
+    private int? GetCurrentUserId()
+    {
+        var json = _httpContextAccessor?.HttpContext?.Session.GetString(SessionKeys.AuthUser);
+        if (string.IsNullOrEmpty(json))
+        {
+            return null;
+        }
+
+        var user = JsonSerializer.Deserialize<UserSummary>(json);
+        // The code-level master login has no row in the users table (see AccountController) --
+        // its synthetic id can't satisfy fullAuditTrailLog's FK to users, so it logs as "no user".
+        return user is { Id: > 0 } ? user.Id : null;
+    }
+
+    private static int GetPrimaryKeyValue(EntityEntry entry)
+    {
+        var keyProperty = entry.Metadata.FindPrimaryKey()?.Properties.FirstOrDefault();
+        if (keyProperty is null)
+        {
+            return 0;
+        }
+
+        var value = entry.Property(keyProperty.Name).CurrentValue;
+        return value switch
+        {
+            int i => i,
+            long l => (int)l,
+            _ => 0,
+        };
+    }
+
+    private static string SerializeCurrent(EntityEntry entry) =>
+        JsonSerializer.Serialize(entry.Properties.ToDictionary(p => p.Metadata.Name, p => p.CurrentValue));
+
+    private static string SerializeOriginal(EntityEntry entry) =>
+        JsonSerializer.Serialize(entry.Properties.ToDictionary(p => p.Metadata.Name, p => p.OriginalValue));
+
+    private record AuditableChange(EntityEntry Entry, string TableName, string Action, string? OldData, string? NewData);
 }

@@ -65,7 +65,9 @@ public enum PatientSessionStatus
 {
     Upcoming,
     Completed,
-    Rescheduled
+    Rescheduled,
+    Cancelled,
+    Skipped
 }
 
 public enum PatientCycleStatus

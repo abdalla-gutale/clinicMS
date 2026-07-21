@@ -22,8 +22,8 @@ function renderTable() {
     document.getElementById('rolesTableBody').innerHTML = slice.length ? slice.map(function (r, i) { return `
         <tr>
             <td>${(currentPage-1)*perPage+i+1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${r.roleName}</span></td>
-            <td style="color:#64748b;">${r.description || ''}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(r.roleName)}</span></td>
+            <td style="color:#64748b;">${escapeHtml(r.description || '')}</td>
             <td><span class="gp-badge ${r.isActive?'gp-badge-green':'gp-badge-red'}">${r.isActive?'Active':'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" title="Edit" onclick="openModal(${r.id})"><i class="ri-pencil-line"></i></button>
@@ -100,17 +100,19 @@ function saveRole() {
 }
 
 function deleteRole(id) {
-    if (!confirm('Delete this role?')) return;
-    fetch('/Roles/Delete?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete role'); return; }
-            roles = roles.filter(function (r) { return r.id !== id; });
-            toastr.success('Role deleted');
-            renderTable();
-        });
+    confirmDelete('This role will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Roles/Delete?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete role'); return; }
+                roles = roles.filter(function (r) { return r.id !== id; });
+                deletedAlert('Role deleted.');
+                renderTable();
+            });
+    });
 }
 
 // ── Permissions Modal ──────────────────────────────────────
@@ -151,7 +153,7 @@ function renderPermModal(granted) {
         <div class="pm-module ${modEnabled ? 'open' : ''}" id="mod-${mod.id}">
             <div class="pm-module-header" onclick="toggleModule(${mod.id})">
                 <div class="pm-module-chevron"><i class="ri-arrow-right-s-line"></i></div>
-                <span class="pm-module-name">${mod.moduleName}</span>
+                <span class="pm-module-name">${escapeHtml(mod.moduleName)}</span>
                 <label class="pm-toggle mod-toggle" onclick="event.stopPropagation()" title="Enable module">
                     <input type="checkbox" id="modtog-${mod.id}" ${modEnabled ? 'checked' : ''}
                            onchange="toggleModuleAll(${mod.id}, this.checked)">
@@ -167,7 +169,7 @@ function renderPermModal(granted) {
             html += `
                 <div class="pm-sub" data-page-id="${page.id}">
                     <div class="pm-sub-header">
-                        <span class="pm-sub-name">${page.pageName}</span>
+                        <span class="pm-sub-name">${escapeHtml(page.pageName)}</span>
                         <label class="pm-select-all-label">
                             <label class="pm-toggle" onclick="event.stopPropagation()">
                                 <input type="checkbox" class="sub-sel-all" data-page="${page.id}"

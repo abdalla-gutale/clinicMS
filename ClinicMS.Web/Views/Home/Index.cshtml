@@ -27,40 +27,6 @@
 
 .gym { font-family: 'Inter', sans-serif; background: var(--gym-bg); min-height: 100vh; padding-bottom: 48px; color: var(--gym-text); }
 
-/* ── HERO ── */
-.gym-hero {
-    position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #f0fdfa 0%, #f0fdf4 50%, #f0f9ff 100%);
-    border-bottom: 1px solid var(--gym-border);
-    padding: 32px 32px 80px;
-}
-.gym-hero::before {
-    content:""; position:absolute; inset:0;
-    background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(13,148,136,.08) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 60% at 20% 30%, rgba(8,145,178,.06) 0%, transparent 70%);
-    pointer-events:none;
-}
-.gym-hero-grid {
-    content:""; position:absolute; inset:0;
-    background-image: linear-gradient(rgba(13,148,136,.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(13,148,136,.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events:none;
-}
-.gym-hero-content { position:relative; z-index:1; }
-.gym-hero-eyebrow { font-size:.7rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--gym-fire); margin-bottom:6px; display:flex; align-items:center; gap:8px; }
-.gym-hero-eyebrow::before { content:""; width:20px; height:2px; background:var(--gym-fire); border-radius:1px; }
-.gym-hero-title { font-size:1.9rem; font-weight:900; letter-spacing:-.04em; line-height:1.05; margin-bottom:8px; color:#1e293b; }
-.gym-hero-title span { background: linear-gradient(90deg, #0d9488, #0891b2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.gym-hero-sub { font-size:.88rem; color:var(--gym-muted); font-weight:500; margin-bottom:20px; }
-.gym-hero-badges { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.gym-hero-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 14px; border-radius:999px; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
-.gym-badge-fire  { background:rgba(13,148,136,.10); border:1px solid rgba(13,148,136,.25); color:#0d9488; }
-.gym-badge-gold  { background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.25); color:#d97706; }
-.gym-badge-green { background:rgba(22,163,74,.12);  border:1px solid rgba(22,163,74,.25);  color:#16a34a; }
-.gym-live-dot { width:7px; height:7px; border-radius:50%; background:#22c55e; box-shadow:0 0 0 3px rgba(34,197,94,.3); animation: pulse 2s infinite; }
-@@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.45} }
-
 /* ── KPI CARDS ── */
 .gym-kpi-row { position:relative; z-index:2; padding: 0 8px; }
 .gym-kpi-card {
@@ -90,9 +56,6 @@
 .gym-kpi-icon.c-green { background:rgba(22,163,74,.12);   color:#16a34a; }
 .gym-kpi-icon.c-blue  { background:rgba(37,99,235,.12);  color:#2563eb; }
 .gym-kpi-icon.c-purple{ background:rgba(124,58,237,.12); color:#7c3aed; }
-.gym-kpi-trend { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:999px; font-size:.7rem; font-weight:800; }
-.gym-trend-up   { background:rgba(34,197,94,.12);  color:#22c55e; }
-.gym-trend-down { background:rgba(239,68,68,.12);  color:#ef4444; }
 .gym-kpi-val { font-size:2.2rem; font-weight:900; letter-spacing:-.04em; line-height:1; margin-bottom:4px; }
 .gym-kpi-val.c-fire  { color:#0d9488; }
 .gym-kpi-val.c-gold  { color:#f59e0b; }
@@ -128,35 +91,14 @@
 .gym-chart-md { position:relative; height:230px; }
 .gym-chart-sm { position:relative; height:190px; }
 
-/* ── TABS ── */
-.gym-tabs { display:flex; gap:3px; background:#f1f5f9; border-radius:10px; padding:4px; flex-shrink:0; }
-.gym-tab { padding:5px 14px; border-radius:7px; border:none; background:transparent; font-size:.7rem; font-weight:700; color:var(--gym-muted); cursor:pointer; transition:all .15s; letter-spacing:.04em; text-transform:uppercase; }
-.gym-tab.active { background:#fff; color:#0d9488; box-shadow:0 2px 8px rgba(13,148,136,.2); }
-.gym-tab:hover:not(.active) { color:var(--gym-text); }
-
-/* ── MINI STATS ── */
-.gym-mini-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--gym-border); border-radius:14px; overflow:hidden; margin-top:20px; }
-.gym-mini-stat { background:var(--gym-surface); padding:14px 16px; display:flex; align-items:center; gap:12px; }
-.gym-ms-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
-.gym-ms-val { font-size:1.05rem; font-weight:800; color:var(--gym-text); line-height:1; }
-.gym-ms-lbl { font-size:.65rem; font-weight:700; color:var(--gym-muted); margin-top:2px; text-transform:uppercase; letter-spacing:.05em; }
-
 /* ── DONUT ── */
 .gym-donut-wrap { position:relative; }
 .gym-donut-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
-.gym-donut-center .dcv { font-size:1.7rem; font-weight:900; color:var(--gym-text); line-height:1; letter-spacing:-.035em; }
-.gym-donut-center .dcl { font-size:.65rem; font-weight:700; color:var(--gym-muted); text-transform:uppercase; letter-spacing:.07em; margin-top:3px; }
+.gym-donut-center .dcv { font-size:1.5rem; font-weight:900; color:var(--gym-text); line-height:1; letter-spacing:-.035em; }
+.gym-donut-center .dcl { font-size:.62rem; font-weight:700; color:var(--gym-muted); text-transform:uppercase; letter-spacing:.07em; margin-top:3px; }
 .gym-donut-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; justify-content:center; }
 .gym-legend-item { display:inline-flex; align-items:center; gap:6px; font-size:.74rem; font-weight:700; color:var(--gym-text); }
 .gym-legend-item .dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
-
-/* ── PROGRESS ── */
-.gym-prog-row { display:flex; align-items:center; gap:14px; padding:10px 0; border-bottom:1px solid var(--gym-border); }
-.gym-prog-row:last-child { border-bottom:none; }
-.gym-prog-label { flex:1; font-size:.84rem; font-weight:600; color:var(--gym-text); }
-.gym-prog-bar-wrap { flex:2; height:7px; background:rgba(255,255,255,.07); border-radius:999px; overflow:hidden; }
-.gym-prog-bar { height:100%; border-radius:999px; }
-.gym-prog-pct { font-size:.78rem; font-weight:800; color:var(--gym-text); min-width:36px; text-align:right; }
 
 /* ── TIMELINE ── */
 .gym-timeline { display:flex; flex-direction:column; }
@@ -174,10 +116,11 @@
 .gym-table thead th { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--gym-muted); background:var(--gym-surface2); border-bottom:1px solid var(--gym-border); padding:10px 14px; white-space:nowrap; }
 .gym-table tbody td { padding:12px 14px; vertical-align:middle; border-bottom:1px solid var(--gym-border); font-size:.86rem; color:var(--gym-text); }
 .gym-table tbody tr:last-child td { border-bottom:none; }
-.gym-table tbody tr:hover td { background:rgba(255,255,255,.025); }
+.gym-table tbody tr:hover td { background:rgba(15,23,42,.02); }
 .gym-entity-name { font-weight:700; color:var(--gym-text); font-size:.88rem; }
 .gym-entity-meta { font-size:.75rem; color:var(--gym-muted); margin-top:1px; }
 .gym-avatar { width:34px; height:34px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.74rem; font-weight:800; flex-shrink:0; text-transform:uppercase; }
+.gym-empty { text-align:center; padding:28px 12px; color:var(--gym-muted); font-size:.85rem; }
 
 /* ── BADGES ── */
 .gym-badge { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; font-size:.7rem; font-weight:700; }
@@ -188,23 +131,6 @@
 .gym-badge-purple { background:rgba(124,58,237,.1);  color:#6d28d9; }
 .gym-badge-red    { background:rgba(220,38,38,.1);   color:#b91c1c; }
 .gym-badge-slate  { background:#f1f5f9; color:#475569; }
-
-/* ── RANK MEDAL ── */
-.gym-rank { width:28px; height:28px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:900; }
-.gym-rank-1 { background:rgba(245,158,11,.2); color:#f59e0b; }
-.gym-rank-2 { background:rgba(100,116,139,.15); color:#94a3b8; }
-.gym-rank-3 { background:rgba(180,83,9,.15); color:#d97706; }
-.gym-rank-n { background:rgba(255,255,255,.05); color:var(--gym-muted); }
-
-/* ── HEAT CELLS (streak grid) ── */
-.gym-heat-grid { display:flex; flex-direction:column; gap:3px; }
-.gym-heat-row  { display:flex; gap:3px; }
-.gym-heat-cell { width:14px; height:14px; border-radius:3px; cursor:default; transition:opacity .1s; }
-.gym-heat-cell:hover { opacity:.7; }
-
-/* ── BURNDOWN BAR ── */
-.gym-burn-bar-wrap { height:10px; background:rgba(255,255,255,.07); border-radius:999px; overflow:hidden; }
-.gym-burn-bar { height:100%; border-radius:999px; background:linear-gradient(90deg,#0d9488,#f59e0b); }
 </style>
 }
 
@@ -273,237 +199,49 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════ ROW 1 ═══════════════════════════ -->
-    <div class="gym-section-lbl px-2 mb-2">Membership Overview</div>
+    <!-- ═══════════════════════════ ROW 1: Revenue & Expenses ═══════════════════════════ -->
+    <div class="gym-section-lbl px-2 mb-2">Revenue &amp; Expenses</div>
     <div class="row g-3 mb-4">
         <div class="col-xl-8">
             <div class="gym-card">
                 <div class="gym-card-head">
                     <div>
-                        <div class="gym-card-title">Check-in Traffic</div>
-                        <p class="gym-card-sub">Daily gym visits vs new sign-ups</p>
+                        <div class="gym-card-title">Revenue Trend</div>
+                        <p class="gym-card-sub">Net revenue, last 14 days</p>
                     </div>
-                    <div class="gym-tabs" id="gymChartTabs">
-                        <button class="gym-tab active" data-panel="gymLine">Visits</button>
-                        <button class="gym-tab" data-panel="gymBar">By Plan</button>
-                    </div>
+                    <span class="gym-chip gym-chip-fire"><i class="ri-line-chart-line"></i></span>
                 </div>
-                <div class="gym-chart-lg" id="gymLine"><canvas id="lineChart"></canvas></div>
-                <div class="gym-chart-lg" id="gymBar" style="display:none;"><canvas id="barChart"></canvas></div>
-                <div class="gym-mini-stats">
-                    <div class="gym-mini-stat">
-                        <div class="gym-ms-icon" style="background:rgba(13,148,136,.12);"><i class="ri-group-3-line" style="color:#0d9488;"></i></div>
-                        <div><div class="gym-ms-val">1,248</div><div class="gym-ms-lbl">Members</div></div>
-                    </div>
-                    <div class="gym-mini-stat">
-                        <div class="gym-ms-icon" style="background:rgba(245,158,11,.14);"><i class="ri-run-line" style="color:#f59e0b;"></i></div>
-                        <div><div class="gym-ms-val">142</div><div class="gym-ms-lbl">Today</div></div>
-                    </div>
-                    <div class="gym-mini-stat">
-                        <div class="gym-ms-icon" style="background:rgba(34,197,94,.14);"><i class="ri-user-add-line" style="color:#22c55e;"></i></div>
-                        <div><div class="gym-ms-val">+37</div><div class="gym-ms-lbl">New / Mo</div></div>
-                    </div>
-                    <div class="gym-mini-stat">
-                        <div class="gym-ms-icon" style="background:rgba(59,130,246,.14);"><i class="ri-shield-star-line" style="color:#3b82f6;"></i></div>
-                        <div><div class="gym-ms-val">88%</div><div class="gym-ms-lbl">Retention</div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="gym-card d-flex flex-column gap-4">
-                <div>
-                    <div class="gym-card-head mb-0">
-                        <div><div class="gym-card-title" style="font-size:.9rem;">Plan Distribution</div><p class="gym-card-sub">Active subscriptions by tier</p></div>
-                        <span class="gym-chip gym-chip-fire" style="padding:4px 10px;"><i class="ri-donut-chart-line"></i></span>
-                    </div>
-                    <div class="gym-chart-sm gym-donut-wrap mt-2">
-                        <canvas id="donutPlans"></canvas>
-                        <div class="gym-donut-center"><div class="dcv">1,104</div><div class="dcl">Active</div></div>
-                    </div>
-                    <div class="gym-donut-legend">
-                        <span class="gym-legend-item"><span class="dot" style="background:#0d9488;"></span>Elite (284)</span>
-                        <span class="gym-legend-item"><span class="dot" style="background:#f59e0b;"></span>Pro (476)</span>
-                        <span class="gym-legend-item"><span class="dot" style="background:#3b82f6;"></span>Basic (344)</span>
-                    </div>
-                </div>
-                <hr style="border-color:var(--gym-border);margin:0;">
-                <div>
-                    <div class="gym-card-head mb-0">
-                        <div><div class="gym-card-title" style="font-size:.9rem;">Class Fill Rate</div><p class="gym-card-sub">Booked vs capacity</p></div>
-                        <span class="gym-chip gym-chip-gold" style="padding:4px 10px;"><i class="ri-donut-chart-line"></i></span>
-                    </div>
-                    <div class="gym-chart-sm gym-donut-wrap mt-2">
-                        <canvas id="donutClasses"></canvas>
-                        <div class="gym-donut-center"><div class="dcv">74%</div><div class="dcl">Filled</div></div>
-                    </div>
-                    <div class="gym-donut-legend">
-                        <span class="gym-legend-item"><span class="dot" style="background:#22c55e;"></span>Booked (133)</span>
-                        <span class="gym-legend-item"><span class="dot" style="background:#334155;"></span>Open (47)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════ ROW 2 ═══════════════════════════ -->
-    <div class="gym-section-lbl px-2 mb-2">Performance</div>
-    <div class="row g-3 mb-4">
-        <div class="col-xl-4">
-            <div class="gym-card">
-                <div class="gym-card-head">
-                    <div><div class="gym-card-title">Department Scores</div><p class="gym-card-sub">Trainer performance by area</p></div>
-                    <span class="gym-chip gym-chip-purple"><i class="ri-radar-line"></i></span>
-                </div>
-                <div class="gym-chart-md"><canvas id="radarChart"></canvas></div>
+                <div class="gym-chart-lg"><canvas id="revenueChart"></canvas></div>
             </div>
         </div>
         <div class="col-xl-4">
             <div class="gym-card">
                 <div class="gym-card-head">
-                    <div><div class="gym-card-title">Monthly Goals</div><p class="gym-card-sub">July 2025 targets</p></div>
-                    <span class="gym-chip gym-chip-fire"><i class="ri-fire-line"></i></span>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">New Members</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:74%;background:linear-gradient(90deg,#0d9488,#14b8a6);"></div></div>
-                    <div class="gym-prog-pct">74%</div>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">Revenue Target</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:88%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
-                    <div class="gym-prog-pct">88%</div>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">PT Sessions Sold</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:62%;background:linear-gradient(90deg,#a855f7,#c084fc);"></div></div>
-                    <div class="gym-prog-pct">62%</div>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">Class Occupancy</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:91%;background:linear-gradient(90deg,#22c55e,#4ade80);"></div></div>
-                    <div class="gym-prog-pct">91%</div>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">Member Retention</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:88%;background:linear-gradient(90deg,#3b82f6,#60a5fa);"></div></div>
-                    <div class="gym-prog-pct">88%</div>
-                </div>
-                <div class="gym-prog-row">
-                    <div class="gym-prog-label">Supplement Sales</div>
-                    <div class="gym-prog-bar-wrap"><div class="gym-prog-bar" style="width:55%;background:linear-gradient(90deg,#0891b2,#38bdf8);"></div></div>
-                    <div class="gym-prog-pct">55%</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <div class="gym-card">
-                <div class="gym-card-head">
-                    <div><div class="gym-card-title">Live Activity</div><p class="gym-card-sub">Recent gym events</p></div>
-                    <span class="gym-chip gym-chip-green"><i class="ri-time-line"></i></span>
-                </div>
-                <div class="gym-timeline">
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#22c55e;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">Ahmed K. checked in</div><div class="gym-tl-meta">Elite member · 2 min ago</div></div>
-                    </div>
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#0d9488;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">Spin Class — FULL</div><div class="gym-tl-meta">Studio 2 · 20 seats booked · 8 min ago</div></div>
-                    </div>
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#f59e0b;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">New member joined</div><div class="gym-tl-meta">Sara M. — Pro plan · 25 min ago</div></div>
-                    </div>
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#3b82f6;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">PT session completed</div><div class="gym-tl-meta">Trainer: Karim · Client: John B. · 1 hr ago</div></div>
-                    </div>
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#a855f7;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">Locker room maintenance</div><div class="gym-tl-meta">Completed · 2 hr ago</div></div>
-                    </div>
-                    <div class="gym-tl-item">
-                        <div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:#64748b;"></div><div class="gym-tl-line"></div></div>
-                        <div><div class="gym-tl-title">Monthly invoices sent</div><div class="gym-tl-meta">1,104 subscriptions · 4 hr ago</div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════ ROW 3 ═══════════════════════════ -->
-    <div class="gym-section-lbl px-2 mb-2">Trends</div>
-    <div class="row g-3 mb-4">
-        <div class="col-xl-7">
-            <div class="gym-card">
-                <div class="gym-card-head">
-                    <div><div class="gym-card-title">Weekly Visit Heatmap</div><p class="gym-card-sub">Hourly foot-traffic by day (last 4 weeks)</p></div>
-                    <span class="gym-chip gym-chip-fire"><i class="ri-bar-chart-grouped-line"></i></span>
-                </div>
-                <div class="gym-chart-md"><canvas id="areaChart"></canvas></div>
-            </div>
-        </div>
-        <div class="col-xl-5">
-            <div class="gym-card">
-                <div class="gym-card-head">
-                    <div><div class="gym-card-title">Revenue Breakdown</div><p class="gym-card-sub">Share by product line</p></div>
+                    <div><div class="gym-card-title" style="font-size:.9rem;">Expense Breakdown</div><p class="gym-card-sub">This month, by category</p></div>
                     <span class="gym-chip gym-chip-gold"><i class="ri-pie-chart-line"></i></span>
                 </div>
-                <div class="gym-chart-md"><canvas id="polarChart"></canvas></div>
+                <div class="gym-chart-sm gym-donut-wrap mt-2">
+                    <canvas id="expenseDonut"></canvas>
+                    <div class="gym-donut-center"><div class="dcv" id="expenseDonutTotal">0</div><div class="dcl">Total</div></div>
+                </div>
+                <div class="gym-donut-legend" id="expenseDonutLegend"></div>
             </div>
         </div>
     </div>
 
-    <!-- ═══════════════════════════ ROW 4 ═══════════════════════════ -->
-    <div class="gym-section-lbl px-2 mb-2">Records</div>
-    <div class="row g-3">
+    <!-- ═══════════════════════════ ROW 2: Operations ═══════════════════════════ -->
+    <div class="gym-section-lbl px-2 mb-2">Operations</div>
+    <div class="row g-3 mb-4">
         <div class="col-xl-6">
             <div class="gym-card">
                 <div class="gym-card-head">
-                    <div><div class="gym-card-title">Top Members This Month</div><p class="gym-card-sub">Ranked by check-in frequency</p></div>
-                    <span class="gym-chip gym-chip-gold"><i class="ri-trophy-line"></i></span>
+                    <div><div class="gym-card-title">Low Stock Items</div><p class="gym-card-sub">SKUs at or below reorder level</p></div>
+                    <span class="gym-chip gym-chip-purple"><i class="ri-alert-line"></i></span>
                 </div>
                 <div class="table-responsive">
                     <table class="gym-table">
-                        <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Check-ins</th><th>Streak</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="gym-rank gym-rank-1">1</span></td>
-                                <td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(13,148,136,.15);color:#0f766e;">AK</div><div><div class="gym-entity-name">Ahmed Karim</div><div class="gym-entity-meta">since Jan 2023</div></div></div></td>
-                                <td><span class="gym-badge gym-badge-fire">Elite</span></td>
-                                <td><strong style="color:#0d9488;">28</strong></td>
-                                <td><span class="gym-badge gym-badge-gold"><i class="ri-fire-line"></i> 28d</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="gym-rank gym-rank-2">2</span></td>
-                                <td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(168,85,247,.2);color:#c084fc;">SM</div><div><div class="gym-entity-name">Sara Mahmoud</div><div class="gym-entity-meta">since Mar 2024</div></div></div></td>
-                                <td><span class="gym-badge gym-badge-purple">Pro</span></td>
-                                <td><strong style="color:#f59e0b;">25</strong></td>
-                                <td><span class="gym-badge gym-badge-fire"><i class="ri-fire-line"></i> 21d</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="gym-rank gym-rank-3">3</span></td>
-                                <td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(59,130,246,.2);color:#60a5fa;">JB</div><div><div class="gym-entity-name">John Basset</div><div class="gym-entity-meta">since Aug 2022</div></div></div></td>
-                                <td><span class="gym-badge gym-badge-fire">Elite</span></td>
-                                <td><strong style="color:#22c55e;">23</strong></td>
-                                <td><span class="gym-badge gym-badge-green"><i class="ri-fire-line"></i> 18d</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="gym-rank gym-rank-n">4</span></td>
-                                <td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(34,197,94,.2);color:#4ade80;">LN</div><div><div class="gym-entity-name">Lina Nour</div><div class="gym-entity-meta">since Feb 2025</div></div></div></td>
-                                <td><span class="gym-badge gym-badge-blue">Pro</span></td>
-                                <td><strong>21</strong></td>
-                                <td><span class="gym-badge gym-badge-slate">14d</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="gym-rank gym-rank-n">5</span></td>
-                                <td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(245,158,11,.2);color:#fbbf24;">RH</div><div><div class="gym-entity-name">Rami Hassan</div><div class="gym-entity-meta">since Nov 2023</div></div></div></td>
-                                <td><span class="gym-badge gym-badge-blue">Basic</span></td>
-                                <td><strong>19</strong></td>
-                                <td><span class="gym-badge gym-badge-slate">9d</span></td>
-                            </tr>
-                        </tbody>
+                        <thead><tr><th>SKU</th><th>Product</th><th>Stock</th><th>Reorder Level</th></tr></thead>
+                        <tbody id="lowStockBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -511,49 +249,41 @@
         <div class="col-xl-6">
             <div class="gym-card">
                 <div class="gym-card-head">
-                    <div><div class="gym-card-title">Today's Class Schedule</div><p class="gym-card-sub">Remaining sessions — 18 Jul 2025</p></div>
+                    <div><div class="gym-card-title">Today's Patient Sessions</div><p class="gym-card-sub">Scheduled, not yet completed</p></div>
                     <span class="gym-chip gym-chip-green"><i class="ri-calendar-2-line"></i></span>
                 </div>
                 <div class="table-responsive">
                     <table class="gym-table">
-                        <thead><tr><th>Time</th><th>Class</th><th>Trainer</th><th>Spots</th><th>Status</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <td><div class="gym-entity-name">05:30</div></td>
-                                <td><div class="gym-entity-name">Early HIIT</div><div class="gym-entity-meta">45 min · Studio 1</div></td>
-                                <td><div class="gym-entity-meta">Karim A.</div></td>
-                                <td>0 / 16</td>
-                                <td><span class="gym-badge gym-badge-fire">Full</span></td>
-                            </tr>
-                            <tr>
-                                <td><div class="gym-entity-name">09:00</div></td>
-                                <td><div class="gym-entity-name">Yoga Flow</div><div class="gym-entity-meta">60 min · Studio 3</div></td>
-                                <td><div class="gym-entity-meta">Nadia R.</div></td>
-                                <td>6 / 20</td>
-                                <td><span class="gym-badge gym-badge-green">Open</span></td>
-                            </tr>
-                            <tr>
-                                <td><div class="gym-entity-name">12:00</div></td>
-                                <td><div class="gym-entity-name">Spin Cycle</div><div class="gym-entity-meta">45 min · Cycle Room</div></td>
-                                <td><div class="gym-entity-meta">Tariq M.</div></td>
-                                <td>2 / 20</td>
-                                <td><span class="gym-badge gym-badge-green">Open</span></td>
-                            </tr>
-                            <tr>
-                                <td><div class="gym-entity-name">17:30</div></td>
-                                <td><div class="gym-entity-name">CrossFit WOD</div><div class="gym-entity-meta">60 min · Turf Area</div></td>
-                                <td><div class="gym-entity-meta">Khalid S.</div></td>
-                                <td>1 / 12</td>
-                                <td><span class="gym-badge gym-badge-gold">2 Left</span></td>
-                            </tr>
-                            <tr>
-                                <td><div class="gym-entity-name">19:00</div></td>
-                                <td><div class="gym-entity-name">Zumba Night</div><div class="gym-entity-meta">50 min · Studio 2</div></td>
-                                <td><div class="gym-entity-meta">Salma F.</div></td>
-                                <td>9 / 25</td>
-                                <td><span class="gym-badge gym-badge-green">Open</span></td>
-                            </tr>
-                        </tbody>
+                        <thead><tr><th>Patient</th><th>Plan</th><th>Session</th><th>Status</th></tr></thead>
+                        <tbody id="todaySessionsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ ROW 3: Activity & Top Patients ═══════════════════════════ -->
+    <div class="gym-section-lbl px-2 mb-2">Activity &amp; Top Patients</div>
+    <div class="row g-3">
+        <div class="col-xl-6">
+            <div class="gym-card">
+                <div class="gym-card-head">
+                    <div><div class="gym-card-title">Recent Activity</div><p class="gym-card-sub">Latest system changes</p></div>
+                    <span class="gym-chip gym-chip-blue"><i class="ri-time-line"></i></span>
+                </div>
+                <div class="gym-timeline" id="recentActivityList"></div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="gym-card">
+                <div class="gym-card-head">
+                    <div><div class="gym-card-title">Top Patients This Month</div><p class="gym-card-sub">Ranked by amount paid</p></div>
+                    <span class="gym-chip gym-chip-gold"><i class="ri-trophy-line"></i></span>
+                </div>
+                <div class="table-responsive">
+                    <table class="gym-table">
+                        <thead><tr><th>#</th><th>Patient</th><th>Paid</th><th>Payments</th></tr></thead>
+                        <tbody id="topPatientsBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -568,7 +298,11 @@
 (function () {
     var s = @Html.Raw(ViewBag.DashboardJson);
     if (!s) return;
+
     var fmt = function (n) { return Math.round(n).toLocaleString(); };
+    var esc = function (v) { return (v === null || v === undefined) ? '' : String(v).replace(/[&<>"']/g, function (c) { return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]; }); };
+    var initials = function (name) { return (name || '').split(' ').filter(Boolean).slice(0, 2).map(function (p) { return p[0]; }).join('').toUpperCase(); };
+
     document.getElementById('kpiPatients').textContent = s.patientCount.toLocaleString();
     document.getElementById('kpiActiveCycles').textContent = s.activePatientCycleCount.toLocaleString();
     document.getElementById('kpiTodayRevenue').textContent = fmt(s.todayRevenue);
@@ -577,60 +311,60 @@
     document.getElementById('kpiMonthExpenses').textContent = fmt(s.monthExpenses);
     document.getElementById('kpiLowStock').textContent = s.lowStockProductCount.toLocaleString();
     document.getElementById('kpiPendingPOs').textContent = s.pendingPurchaseOrderCount.toLocaleString();
-})();
-</script>
-<script>
-(function () {
-    'use strict';
 
-    const FIRE   = '#0d9488';
-    const FIRE2  = '#14b8a6';
-    const GOLD   = '#f59e0b';
-    const GREEN  = '#16a34a';
-    const BLUE   = '#2563eb';
-    const BLUE2  = '#3b82f6';
-    const PURPLE = '#7c3aed';
-    const PURPLE2= '#a855f7';
-    const CYAN   = '#0891b2';
-    const SLATE  = '#475569';
+    // Low stock table
+    var lowStockBody = document.getElementById('lowStockBody');
+    lowStockBody.innerHTML = s.lowStockItems.length ? s.lowStockItems.map(function (i) {
+        return '<tr><td class="gym-entity-name">' + esc(i.skuCode) + '</td><td>' + esc(i.productName) + '</td>'
+            + '<td><span class="gym-badge gym-badge-red">' + i.stockQuantity + '</span></td><td>' + i.reorderLevel + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="gym-empty">Nothing below reorder level</td></tr>';
+
+    // Today's sessions table
+    var todayBody = document.getElementById('todaySessionsBody');
+    todayBody.innerHTML = s.todaySessions.length ? s.todaySessions.map(function (t) {
+        var badge = t.status === 'Pending' ? 'gym-badge-blue' : (t.status === 'Cancelled' ? 'gym-badge-red' : 'gym-badge-slate');
+        return '<tr><td class="gym-entity-name">' + esc(t.patientName) + '</td><td class="gym-entity-meta">' + esc(t.planName) + '</td>'
+            + '<td>' + esc(t.sessionLabel) + '</td><td><span class="gym-badge ' + badge + '">' + esc(t.status) + '</span></td></tr>';
+    }).join('') : '<tr><td colspan="4" class="gym-empty">No sessions scheduled for today</td></tr>';
+
+    // Recent activity timeline
+    var dotColors = ['#0d9488', '#f59e0b', '#3b82f6', '#a855f7', '#22c55e', '#64748b'];
+    var activityList = document.getElementById('recentActivityList');
+    activityList.innerHTML = s.recentActivity.length ? s.recentActivity.map(function (a, i) {
+        var when = new Date(a.createdAt);
+        var ago = Math.round((Date.now() - when.getTime()) / 60000);
+        var agoText = ago < 1 ? 'just now' : ago < 60 ? (ago + ' min ago') : ago < 1440 ? (Math.round(ago / 60) + ' hr ago') : (Math.round(ago / 1440) + 'd ago');
+        return '<div class="gym-tl-item"><div class="gym-tl-dot-col"><div class="gym-tl-dot" style="background:' + dotColors[i % dotColors.length] + ';"></div><div class="gym-tl-line"></div></div>'
+            + '<div><div class="gym-tl-title">' + esc(a.description) + '</div><div class="gym-tl-meta">' + agoText + '</div></div></div>';
+    }).join('') : '<div class="gym-empty">No recent activity recorded</div>';
+
+    // Top patients table
+    var topBody = document.getElementById('topPatientsBody');
+    topBody.innerHTML = s.topPatients.length ? s.topPatients.map(function (p, i) {
+        return '<tr><td>' + (i + 1) + '</td>'
+            + '<td><div class="d-flex align-items-center gap-2"><div class="gym-avatar" style="background:rgba(13,148,136,.15);color:#0f766e;">' + esc(initials(p.patientName)) + '</div>'
+            + '<div class="gym-entity-name">' + esc(p.patientName) + '</div></div></td>'
+            + '<td><strong style="color:#0d9488;">' + fmt(p.totalPaid) + '</strong></td><td>' + p.paymentCount + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="gym-empty">No payments recorded this month</td></tr>';
 
     Chart.defaults.color = '#64748b';
     Chart.defaults.borderColor = '#e2e8f0';
 
-    /* ── 1. Line — Check-in Traffic ── */
-    new Chart(document.getElementById('lineChart'), {
+    // Revenue trend line chart
+    new Chart(document.getElementById('revenueChart'), {
         type: 'line',
         data: {
-            labels: ['Jul 1','Jul 3','Jul 5','Jul 7','Jul 9','Jul 11','Jul 13','Jul 15','Jul 17'],
-            datasets: [
-                { label: 'Check-ins', data: [98,121,134,145,118,162,155,178,142], borderColor: FIRE, backgroundColor: 'rgba(13,148,136,.10)', fill: true, tension: 0.45, pointBackgroundColor: FIRE, pointRadius: 4, borderWidth: 2.5 },
-                { label: 'New Members', data: [3,5,4,7,6,9,8,11,6], borderColor: GOLD, backgroundColor: 'rgba(8,145,178,.08)', fill: true, tension: 0.45, borderWidth: 2, pointBackgroundColor: GOLD, pointRadius: 3, yAxisID: 'y2' }
-            ]
+            labels: s.revenueTrend.map(function (p) { return new Date(p.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }),
+            datasets: [{
+                label: 'Net Revenue',
+                data: s.revenueTrend.map(function (p) { return p.netAmount; }),
+                borderColor: '#0d9488', backgroundColor: 'rgba(13,148,136,.10)',
+                fill: true, tension: 0.35, pointBackgroundColor: '#0d9488', pointRadius: 3, borderWidth: 2.5
+            }]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, weight: '700' }, color: '#94a3b8' } } },
-            scales: {
-                y:  { beginAtZero: false, grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } },
-                y2: { position: 'right', beginAtZero: true, grid: { display: false }, ticks: { color: '#64748b' } },
-                x:  { grid: { display: false }, ticks: { color: '#64748b' } }
-            }
-        }
-    });
-
-    /* ── 2. Bar — By Plan ── */
-    new Chart(document.getElementById('barChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Elite','Pro','Basic','Student','Day Pass','Corporate','Senior','Trial'],
-            datasets: [
-                { label: 'Members', data: [284,476,344,68,42,54,38,44], backgroundColor: FIRE + 'cc', borderRadius: 8 },
-                { label: 'Avg Check-ins/mo', data: [22,16,11,13,4,14,9,6], backgroundColor: GOLD + 'cc', borderRadius: 8 }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, weight: '700' }, color: '#94a3b8' } } },
+            plugins: { legend: { display: false } },
             scales: {
                 y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } },
                 x: { grid: { display: false }, ticks: { color: '#64748b' } }
@@ -638,88 +372,21 @@
         }
     });
 
-    /* ── 3. Donut — Plans ── */
-    new Chart(document.getElementById('donutPlans'), {
+    // Expense breakdown donut
+    var expenseColors = ['#0d9488', '#f59e0b', '#3b82f6', '#a855f7', '#22c55e', '#ef4444'];
+    var expenseTotal = s.expenseBreakdown.reduce(function (a, e) { return a + e.amount; }, 0);
+    document.getElementById('expenseDonutTotal').textContent = Math.round(expenseTotal).toLocaleString();
+    new Chart(document.getElementById('expenseDonut'), {
         type: 'doughnut',
         data: {
-            labels: ['Elite','Pro','Basic'],
-            datasets: [{ data: [284,476,344], backgroundColor: [FIRE, GOLD, BLUE], borderWidth: 0, hoverOffset: 8 }]
+            labels: s.expenseBreakdown.map(function (e) { return e.categoryName; }),
+            datasets: [{ data: s.expenseBreakdown.map(function (e) { return e.amount; }), backgroundColor: expenseColors, borderWidth: 0, hoverOffset: 8 }]
         },
         options: { responsive: true, maintainAspectRatio: false, cutout: '72%', plugins: { legend: { display: false } } }
     });
-
-    /* ── 4. Donut — Class Fill ── */
-    new Chart(document.getElementById('donutClasses'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Booked','Open'],
-            datasets: [{ data: [133,47], backgroundColor: [GREEN, '#e2e8f0'], borderWidth: 0, hoverOffset: 8 }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '72%', plugins: { legend: { display: false } } }
-    });
-
-    /* ── 5. Radar — Trainer Scores ── */
-    new Chart(document.getElementById('radarChart'), {
-        type: 'radar',
-        data: {
-            labels: ['HIIT','Yoga','CrossFit','Spin','Nutrition','PT'],
-            datasets: [
-                { label: 'This Month', data: [92,78,88,84,70,90], borderColor: FIRE, backgroundColor: 'rgba(13,148,136,.18)', borderWidth: 2, pointBackgroundColor: FIRE },
-                { label: 'Last Month', data: [80,75,82,78,65,85], borderColor: GOLD, backgroundColor: 'rgba(245,158,11,.10)', borderWidth: 1.5, borderDash: [5,3], pointBackgroundColor: GOLD }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            scales: { r: { grid: { color: '#f1f5f9' }, angleLines: { color: '#f1f5f9' }, ticks: { stepSize: 20, color: '#475569', backdropColor: 'transparent', font: { size: 10 } }, pointLabels: { color: '#94a3b8', font: { size: 11, weight: '700' } } } },
-            plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, weight: '700' }, color: '#94a3b8' } } }
-        }
-    });
-
-    /* ── 6. Area — Weekly foot traffic ── */
-    new Chart(document.getElementById('areaChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-            datasets: [
-                { label: 'Morning (6–12)', data: [54,62,48,70,58,82,44], backgroundColor: FIRE + 'bb', borderRadius: 6 },
-                { label: 'Afternoon (12–6)', data: [38,44,52,40,46,65,31], backgroundColor: GOLD + 'bb', borderRadius: 6 },
-                { label: 'Evening (6–10)', data: [68,74,66,80,72,48,22], backgroundColor: BLUE + 'bb', borderRadius: 6 }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11, weight: '700' }, color: '#94a3b8' } } },
-            scales: {
-                x: { stacked: true, grid: { display: false }, ticks: { color: '#64748b' } },
-                y: { stacked: true, grid: { color: '#f1f5f9' }, ticks: { color: '#64748b' } }
-            }
-        }
-    });
-
-    /* ── 7. Polar — Revenue ── */
-    new Chart(document.getElementById('polarChart'), {
-        type: 'polarArea',
-        data: {
-            labels: ['Memberships','PT Sessions','Classes','Supplements','Merchandise'],
-            datasets: [{ data: [24000,7200,3800,2100,1300], backgroundColor: [FIRE+'cc', GOLD+'cc', GREEN+'cc', BLUE+'cc', PURPLE+'cc'], borderWidth: 0 }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11, weight: '700' }, color: '#94a3b8' } } },
-            scales: { r: { grid: { color: '#f1f5f9' }, ticks: { display: false } } }
-        }
-    });
-
-    /* ── Tab switching ── */
-    document.querySelectorAll('#gymChartTabs .gym-tab').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('#gymChartTabs .gym-tab').forEach(function (b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            var p = btn.getAttribute('data-panel');
-            document.getElementById('gymLine').style.display = p === 'gymLine' ? 'block' : 'none';
-            document.getElementById('gymBar').style.display  = p === 'gymBar'  ? 'block' : 'none';
-        });
-    });
+    document.getElementById('expenseDonutLegend').innerHTML = s.expenseBreakdown.length ? s.expenseBreakdown.map(function (e, i) {
+        return '<span class="gym-legend-item"><span class="dot" style="background:' + expenseColors[i % expenseColors.length] + ';"></span>' + esc(e.categoryName) + '</span>';
+    }).join('') : '<span class="text-muted" style="font-size:.8rem;">No expenses recorded this month</span>';
 })();
 </script>
 <script src="~/assets/js/app.js"></script>

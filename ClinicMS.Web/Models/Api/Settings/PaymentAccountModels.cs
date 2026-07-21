@@ -6,12 +6,26 @@ namespace ClinicMS.Web.Models.Api.Settings;
 public enum PaymentAccountType
 {
     Cash,
-    Evc,
-    Merchant
+    Merchant,
+    MasterCard
 }
 
-public record PaymentAccountDto(int Id, string Name, PaymentAccountType AccountType, string? PhoneOrAccountNumber, bool IsActive);
+/// <summary>Mobile money carrier a Cash or Merchant account is actually held with -- not applicable
+/// to MasterCard, which is always a plain card number. None means a plain drawer/terminal with no
+/// specific carrier attached.</summary>
+public enum PaymentAccountTypeSub
+{
+    None,
+    Evc,
+    Zaad,
+    Somtel
+}
 
-public record CreatePaymentAccountRequest(string Name, PaymentAccountType AccountType, string? PhoneOrAccountNumber, bool IsActive);
+public record PaymentAccountDto(
+    int Id, string Name, PaymentAccountType AccountType, PaymentAccountTypeSub AccountTypeSub, string? Number, decimal MonthlyBudgetEstimate, bool IsActive);
 
-public record UpdatePaymentAccountRequest(string Name, PaymentAccountType AccountType, string? PhoneOrAccountNumber, bool IsActive);
+public record CreatePaymentAccountRequest(
+    string Name, PaymentAccountType AccountType, PaymentAccountTypeSub AccountTypeSub, string? Number, decimal MonthlyBudgetEstimate, bool IsActive);
+
+public record UpdatePaymentAccountRequest(
+    string Name, PaymentAccountType AccountType, PaymentAccountTypeSub AccountTypeSub, string? Number, decimal MonthlyBudgetEstimate, bool IsActive);

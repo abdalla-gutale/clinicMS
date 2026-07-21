@@ -34,6 +34,6 @@ public record MenuPageDto(
     bool CanDelete,
     IReadOnlyList<MenuPageDto>? SubPages = null);
 
-public record MenuModuleDto(int ModuleId, string ModuleName, IReadOnlyList<MenuPageDto> Pages);
+public record MenuModuleDto(int ModuleId, string ModuleName, string ModuleIcon, IReadOnlyList<MenuPageDto> Pages);
 
 public record MenuDto(IReadOnlyList<MenuModuleDto> Modules);

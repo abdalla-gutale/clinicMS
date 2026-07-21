@@ -20,9 +20,9 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (r, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${r.reportName}</span></td>
-            <td><span class="gp-badge gp-badge-teal">${r.moduleName}</span></td>
-            <td style="color:#64748b;">${r.reportUrl}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(r.reportName)}</span></td>
+            <td><span class="gp-badge gp-badge-teal">${escapeHtml(r.moduleName)}</span></td>
+            <td style="color:#64748b;">${escapeHtml(r.reportUrl)}</td>
             <td style="color:#64748b;">${r.displayOrder}</td>
             <td><span class="gp-badge ${r.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${r.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
@@ -45,7 +45,7 @@ function renderTable() {
 function populateModuleSelect(selectedId) {
     var sel = document.getElementById('fModule');
     sel.innerHTML = reportModules.map(function (m) {
-        return `<option value="${m.id}" ${m.id === selectedId ? 'selected' : ''}>${m.moduleName}</option>`;
+        return `<option value="${m.id}" ${m.id === selectedId ? 'selected' : ''}>${escapeHtml(m.moduleName)}</option>`;
     }).join('');
 }
 
@@ -106,17 +106,19 @@ function saveReportPage() {
 }
 
 function deleteReportPage(id) {
-    if (!confirm('Delete this report page?')) return;
-    fetch('/Administration/DeleteReportPage?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete report page'); return; }
-            reportPages = reportPages.filter(function (r) { return r.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This report page will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Administration/DeleteReportPage?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete report page'); return; }
+                reportPages = reportPages.filter(function (r) { return r.id !== id; });
+                deletedAlert('Report page deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

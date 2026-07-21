@@ -31,10 +31,10 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (p, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${p.pageName}</span></td>
-            <td><span class="gp-badge gp-badge-teal">${moduleName(p.moduleId)}</span></td>
-            <td style="color:#64748b;">${p.parentPageId ? pageName(p.parentPageId) : '—'}</td>
-            <td style="color:#64748b;">${p.pageUrl}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(p.pageName)}</span></td>
+            <td><span class="gp-badge gp-badge-teal">${escapeHtml(moduleName(p.moduleId))}</span></td>
+            <td style="color:#64748b;">${p.parentPageId ? escapeHtml(pageName(p.parentPageId)) : '—'}</td>
+            <td style="color:#64748b;">${escapeHtml(p.pageUrl)}</td>
             <td style="color:#64748b;">${p.displayOrder}</td>
             <td><span class="gp-badge ${p.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${p.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
@@ -57,13 +57,13 @@ function renderTable() {
 function populateModuleFilter() {
     var sel = document.getElementById('moduleFilter');
     sel.innerHTML = '<option value="">All Modules</option>' +
-        navModules.map(function (m) { return `<option value="${m.id}">${m.moduleName}</option>`; }).join('');
+        navModules.map(function (m) { return `<option value="${m.id}">${escapeHtml(m.moduleName)}</option>`; }).join('');
 }
 
 function populateModuleSelect(selectedId) {
     var sel = document.getElementById('fModule');
     sel.innerHTML = navModules.map(function (m) {
-        return `<option value="${m.id}" ${m.id === selectedId ? 'selected' : ''}>${m.moduleName}</option>`;
+        return `<option value="${m.id}" ${m.id === selectedId ? 'selected' : ''}>${escapeHtml(m.moduleName)}</option>`;
     }).join('');
 }
 
@@ -73,7 +73,7 @@ function populateParentSelect(moduleId, selectedId) {
         return p.moduleId === moduleId && !p.parentPageId && p.id !== editingId;
     });
     sel.innerHTML = '<option value="">None (top-level)</option>' + candidates.map(function (p) {
-        return `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${p.pageName}</option>`;
+        return `<option value="${p.id}" ${p.id === selectedId ? 'selected' : ''}>${escapeHtml(p.pageName)}</option>`;
     }).join('');
 }
 
@@ -144,17 +144,19 @@ function saveNavPage() {
 }
 
 function deleteNavPage(id) {
-    if (!confirm('Delete this nav page?')) return;
-    fetch('/Administration/DeleteNavPage?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete nav page'); return; }
-            navPages = navPages.filter(function (p) { return p.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This nav page will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Administration/DeleteNavPage?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete nav page'); return; }
+                navPages = navPages.filter(function (p) { return p.id !== id; });
+                deletedAlert('Nav page deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

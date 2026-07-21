@@ -1,26 +1,30 @@
-var invoices = (typeof OUTSTANDING_DATA !== 'undefined' ? OUTSTANDING_DATA : []);
+var initialPage = (typeof INVOICES_PAGE_DATA !== 'undefined' ? INVOICES_PAGE_DATA : { items: [], page: 1, pageSize: 8, totalCount: 0 });
 
-var currentPage = 1, perPage = 8, searchQuery = '';
+var currentPage = initialPage.page, pageSize = initialPage.pageSize, searchQuery = '';
+var currentPageItems = initialPage.items, currentTotalCount = initialPage.totalCount;
+var searchDebounceHandle = null;
 var statusBadge = { Paid: 'gp-badge-green', Partial: 'gp-badge-yellow', Unpaid: 'gp-badge-red' };
 
-function filtered() {
-    var q = searchQuery.toLowerCase();
-    return invoices.filter(function (inv) {
-        return !q || ('inv-' + inv.invoiceId).includes(q) || (inv.patientName || '').toLowerCase().includes(q);
-    });
+function fetchPage() {
+    var params = new URLSearchParams({ page: currentPage, pageSize: pageSize });
+    if (searchQuery) params.set('search', searchQuery);
+
+    return fetch('/Payments/GetInvoicesPage?' + params.toString())
+        .then(function (res) { return res.json(); })
+        .then(function (result) {
+            currentPageItems = result.items;
+            currentTotalCount = result.totalCount;
+            renderTable();
+        });
 }
 
 function renderTable() {
-    var data = filtered();
-    var total = data.length;
-    var pages = Math.ceil(total/perPage) || 1;
-    if (currentPage > pages) currentPage = 1;
-    var slice = data.slice((currentPage-1)*perPage, currentPage*perPage);
-    document.getElementById('invoicesTableBody').innerHTML = slice.length ? slice.map(function (inv, i) { return `
+    var pages = Math.ceil(currentTotalCount / pageSize) || 1;
+    document.getElementById('invoicesTableBody').innerHTML = currentPageItems.length ? currentPageItems.map(function (inv, i) { return `
         <tr>
-            <td>${(currentPage-1)*perPage+i+1}</td>
+            <td>${(currentPage-1)*pageSize+i+1}</td>
             <td><span style="font-weight:700;color:#0d9488;">#${inv.invoiceId}</span></td>
-            <td><span style="font-weight:700;">${inv.patientName || 'Walk-in'}</span></td>
+            <td><span style="font-weight:700;">${escapeHtml(inv.patientName || 'Walk-in')}</span></td>
             <td>${inv.netAmount.toLocaleString()}</td>
             <td style="color:#16a34a;font-weight:600;">${inv.paidAmount.toLocaleString()}</td>
             <td style="color:${inv.balanceDue>0?'#dc2626':'#16a34a'};font-weight:600;">${inv.balanceDue.toLocaleString()}</td>
@@ -31,14 +35,14 @@ function renderTable() {
                 <button class="gp-btn-icon gp-btn-print" onclick="printInvoice(${inv.invoiceId})"><i class="ri-printer-line"></i></button>
             </div></td>
         </tr>`; }).join('') : '<tr><td colspan="9" class="text-center py-4 text-muted">No outstanding invoices</td></tr>';
-    document.getElementById('pageInfo').textContent = `Showing ${slice.length} of ${total}`;
+    document.getElementById('pageInfo').textContent = `Showing ${currentPageItems.length} of ${currentTotalCount}`;
     var btns = document.getElementById('pageBtns');
     btns.innerHTML = '';
     for (var p = 1; p <= pages; p++) {
         var btn = document.createElement('button');
         btn.className = 'gp-page-btn' + (p===currentPage?' active':'');
         btn.textContent = p;
-        btn.onclick = (function(pp){ return function(){ currentPage=pp; renderTable(); }; })(p);
+        btn.onclick = (function(pp){ return function(){ currentPage=pp; fetchPage(); }; })(p);
         btns.appendChild(btn);
     }
 }
@@ -59,9 +63,9 @@ function invoiceBrandMarkup() {
     var clinicName = (typeof REPORT_CLINIC_NAME !== 'undefined' && REPORT_CLINIC_NAME) ? REPORT_CLINIC_NAME : 'ClinicMS';
     var logoUrl = (typeof REPORT_LOGO_URL !== 'undefined') ? REPORT_LOGO_URL : null;
     if (logoUrl) {
-        return '<img src="' + logoUrl + '" alt="' + clinicName + '" class="invoice-brand-logo">';
+        return '<img src="' + escapeHtml(logoUrl) + '" alt="' + escapeHtml(clinicName) + '" class="invoice-brand-logo">';
     }
-    return '<div class="invoice-brand">' + clinicName + '<span>Clinic Management System</span></div>';
+    return '<div class="invoice-brand">' + escapeHtml(clinicName) + '<span>Clinic Management System</span></div>';
 }
 
 function renderInvoice(inv) {
@@ -70,14 +74,14 @@ function renderInvoice(inv) {
             <div class="invoice-header">
                 <div>${invoiceBrandMarkup()}</div>
                 <div class="invoice-no">
-                    <h3>${inv.invoiceNumber}</h3>
+                    <h3>${escapeHtml(inv.invoiceNumber)}</h3>
                     <small>Issue Date: ${new Date(inv.invoiceDate).toLocaleDateString()}</small>
                 </div>
             </div>
             <div class="invoice-parties">
                 <div class="invoice-party">
                     <h6>Billed To</h6>
-                    <p style="font-weight:800;color:#1e293b;">${inv.patientName || 'Walk-in Customer'}</p>
+                    <p style="font-weight:800;color:#1e293b;">${escapeHtml(inv.patientName || 'Walk-in Customer')}</p>
                 </div>
                 <div class="invoice-party" style="text-align:right;">
                     <h6>Status</h6>
@@ -88,7 +92,7 @@ function renderInvoice(inv) {
                 <thead><tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
                 <tbody>${inv.items.map(function (item) {
                     var desc = item.serviceName || item.productName || item.itemType;
-                    return `<tr><td>${desc}</td><td>${item.quantity}</td><td>${item.unitPrice.toLocaleString()}</td><td>${item.totalPrice.toLocaleString()}</td></tr>`;
+                    return `<tr><td>${escapeHtml(desc)}</td><td>${item.quantity}</td><td>${item.unitPrice.toLocaleString()}</td><td>${item.totalPrice.toLocaleString()}</td></tr>`;
                 }).join('')}</tbody>
             </table>
             <div class="invoice-totals">
@@ -116,7 +120,12 @@ function printInvoice(id) {
         });
 }
 
-function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }
+function handleSearch(v) {
+    searchQuery = v;
+    currentPage = 1;
+    clearTimeout(searchDebounceHandle);
+    searchDebounceHandle = setTimeout(fetchPage, 300);
+}
 document.addEventListener('DOMContentLoaded', renderTable);
 
 // -- Select2 init --

@@ -151,19 +151,19 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Patient</label>
+                        <label class="form-label required">Patient</label>
                         <select class="form-select" id="fPatient">
                             <option value="">Select a patient…</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Treatment Plan</label>
+                        <label class="form-label required">Treatment Plan</label>
                         <select class="form-select" id="fTreatmentPlan" onchange="onAssignPlanChange()">
                             <option value="">Select a treatment plan…</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label required">Start Date</label>
                         <input type="date" class="form-control" id="fStartDate" onchange="onAssignStartDateChange()">
                     </div>
 
@@ -272,7 +272,7 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">New Date</label>
+                        <label class="form-label required">New Date</label>
                         <input type="date" class="form-control" id="rescheduleDate">
                         <div class="form-hint" id="rescheduleDateHint"></div>
                     </div>
@@ -333,7 +333,7 @@
 
                     <div class="row g-3 mt-1">
                         <div class="col-12 col-md-6">
-                            <label class="form-label">Paid Amount</label>
+                            <label class="form-label required">Paid Amount</label>
                             <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="completePaidAmount"
                                    onkeypress="return isCompletePriceKeyAllowed(event)" oninput="onCompletePaidInput(this)">
                         </div>

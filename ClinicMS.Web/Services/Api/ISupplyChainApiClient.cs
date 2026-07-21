@@ -31,4 +31,7 @@ public interface ISupplyChainApiClient
     Task<PurchaseOrderDto> CreatePurchaseOrderAsync(CreatePurchaseOrderRequest request, CancellationToken cancellationToken = default);
     Task<PurchaseOrderDto> UpdatePurchaseOrderStatusAsync(int id, PurchaseOrderStatus status, CancellationToken cancellationToken = default);
     Task DeletePurchaseOrderAsync(int id, CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<PurchaseReturnDto>> GetPurchaseReturnsAsync(CancellationToken cancellationToken = default);
+    Task<PurchaseReturnDto> CreatePurchaseReturnAsync(CreatePurchaseReturnRequest request, CancellationToken cancellationToken = default);
 }

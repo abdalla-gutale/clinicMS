@@ -12,8 +12,6 @@ public interface ISmsApiClient
 
     Task DeleteTemplateAsync(int id, CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<TemplateTypeDto>> GetTemplateTypesAsync(CancellationToken cancellationToken = default);
-
     Task<IReadOnlyList<SmsConfigurationDto>> GetConfigurationsAsync(CancellationToken cancellationToken = default);
 
     Task<SmsConfigurationDto> CreateConfigurationAsync(CreateSmsConfigurationRequest request, CancellationToken cancellationToken = default);
@@ -21,4 +19,9 @@ public interface ISmsApiClient
     Task<SmsConfigurationDto> UpdateConfigurationAsync(int id, UpdateSmsConfigurationRequest request, CancellationToken cancellationToken = default);
 
     Task DeleteConfigurationAsync(int id, CancellationToken cancellationToken = default);
+
+    /// <summary>Sends a plain-text email through the active Email channel gateway configured under
+    /// SMS Gateway (SMTP host/port/credentials). Throws ApiException if no active Email gateway is
+    /// configured, or if the send itself fails.</summary>
+    Task SendEmailAsync(string toEmail, string subject, string body, CancellationToken cancellationToken = default);
 }

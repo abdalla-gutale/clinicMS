@@ -1,12 +1,105 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\clinicMS\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|c:\\users\\abdal\\onedrive\\desktop\\clinicms\\clinicms.web\\views\\settings\\general.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|solutionrelative:clinicms.web\\views\\settings\\general.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|c:\\users\\abdal\\onedrive\\desktop\\clinicms\\clinicms.web\\services\\api\\isettingsapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|solutionrelative:clinicms.web\\services\\api\\isettingsapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|c:\\users\\abdal\\onedrive\\desktop\\clinicms\\clinicms.web\\controllers\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|solutionrelative:clinicms.web\\controllers\\settingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|c:\\users\\abdal\\onedrive\\desktop\\clinicms\\clinicms.web\\views\\expenses\\setup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|solutionrelative:clinicms.web\\views\\expenses\\setup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|c:\\users\\abdal\\onedrive\\desktop\\clinicms\\clinicms.web\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{79C8C1BA-360E-4A01-9D01-25CBB3DBF2CD}|ClinicMS.Web\\ClinicMS.Web.csproj|solutionrelative:clinicms.web\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "General.cshtml",
+              "DocumentMoniker": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Settings\\General.cshtml",
+              "RelativeDocumentMoniker": "ClinicMS.Web\\Views\\Settings\\General.cshtml",
+              "ToolTip": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Settings\\General.cshtml",
+              "RelativeToolTip": "ClinicMS.Web\\Views\\Settings\\General.cshtml",
+              "ViewState": "AgIAAMsGAAAAAAAAAAAYwN8GAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-21T10:53:10.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ISettingsApiClient.cs",
+              "DocumentMoniker": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Services\\Api\\ISettingsApiClient.cs",
+              "RelativeDocumentMoniker": "ClinicMS.Web\\Services\\Api\\ISettingsApiClient.cs",
+              "ToolTip": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Services\\Api\\ISettingsApiClient.cs",
+              "RelativeToolTip": "ClinicMS.Web\\Services\\Api\\ISettingsApiClient.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA6wCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-21T10:52:54.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SettingsController.cs",
+              "DocumentMoniker": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Controllers\\SettingsController.cs",
+              "RelativeDocumentMoniker": "ClinicMS.Web\\Controllers\\SettingsController.cs",
+              "ToolTip": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Controllers\\SettingsController.cs",
+              "RelativeToolTip": "ClinicMS.Web\\Controllers\\SettingsController.cs",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAwwNEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-21T10:52:02.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Setup.cshtml",
+              "DocumentMoniker": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Expenses\\Setup.cshtml",
+              "RelativeDocumentMoniker": "ClinicMS.Web\\Views\\Expenses\\Setup.cshtml",
+              "ToolTip": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Expenses\\Setup.cshtml",
+              "RelativeToolTip": "ClinicMS.Web\\Views\\Expenses\\Setup.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-21T10:50:34.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "ClinicMS.Web\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\abdal\\OneDrive\\Desktop\\clinicMS\\ClinicMS.Web\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "ClinicMS.Web\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAqwFcBAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-21T10:45:25.64Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

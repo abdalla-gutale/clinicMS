@@ -106,23 +106,23 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Product</label>
+                        <label class="form-label required">Product</label>
                         <select class="form-select" id="fProduct"></select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">SKU Code</label>
+                        <label class="form-label required">SKU Code</label>
                         <input type="text" class="form-control" id="fSkuCode" placeholder="e.g. SKU-VCS-30">
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Unit</label>
+                        <label class="form-label required">Unit</label>
                         <input type="text" class="form-control" id="fUnitName" placeholder="e.g. 30ml Bottle">
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Cost Price</label>
+                        <label class="form-label required">Cost Price</label>
                         <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fCostPrice" onkeypress="return isDecimalKeyAllowed(event)" oninput="sanitizeDecimal(this)">
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Selling Price</label>
+                        <label class="form-label required">Selling Price</label>
                         <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fSellingPrice" onkeypress="return isDecimalKeyAllowed(event)" oninput="sanitizeDecimal(this)">
                     </div>
                     <div class="col-6">
@@ -130,7 +130,7 @@
                         <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="fStockQuantity" onkeypress="return isIntKeyAllowed(event)" oninput="sanitizeInt(this)">
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Reorder Level</label>
+                        <label class="form-label required">Reorder Level</label>
                         <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="fReorderLevel" onkeypress="return isIntKeyAllowed(event)" oninput="sanitizeInt(this)">
                     </div>
                     <div class="col-12">

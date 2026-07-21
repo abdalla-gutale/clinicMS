@@ -109,15 +109,15 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Service Type</label>
+                        <label class="form-label required">Service Type</label>
                         <select class="form-select" id="fServiceType"></select>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Service Name</label>
+                        <label class="form-label required">Service Name</label>
                         <input type="text" class="form-control" id="fServiceName" placeholder="e.g. Chemical Peel">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Service Price</label>
+                        <label class="form-label required">Service Price</label>
                         <div class="input-suffix-wrap">
                             <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fPrice"
                                    onkeypress="return isPriceKeyAllowed(event)" oninput="sanitizePrice(this)">

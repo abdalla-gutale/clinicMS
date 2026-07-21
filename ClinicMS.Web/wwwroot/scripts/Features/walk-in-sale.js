@@ -8,18 +8,18 @@ function money(n) { return (n || 0).toLocaleString(undefined, { minimumFractionD
 
 function populateSelects() {
     document.getElementById('wPatient').innerHTML = '<option value="">Select a patient…</option>' +
-        wiPatients.map(function (p) { return '<option value="' + p.id + '">' + p.fullName + '</option>'; }).join('');
+        wiPatients.map(function (p) { return '<option value="' + p.id + '">' + escapeHtml(p.fullName) + '</option>'; }).join('');
 
     document.getElementById('wServices').innerHTML = wiServices.map(function (s) {
-        return '<option value="' + s.id + '">' + s.serviceName + ' (' + money(s.price) + ')</option>';
+        return '<option value="' + s.id + '">' + escapeHtml(s.serviceName) + ' (' + money(s.price) + ')</option>';
     }).join('');
 
     document.getElementById('wProducts').innerHTML = wiProducts.map(function (p) {
-        return '<option value="' + p.id + '">' + p.name + ' (' + money(p.price) + ')</option>';
+        return '<option value="' + p.id + '">' + escapeHtml(p.name) + ' (' + money(p.price) + ')</option>';
     }).join('');
 
     document.getElementById('wAccount').innerHTML = '<option value="">— None —</option>' +
-        wiAccounts.map(function (a) { return '<option value="' + a.id + '">' + a.name + '</option>'; }).join('');
+        wiAccounts.map(function (a) { return '<option value="' + a.id + '">' + escapeHtml(a.name) + '</option>'; }).join('');
 
     document.getElementById('wiVatPct').textContent = wiVatPercentage;
 }
@@ -51,7 +51,7 @@ function renderItemsAndTotals() {
         emptyMsg.style.display = 'none';
         tbody.innerHTML = items.map(function (it) {
             var badgeClass = it.type === 'Service' ? 'wi-type-service' : 'wi-type-product';
-            return '<tr><td>' + it.name + '</td><td><span class="wi-type-badge ' + badgeClass + '">' + it.type + '</span></td>' +
+            return '<tr><td>' + escapeHtml(it.name) + '</td><td><span class="wi-type-badge ' + badgeClass + '">' + it.type + '</span></td>' +
                 '<td style="text-align:right;">' + money(it.price) + '</td></tr>';
         }).join('');
     }
@@ -111,7 +111,7 @@ function submitWalkInSale() {
 function showReceipt(invoice) {
     var receipt = document.getElementById('wiReceipt');
     receipt.style.display = '';
-    receipt.innerHTML = '<i class="ri-checkbox-circle-line me-1"></i> Invoice <b>' + invoice.invoiceNumber + '</b> created for ' +
+    receipt.innerHTML = '<i class="ri-checkbox-circle-line me-1"></i> Invoice <b>' + escapeHtml(invoice.invoiceNumber) + '</b> created for ' +
         '<b>' + money(invoice.netAmount) + ' ' + WALKIN_CURRENCY + '</b> — fully paid.';
 }
 

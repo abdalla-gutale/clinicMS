@@ -10,18 +10,14 @@ public enum ChannelType
 public record SmsTemplateDto(
     int Id,
     string TemplateName,
-    int TemplateTypeId,
-    string TemplateTypeName,
     ChannelType ChannelType,
     string MessageBody,
     bool IsActive,
     DateTime CreatedAt);
 
-public record CreateSmsTemplateRequest(string TemplateName, int TemplateTypeId, ChannelType ChannelType, string MessageBody, bool IsActive);
+public record CreateSmsTemplateRequest(string TemplateName, ChannelType ChannelType, string MessageBody, bool IsActive);
 
-public record UpdateSmsTemplateRequest(string TemplateName, int TemplateTypeId, ChannelType ChannelType, string MessageBody, bool IsActive);
-
-public record TemplateTypeDto(int Id, string TypeName);
+public record UpdateSmsTemplateRequest(string TemplateName, ChannelType ChannelType, string MessageBody, bool IsActive);
 
 public record SmsConfigurationDto(
     int Id, ChannelType ChannelType, string ProviderName, string? ApiKey, string? ApiSecret,

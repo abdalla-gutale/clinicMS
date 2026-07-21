@@ -151,42 +151,53 @@
 
     @foreach (var module in Model)
     {
-        <li class="menu-title"><span>@module.Name</span></li>
+        var moduleAnchorId = "sn-mod-" + module.Name.ToLowerInvariant().Replace(" ", "-").Replace("&", "and");
+        var moduleActive = module.Items.Any(i => (i.Url != null && IsActivePrefix(i.Url)) || (i.IsGroup && GroupActive(i)));
 
-        @foreach (var item in module.Items)
-        {
-            var anchorId = "sn-" + (module.Name + "-" + item.Name).ToLowerInvariant().Replace(" ", "-").Replace("&", "and");
+        <li class="nav-item">
+            <a class="nav-link menu-link collapsed @(moduleActive ? "active-parent" : "")"
+               href="#@moduleAnchorId" data-bs-toggle="collapse" role="button"
+               aria-expanded="@(moduleActive ? "true" : "false")" aria-controls="@moduleAnchorId">
+                <i class="@module.Icon"></i>
+                <span>@module.Name</span>
+            </a>
+            <div class="collapse menu-dropdown @(moduleActive ? "show" : "")" id="@moduleAnchorId">
+                <ul class="nav nav-sm flex-column">
+                    @foreach (var item in module.Items)
+                    {
+                        var anchorId = "sn-" + (module.Name + "-" + item.Name).ToLowerInvariant().Replace(" ", "-").Replace("&", "and");
 
-            if (item.IsGroup)
-            {
-                var active = GroupActive(item);
-                <li class="nav-item">
-                    <a class="nav-link menu-link collapsed @(active ? "active-parent" : "")"
-                       href="#@anchorId" data-bs-toggle="collapse" role="button"
-                       aria-expanded="@(active ? "true" : "false")" aria-controls="@anchorId">
-                        <i class="@module.Icon"></i>
-                        <span>@item.Name</span>
-                    </a>
-                    <div class="collapse menu-dropdown @(active ? "show" : "")" id="@anchorId">
-                        <ul class="nav nav-sm flex-column">
-                            @foreach (var child in item.Children)
-                            {
-                                <li class="nav-item"><a href="@child.Url" class="nav-link @(IsActivePrefix(child.Url!) ? "active" : "")">@child.Name</a></li>
-                            }
-                        </ul>
-                    </div>
-                </li>
-            }
-            else
-            {
-                <li class="nav-item">
-                    <a class="nav-link menu-link @(IsActivePrefix(item.Url!) ? "active" : "")" href="@item.Url">
-                        <i class="@module.Icon"></i>
-                        <span>@item.Name</span>
-                    </a>
-                </li>
-            }
-        }
+                        if (item.IsGroup)
+                        {
+                            var active = GroupActive(item);
+                            <li class="nav-item">
+                                <a class="nav-link collapsed @(active ? "active-parent" : "")"
+                                   href="#@anchorId" data-bs-toggle="collapse" role="button"
+                                   aria-expanded="@(active ? "true" : "false")" aria-controls="@anchorId">
+                                    <span>@item.Name</span>
+                                </a>
+                                <div class="collapse menu-dropdown @(active ? "show" : "")" id="@anchorId">
+                                    <ul class="nav nav-sm flex-column">
+                                        @foreach (var child in item.Children)
+                                        {
+                                            <li class="nav-item"><a href="@child.Url" class="nav-link @(IsActivePrefix(child.Url!) ? "active" : "")">@child.Name</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(IsActivePrefix(item.Url!) ? "active" : "")" href="@item.Url">
+                                    <span>@item.Name</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </li>
     }
 
 </ul>

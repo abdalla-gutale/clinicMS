@@ -1,26 +1,19 @@
-@using System.Security.Claims
+@using ClinicMS.Web.Models.Api.Auth
+@using ClinicMS.Web.Services.Api
 @{
-    var principal = Context?.User;
-    var fullName =
-        principal?.Identity?.Name
-        ?? principal?.FindFirstValue(ClaimTypes.Name)
-        ?? principal?.FindFirstValue("name")
-        ?? principal?.FindFirstValue("preferred_username")
-        ?? principal?.FindFirstValue(ClaimTypes.Email)
-        ?? "User";
+    // Session-based auth, not cookie/claims auth -- there's no authentication middleware in
+    // Program.cs, so Context.User is always an empty anonymous principal. The logged-in user's
+    // identity lives in SessionKeys.AuthUser (set by AccountController.VerifyOtp) instead.
+    UserSummary? authUser = null;
+    var authJson = Context?.Session.GetString(SessionKeys.AuthUser);
+    if (!string.IsNullOrEmpty(authJson))
+    {
+        authUser = System.Text.Json.JsonSerializer.Deserialize<UserSummary>(authJson);
+    }
 
-    var givenName = principal?.FindFirstValue(ClaimTypes.GivenName)
-        ?? principal?.FindFirstValue("given_name");
-
-    var firstName = !string.IsNullOrWhiteSpace(givenName)
-        ? givenName
-        : fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "User";
-
-    var role = principal?.FindFirstValue(ClaimTypes.Role)
-        ?? principal?.FindFirstValue("role")
-        ?? principal?.FindFirstValue("roles")
-        ?? "User";
-
+    var fullName = authUser?.FullName ?? "User";
+    var firstName = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "User";
+    var role = authUser?.RoleName ?? "User";
     var avatarLetter = firstName.Substring(0, 1).ToUpperInvariant();
 }
 
@@ -33,39 +26,6 @@
     border-bottom: 1px solid #e9ecef !important;
     box-shadow: 0 2px 12px rgba(15,23,42,.06) !important;
 }
-
-.tb-search-wrap {
-    position: relative;
-    flex: 1 1 auto;
-    max-width: 420px;
-}
-.tb-search-input {
-    width: 100%;
-    height: 40px;
-    padding: 0 16px 0 42px;
-    border-radius: 12px;
-    border: 1.5px solid #e2e8f0;
-    background: #f8fafc;
-    font-size: .875rem;
-    color: #1e293b;
-    outline: none;
-    transition: border-color .18s, box-shadow .18s;
-}
-.tb-search-input::placeholder { color: #94a3b8; }
-.tb-search-input:focus {
-    border-color: #0d9488;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(13,148,136,.12);
-}
-.tb-search-icon {
-    position: absolute;
-    left: 14px; top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    font-size: 1rem;
-    pointer-events: none;
-}
-.tb-search-input:focus ~ .tb-search-icon { color: #0d9488; }
 
 /* divider */
 .tb-divider { width: 1px; height: 24px; background: #e2e8f0; flex-shrink: 0; }
@@ -107,7 +67,6 @@
 .tb-breadcrumb-sep { color: #cbd5e1; font-size: .7rem; }
 
 @@media (max-width: 768px) {
-    .tb-search-wrap { max-width: 200px; }
     .tb-user-name, .tb-user-role { display: none; }
     .tb-lang-label { display: none; }
 }
@@ -124,12 +83,6 @@
                     style="border:none;background:transparent;color:#64748b;flex-shrink:0;">
                 <span class="hamburger-icon"><span></span><span></span><span></span></span>
             </button>
-
-            <!-- Search -->
-            <div class="tb-search-wrap">
-                <i class="ri-search-line tb-search-icon"></i>
-                <input type="text" class="tb-search-input" placeholder="Search members, classes, trainers…">
-            </div>
 
             <!-- Right actions -->
             <div class="d-flex align-items-center gap-2 ms-auto flex-nowrap">
@@ -158,9 +111,12 @@
                             <i class="ri-user-line me-2 text-muted"></i> Profile
                         </a>
                         <div style="height:1px;background:#f1f5f9;margin:6px 0;"></div>
-                        <a class="dropdown-item rounded-2 py-2 text-danger" href="/Account/Login">
-                            <i class="ri-logout-box-r-line me-2"></i> Logout
-                        </a>
+                        <form method="post" action="/Account/Logout" class="m-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="dropdown-item rounded-2 py-2 text-danger border-0 bg-transparent w-100 text-start">
+                                <i class="ri-logout-box-r-line me-2"></i> Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
 

@@ -22,11 +22,11 @@ public record RoleWithPermissions(
     IReadOnlyList<PermissionDetail> NavPermissions,
     IReadOnlyList<ReportPermissionDetail> ReportPermissions);
 
-public record ModuleDto(int Id, string ModuleName, int DisplayOrder, bool IsActive);
+public record ModuleDto(int Id, string ModuleName, string ModuleIcon, int DisplayOrder, bool IsActive);
 
-public record CreateModuleRequest(string ModuleName, int DisplayOrder, bool IsActive);
+public record CreateModuleRequest(string ModuleName, string ModuleIcon, int DisplayOrder, bool IsActive);
 
-public record UpdateModuleRequest(string ModuleName, int DisplayOrder, bool IsActive);
+public record UpdateModuleRequest(string ModuleName, string ModuleIcon, int DisplayOrder, bool IsActive);
 
 public record NavPageDto(int Id, int ModuleId, string PageName, string PageUrl, int DisplayOrder, bool IsActive, int? ParentPageId);
 

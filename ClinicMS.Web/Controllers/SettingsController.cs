@@ -20,6 +20,7 @@ namespace ClinicMS.Web.Controllers
             _configuration = configuration;
         }
 
+        [RequirePermission("/settings/clinic", PermissionAction.View)]
         public async Task<IActionResult> General(CancellationToken cancellationToken)
         {
             var settings = await _settingsApiClient.GetClinicSettingsAsync(cancellationToken);
@@ -49,9 +50,8 @@ namespace ClinicMS.Web.Controllers
             return View();
         }
 
-        public IActionResult Branches() => View();
-
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> SaveGeneral([FromBody] UpsertClinicSettingRequest request, CancellationToken cancellationToken)
         {
             try
@@ -66,6 +66,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> SaveMerchantAccount([FromBody] UpsertMerchantAccountRequest request, CancellationToken cancellationToken)
         {
             try
@@ -80,6 +81,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Create)]
         public async Task<IActionResult> CreateDiscount([FromBody] CreateDiscountRequest request, CancellationToken cancellationToken)
         {
             try
@@ -94,6 +96,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateDiscount(int id, [FromBody] UpdateDiscountRequest request, CancellationToken cancellationToken)
         {
             try
@@ -108,6 +111,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteDiscount(int id, CancellationToken cancellationToken)
         {
             try
@@ -122,6 +126,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Create)]
         public async Task<IActionResult> CreatePaymentAccount([FromBody] CreatePaymentAccountRequest request, CancellationToken cancellationToken)
         {
             try
@@ -136,6 +141,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> UpdatePaymentAccount(int id, [FromBody] UpdatePaymentAccountRequest request, CancellationToken cancellationToken)
         {
             try
@@ -150,6 +156,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Delete)]
         public async Task<IActionResult> DeletePaymentAccount(int id, CancellationToken cancellationToken)
         {
             try
@@ -164,6 +171,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Create)]
         public async Task<IActionResult> CreateSmsConfiguration([FromBody] CreateSmsConfigurationRequest request, CancellationToken cancellationToken)
         {
             try
@@ -178,6 +186,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateSmsConfiguration(int id, [FromBody] UpdateSmsConfigurationRequest request, CancellationToken cancellationToken)
         {
             try
@@ -192,6 +201,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteSmsConfiguration(int id, CancellationToken cancellationToken)
         {
             try
@@ -206,6 +216,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Create)]
         public async Task<IActionResult> CreateSmsTemplate([FromBody] CreateSmsTemplateRequest request, CancellationToken cancellationToken)
         {
             try
@@ -220,6 +231,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateSmsTemplate(int id, [FromBody] UpdateSmsTemplateRequest request, CancellationToken cancellationToken)
         {
             try
@@ -234,6 +246,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/settings/clinic", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteSmsTemplate(int id, CancellationToken cancellationToken)
         {
             try

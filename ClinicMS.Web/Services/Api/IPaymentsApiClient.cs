@@ -1,3 +1,4 @@
+using ClinicMS.Web.Models.Api;
 using ClinicMS.Web.Models.Api.Payments;
 
 namespace ClinicMS.Web.Services.Api;
@@ -5,6 +6,8 @@ namespace ClinicMS.Web.Services.Api;
 public interface IPaymentsApiClient
 {
     Task<IReadOnlyList<OutstandingInvoiceDto>> GetOutstandingInvoicesAsync(CancellationToken cancellationToken = default);
+
+    Task<PagedResult<OutstandingInvoiceDto>> GetOutstandingInvoicesPagedAsync(int page, int pageSize, string? search, CancellationToken cancellationToken = default);
 
     Task<InvoiceDto> GetInvoiceByIdAsync(int id, CancellationToken cancellationToken = default);
 

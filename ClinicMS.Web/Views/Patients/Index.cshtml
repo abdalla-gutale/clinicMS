@@ -128,7 +128,7 @@
                         <div style="font-size:.72rem;color:#94a3b8;">Patient photo (optional)</div>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Full Name</label>
+                        <label class="form-label required">Full Name</label>
                         <input type="text" class="form-control" id="fFullName" placeholder="Full name">
                     </div>
                     <div class="col-12 col-md-6">
@@ -140,12 +140,12 @@
                         </select>
                     </div>
                     <div class="col-6 col-md-3">
-                        <label class="form-label">Age</label>
+                        <label class="form-label required">Age</label>
                         <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="fAge" placeholder="Age" maxlength="3"
                                onkeypress="return isAgeKeyAllowed(event)" onpaste="return isAgePasteAllowed(event)" oninput="sanitizeAge(this)">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Phone</label>
+                        <label class="form-label required">Phone</label>
                         <input type="tel" inputmode="tel" autocomplete="off" class="form-control" id="fPhone"
                                onkeypress="return isPhoneKeyAllowed(event)" onpaste="return isPhonePasteAllowed(event)" oninput="sanitizePhone(this)">
                     </div>
@@ -165,7 +165,7 @@
 
 @section Scripts {
 <script>
-    var PATIENTS_DATA = @Html.Raw(ViewBag.PatientsJson);
+    var PATIENTS_PAGE_DATA = @Html.Raw(ViewBag.PatientsPageJson);
 </script>
 <script src="~/scripts/Features/patients.js"></script>
 }

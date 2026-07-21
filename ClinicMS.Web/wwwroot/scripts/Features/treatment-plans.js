@@ -26,7 +26,7 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (p, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${p.planName}</span></td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(p.planName)}</span></td>
             <td><span class="gp-badge gp-badge-purple">${pricingLabel(p)}</span></td>
             <td style="font-weight:700;color:#0d9488;">${priceLabel(p)}</td>
             <td>${p.frequency}</td>
@@ -102,10 +102,10 @@ function frequencyLabel(frequency, n) {
 
 function renderSessionRowHtml(index, session) {
     var serviceOptions = planServices.map(function (s) {
-        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + s.serviceName + '</option>';
+        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(s.serviceName) + '</option>';
     }).join('');
     var productOptions = planProducts.map(function (p) {
-        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + p.name + ' (' + p.price.toFixed(2) + ')</option>';
+        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(p.name) + ' (' + p.price.toFixed(2) + ')</option>';
     }).join('');
     return '<tr id="sessionRow_' + index + '">' +
         '<td><span class="sessions-label" id="sessionLabel_' + index + '">' + session.label + '</span></td>' +
@@ -312,10 +312,10 @@ function onAssignStartDateChange() {
 
 function renderAssignSessionRowHtml(index, session, editable, dateText) {
     var serviceOptions = planServices.map(function (s) {
-        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + s.serviceName + '</option>';
+        return '<option value="' + s.id + '"' + (session.serviceIds.indexOf(s.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(s.serviceName) + '</option>';
     }).join('');
     var productOptions = planProducts.map(function (p) {
-        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + p.name + ' (' + p.price.toFixed(2) + ')</option>';
+        return '<option value="' + p.id + '"' + (session.productIds.indexOf(p.id) !== -1 ? ' selected' : '') + '>' + escapeHtml(p.name) + ' (' + p.price.toFixed(2) + ')</option>';
     }).join('');
     var disabledAttr = editable ? '' : ' disabled';
     return '<tr id="assignSessionRow_' + index + '">' +
@@ -420,17 +420,19 @@ function submitAssign() {
 }
 
 function deletePlan(id) {
-    if (!confirm('Delete this treatment plan?')) return;
-    fetch('/MedicalServices/DeleteTreatmentPlan?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete treatment plan'); return; }
-            plans = plans.filter(function (p) { return p.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This treatment plan will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/MedicalServices/DeleteTreatmentPlan?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete treatment plan'); return; }
+                plans = plans.filter(function (p) { return p.id !== id; });
+                deletedAlert('Treatment plan deleted.');
+                renderTable();
+            });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

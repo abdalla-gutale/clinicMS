@@ -63,3 +63,15 @@ public record PurchaseOrderDto(
     IReadOnlyList<PurchaseOrderItemDto> Items);
 
 public record CreatePurchaseOrderRequest(int SupplierId, DateOnly? ExpectedDeliveryDate, string? Notes, IReadOnlyList<PurchaseOrderItemRequest> Items);
+
+/// <summary>Sending previously-received PO stock back to the supplier -- distinct from a
+/// ProductRefund, which is a patient returning a product they bought.</summary>
+public record PurchaseReturnItemDto(int ProductSkuId, string SkuCode, string ProductName, int Quantity, decimal UnitCost, decimal TotalCost);
+
+public record PurchaseReturnItemRequest(int ProductSkuId, int Quantity, decimal UnitCost);
+
+public record PurchaseReturnDto(
+    int Id, int PurchaseOrderId, string PoNumber, int SupplierId, string SupplierName,
+    DateTime ReturnDate, decimal TotalAmount, string? Reason, IReadOnlyList<PurchaseReturnItemDto> Items);
+
+public record CreatePurchaseReturnRequest(int PurchaseOrderId, string? Reason, IReadOnlyList<PurchaseReturnItemRequest> Items);

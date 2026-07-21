@@ -76,8 +76,8 @@
   --tb-topnav-sub-item-color-active: #3762ea;
 }
 [data-theme=default][data-sidebar=dark] {
-  --tb-vertical-menu-bg: #181a20;
-  --tb-vertical-menu-border: #181a20;
+  --tb-vertical-menu-bg: #20472c;
+  --tb-vertical-menu-border: #20472c;
   --tb-vertical-menu-item-color: #97979a;
   --tb-vertical-menu-item-hover-color: #eef0f7;
   --tb-vertical-menu-item-hover-bg: #222328;

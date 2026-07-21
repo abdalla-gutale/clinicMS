@@ -49,9 +49,9 @@ function renderTable() {
         return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${s.skuCode}</span></td>
-            <td>${s.productName}</td>
-            <td style="color:#64748b;">${s.unitName}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(s.skuCode)}</span></td>
+            <td>${escapeHtml(s.productName)}</td>
+            <td style="color:#64748b;">${escapeHtml(s.unitName)}</td>
             <td>${s.costPrice.toLocaleString()}</td>
             <td style="font-weight:700;color:#0d9488;">${s.sellingPrice.toLocaleString()}</td>
             <td><span class="gp-badge ${low ? 'gp-badge-amber' : 'gp-badge-green'}">${s.stockQuantity}</span></td>
@@ -159,17 +159,19 @@ function saveSku() {
 }
 
 function deleteSku(id) {
-    if (!confirm('Delete this SKU?')) return;
-    fetch('/SupplyChain/DeleteProductSku?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete SKU'); return; }
-            skus = skus.filter(function (s) { return s.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This product SKU will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/DeleteProductSku?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete SKU'); return; }
+                skus = skus.filter(function (s) { return s.id !== id; });
+                deletedAlert('SKU deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

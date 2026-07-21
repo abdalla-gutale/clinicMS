@@ -15,6 +15,7 @@ namespace ClinicMS.Web.Controllers
             _rolesApiClient = rolesApiClient;
         }
 
+        [RequirePermission("/admin/roles", PermissionAction.View)]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var roles = await _rolesApiClient.GetAllAsync(cancellationToken);
@@ -29,6 +30,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/roles", PermissionAction.Create)]
         public async Task<IActionResult> Create([FromBody] CreateRoleRequest request, CancellationToken cancellationToken)
         {
             try
@@ -43,6 +45,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/roles", PermissionAction.Edit)]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateRoleRequest request, CancellationToken cancellationToken)
         {
             try
@@ -57,6 +60,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/roles", PermissionAction.Delete)]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             try
@@ -71,6 +75,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpGet]
+        [RequirePermission("/admin/roles", PermissionAction.View)]
         public async Task<IActionResult> Permissions(int id, CancellationToken cancellationToken)
         {
             try
@@ -85,6 +90,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/roles", PermissionAction.Edit)]
         public async Task<IActionResult> SavePermissions(int id, [FromBody] List<PermissionItem> permissions, CancellationToken cancellationToken)
         {
             try

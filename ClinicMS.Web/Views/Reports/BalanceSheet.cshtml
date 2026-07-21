@@ -1,0 +1,116 @@
+@model ClinicMS.Web.Models.Api.Reports.BalanceSheetDto
+@{
+    ViewData["Title"] = "Balance Sheet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.pTitle = "Balance Sheet";
+}
+
+@section styles {
+<style>
+.gp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.gp-title { font-size:1.25rem; font-weight:800; color:#1e293b; margin:0; }
+.gp-sub { font-size:.82rem; color:#64748b; margin:3px 0 0; }
+.gp-card { background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(15,23,42,.06); padding:20px; }
+.bs-section-title { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; margin-bottom:12px; }
+.bs-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #f8fafc; font-size:.9rem; color:#334155; }
+.bs-row:last-child { border-bottom:none; }
+.bs-row .label { color:#64748b; }
+.bs-row .value { font-weight:700; color:#1e293b; }
+.bs-total-row { display:flex; justify-content:space-between; align-items:center; padding-top:12px; margin-top:8px; border-top:2px solid #e2e8f0; font-weight:800; font-size:1rem; color:#1e293b; }
+.bs-equity-val { font-size:1.6rem; font-weight:900; }
+
+/* Print only the report body -- sidebar/topbar/footer are already hidden by app.css's own print
+   rules; this additionally suppresses the print button itself and anything outside #bsPrintArea. */
+@@media print {
+    body * { visibility: hidden; }
+    #bsPrintArea, #bsPrintArea * { visibility: visible; }
+    #bsPrintArea { position: absolute; left: 0; top: 0; width: 100%; padding: 24px; }
+    #bsPrintBtn { display: none !important; }
+}
+</style>
+}
+
+<div class="gp-page">
+    <div class="gp-header">
+        <div>
+            <h4 class="gp-title">Balance Sheet</h4>
+            <p class="gp-sub">As of @Model.AsOf.ToLocalTime().ToString("MMMM d, yyyy h:mm tt")</p>
+        </div>
+        <button type="button" id="bsPrintBtn" class="btn text-white px-4" style="background:#0d9488;border-radius:10px;" onclick="window.print()">
+            <i class="ri-printer-line me-1"></i> Print
+        </button>
+    </div>
+
+    <div class="row g-3" id="bsPrintArea">
+        <div class="col-12 col-lg-6">
+            <div class="gp-card mb-3">
+                <div class="bs-section-title">Assets — Cash & Accounts</div>
+                @if (Model.AccountBalances.Count == 0)
+                {
+                    <div class="text-muted" style="font-size:.85rem;">No payment accounts configured yet.</div>
+                }
+                else
+                {
+                    foreach (var account in Model.AccountBalances)
+                    {
+                        <div class="bs-row">
+                            <span class="label">@account.AccountName</span>
+                            <span class="value">@account.Balance.ToString("N2")</span>
+                        </div>
+                    }
+                }
+                <div class="bs-total-row">
+                    <span>Total Cash</span>
+                    <span>@Model.TotalCash.ToString("N2")</span>
+                </div>
+            </div>
+
+            <div class="gp-card mb-3">
+                <div class="bs-section-title">Assets — Other</div>
+                <div class="bs-row">
+                    <span class="label">Inventory Value (at cost)</span>
+                    <span class="value">@Model.InventoryValue.ToString("N2")</span>
+                </div>
+                <div class="bs-row">
+                    <span class="label">Patient Wallet Credits</span>
+                    <span class="value">@Model.PatientWalletCredits.ToString("N2")</span>
+                </div>
+            </div>
+
+            <div class="gp-card" style="background:#f0fdfa;border-color:#99f6e4;">
+                <div class="bs-total-row" style="border-top:none;padding-top:0;margin-top:0;">
+                    <span>Total Assets</span>
+                    <span style="color:#0d9488;">@Model.TotalAssets.ToString("N2")</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="gp-card mb-3">
+                <div class="bs-section-title">Liabilities</div>
+                <div class="bs-row">
+                    <span class="label">Purchase Orders Outstanding (Ordered, not yet Received)</span>
+                    <span class="value">@Model.PurchaseOrdersOutstanding.ToString("N2")</span>
+                </div>
+                <div class="bs-total-row">
+                    <span>Total Liabilities</span>
+                    <span>@Model.TotalLiabilities.ToString("N2")</span>
+                </div>
+            </div>
+
+            <div class="gp-card" style="background:@(Model.Equity >= 0 ? "#f0fdfa" : "#fef2f2");border-color:@(Model.Equity >= 0 ? "#99f6e4" : "#fecaca");">
+                <div class="bs-section-title">Equity (Assets − Liabilities)</div>
+                <div class="bs-equity-val" style="color:@(Model.Equity >= 0 ? "#0d9488" : "#dc2626");">@Model.Equity.ToString("N2")</div>
+            </div>
+
+            <div class="gp-card mt-3">
+                <div class="bs-section-title">About this report</div>
+                <p style="font-size:.82rem;color:#64748b;margin:0;">
+                    This is a derived, as-of-today snapshot rather than formal double-entry bookkeeping.
+                    Account balances are all payments received into an account minus all expenses paid out of it since it was created.
+                    Purchase orders don't move cash directly in this system, so only their committed-but-undelivered value counts as a liability.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

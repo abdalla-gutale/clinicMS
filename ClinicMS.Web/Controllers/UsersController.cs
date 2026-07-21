@@ -17,6 +17,7 @@ namespace ClinicMS.Web.Controllers
             _rolesApiClient = rolesApiClient;
         }
 
+        [RequirePermission("/admin/users", PermissionAction.View)]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             var users = await _usersApiClient.GetAllAsync(cancellationToken);
@@ -29,6 +30,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/users", PermissionAction.Create)]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
             try
@@ -43,6 +45,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/users", PermissionAction.Edit)]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
         {
             try
@@ -57,6 +60,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/users", PermissionAction.Edit)]
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordModel model, CancellationToken cancellationToken)
         {
             try
@@ -71,6 +75,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/admin/users", PermissionAction.Delete)]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             try

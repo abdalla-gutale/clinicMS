@@ -19,8 +19,8 @@ function renderTable() {
     tbody.innerHTML = slice.length ? slice.map(function (c, i) { return `
         <tr>
             <td>${(currentPage - 1) * perPage + i + 1}</td>
-            <td><span style="font-weight:700;color:#1e293b;">${c.categoryName}</span></td>
-            <td style="color:#64748b;">${c.description || ''}</td>
+            <td><span style="font-weight:700;color:#1e293b;">${escapeHtml(c.categoryName)}</span></td>
+            <td style="color:#64748b;">${escapeHtml(c.description || '')}</td>
             <td><span class="gp-badge ${c.isActive ? 'gp-badge-green' : 'gp-badge-red'}">${c.isActive ? 'Active' : 'Inactive'}</span></td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openModal(${c.id})" title="Edit"><i class="ri-pencil-line"></i></button>
@@ -86,17 +86,19 @@ function saveCategory() {
 }
 
 function deleteCategory(id) {
-    if (!confirm('Delete this category?')) return;
-    fetch('/SupplyChain/DeleteProductCategory?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete category'); return; }
-            categories = categories.filter(function (c) { return c.id !== id; });
-            toastr.success('Deleted');
-            renderTable();
-        });
+    confirmDelete('This product category will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/SupplyChain/DeleteProductCategory?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete category'); return; }
+                categories = categories.filter(function (c) { return c.id !== id; });
+                deletedAlert('Category deleted.');
+                renderTable();
+            });
+    });
 }
 
 function handleSearch(v) { searchQuery = v; currentPage = 1; renderTable(); }

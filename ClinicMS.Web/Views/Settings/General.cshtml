@@ -229,7 +229,7 @@ table.dataTable thead th { position: relative; }
                     <div class="settings-card-body">
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
-                                <label class="form-label">Clinic Name</label>
+                                <label class="form-label required">Clinic Name</label>
                                 <input type="text" class="form-control" id="gymName">
                             </div>
                             <div class="col-12 col-md-6">
@@ -417,15 +417,15 @@ table.dataTable thead th { position: relative; }
                     <div class="settings-card-body">
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
-                                <label class="form-label">Account Holder Name</label>
+                                <label class="form-label required">Account Holder Name</label>
                                 <input type="text" class="form-control" id="merchantAccountHolder">
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label">Bank Name</label>
+                                <label class="form-label required">Bank Name</label>
                                 <input type="text" class="form-control" id="merchantBankName">
                             </div>
                             <div class="col-12 col-md-6">
-                                <label class="form-label">Account Number</label>
+                                <label class="form-label required">Account Number</label>
                                 <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="merchantAccountNumber"
                                        onkeypress="return isAccountNumberKeyAllowed(event)" onpaste="return isAccountNumberPasteAllowed(event)">
                             </div>
@@ -471,7 +471,9 @@ table.dataTable thead th { position: relative; }
                                     <tr>
                                         <th>Account Name</th>
                                         <th>Type</th>
-                                        <th>Phone / Account Number</th>
+                                        <th>Sub Type</th>
+                                        <th>Account No</th>
+                                        <th>Monthly Budget</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -573,11 +575,16 @@ table.dataTable thead th { position: relative; }
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Template Name</label>
+                            <label class="form-label required">Template Name</label>
                             <input type="text" class="form-control" id="tplName" placeholder="e.g. Expiring Membership Reminder">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Channel</label>
+                            <select class="form-select" id="tplChannelType"></select>
+                            <div style="font-size:.72rem;color:#94a3b8;" class="mt-1">Only channels with an active gateway under SMS Gateway are selectable.</div>
+                        </div>
                         <div class="mb-1">
-                            <label class="form-label">Message Content</label>
+                            <label class="form-label required">Message Content</label>
                             <textarea class="form-control" id="tplMessage" rows="4" placeholder="Write your SMS message here…" oninput="onTplMessageInput()"></textarea>
                             <div class="d-flex justify-content-between align-items-center mt-1">
                                 <span style="font-size:.74rem;color:#94a3b8;"><span id="tplCharCount">0</span> / 160 characters</span>
@@ -610,6 +617,7 @@ table.dataTable thead th { position: relative; }
                                     <tr>
                                         <th>#</th>
                                         <th>Template Name</th>
+                                        <th>Channel</th>
                                         <th>Message</th>
                                         <th>Created</th>
                                         <th>Actions</th>
@@ -637,7 +645,7 @@ table.dataTable thead th { position: relative; }
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Discount Name</label>
+                        <label class="form-label required">Discount Name</label>
                         <input type="text" class="form-control" id="dName" placeholder="e.g. New Patient Welcome">
                     </div>
                     <div class="col-12 col-md-6">
@@ -649,7 +657,7 @@ table.dataTable thead th { position: relative; }
                         </select>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Discount Value</label>
+                        <label class="form-label required">Discount Value</label>
                         <div class="input-suffix-wrap">
                             <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="dValue"
                                    oninput="sanitizeDiscountValue(this)" onkeypress="return isDiscountValueKeyAllowed(event)">
@@ -657,11 +665,11 @@ table.dataTable thead th { position: relative; }
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label required">Start Date</label>
                         <input type="date" class="form-control" id="dStartDate">
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label">End Date</label>
+                        <label class="form-label required">End Date</label>
                         <input type="date" class="form-control" id="dEndDate">
                     </div>
                     <div class="col-12">
@@ -692,20 +700,34 @@ table.dataTable thead th { position: relative; }
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label class="form-label">Account Name</label>
+                        <label class="form-label required">Account Name</label>
                         <input type="text" class="form-control" id="paName" placeholder="e.g. Front Desk Cash">
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">Account Type</label>
-                        <select class="form-select" id="paType">
+                        <select class="form-select" id="paType" onchange="onPaymentAccountTypeChange()">
                             <option value="Cash">Cash</option>
-                            <option value="Evc">EVC</option>
                             <option value="Merchant">Merchant</option>
+                            <option value="MasterCard">Master Card</option>
                         </select>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label">Phone / Account Number</label>
-                        <input type="text" class="form-control" id="paPhoneOrAccount" placeholder="Optional">
+                    <div class="col-12 col-md-6" id="paTypeSubGroup">
+                        <label class="form-label">Account Type Sub</label>
+                        <select class="form-select" id="paTypeSub">
+                            <option value="None">None</option>
+                            <option value="Evc">EVC</option>
+                            <option value="Zaad">ZAAD</option>
+                            <option value="Somtel">SOMTEL</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" id="paNumberLabel">Account No</label>
+                        <input type="text" class="form-control" id="paNumber" placeholder="Not required for a plain Cash/Merchant account">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Monthly Budget Estimate</label>
+                        <input type="text" inputmode="decimal" class="form-control" id="paMonthlyBudget" placeholder="0.00">
+                        <div style="font-size:.72rem;color:#94a3b8;" class="mt-1">Expenses recorded against this account deduct from this every calendar month.</div>
                     </div>
                     <div class="col-12">
                         <div class="d-flex align-items-center justify-content-between p-3" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
@@ -735,7 +757,7 @@ table.dataTable thead th { position: relative; }
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Provider Name</label>
+                        <label class="form-label required">Provider Name</label>
                         <input type="text" class="form-control" id="gProviderName" placeholder="e.g. Gmail SMTP">
                     </div>
                     <div class="col-12 col-md-6">
@@ -748,11 +770,13 @@ table.dataTable thead th { position: relative; }
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">API Key</label>
-                        <input type="text" autocomplete="off" class="form-control" id="gApiKey">
+                        <input type="password" autocomplete="new-password" class="form-control" id="gApiKey">
+                        <div style="font-size:.72rem;color:#94a3b8;" class="mt-1">Leave the dots as-is to keep the saved value.</div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">API Secret</label>
-                        <input type="text" autocomplete="off" class="form-control" id="gApiSecret">
+                        <input type="password" autocomplete="new-password" class="form-control" id="gApiSecret">
+                        <div style="font-size:.72rem;color:#94a3b8;" class="mt-1">Leave the dots as-is to keep the saved value.</div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">Sender ID</label>
@@ -839,6 +863,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initPaymentAccountsTable();
     renderGatewaysTable();
     initTemplatesTable();
+    populateTemplateChannelOptions();
     renderVarTags();
     onTplMessageInput();
 });
@@ -1108,7 +1133,7 @@ function initDiscountsTable() {
     discountsTable = $('#discountsDataTable').DataTable({
         data: discounts,
         columns: [
-            { data: 'discountName', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            { data: 'discountName', render: function (v, type) { return type === 'display' ? '<span style="font-weight:700;color:#1e293b;">' + escapeHtml(v) + '</span>' : v; } },
             { data: 'discountType', render: function (v) { return DISCOUNT_TYPE_LABELS[v] || v; } },
             { data: 'discountValue', render: function (v) { return v + '%'; } },
             { data: 'startDate' },
@@ -1175,7 +1200,7 @@ function saveDiscount() {
             return d.id !== editingDiscountId && d.isActive && startDate <= d.endDate && d.startDate <= endDate;
         });
         if (conflict) {
-            toastr.error('"' + conflict.discountName + '" is already active from ' + conflict.startDate + ' to ' + conflict.endDate + ', which overlaps this date range.');
+            toastr.error('"' + escapeHtml(conflict.discountName) + '" is already active from ' + conflict.startDate + ' to ' + conflict.endDate + ', which overlaps this date range.');
             return;
         }
     }
@@ -1211,31 +1236,43 @@ function saveDiscount() {
 }
 
 function deleteDiscount(id) {
-    if (!confirm('Delete this discount?')) return;
-    fetch('/Settings/DeleteDiscount?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete discount'); return; }
-            discounts = discounts.filter(function (d) { return d.id !== id; });
-            toastr.success('Deleted');
-            refreshDiscountsTable();
-        });
+    confirmDelete('This discount will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Settings/DeleteDiscount?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete discount'); return; }
+                discounts = discounts.filter(function (d) { return d.id !== id; });
+                deletedAlert('Discount deleted.');
+                refreshDiscountsTable();
+            });
+    });
 }
 
 // ── Payment Accounts table ──
-var PAYMENT_ACCOUNT_TYPE_LABELS = { Cash: 'Cash', Evc: 'EVC', Merchant: 'Merchant' };
-var PAYMENT_ACCOUNT_TYPE_BADGE = { Cash: 'gp-badge-green', Evc: 'gp-badge-blue', Merchant: 'gp-badge-purple' };
+var PAYMENT_ACCOUNT_TYPE_LABELS = { Cash: 'Cash', Merchant: 'Merchant', MasterCard: 'Master Card' };
+var PAYMENT_ACCOUNT_TYPE_BADGE = { Cash: 'gp-badge-green', Merchant: 'gp-badge-purple', MasterCard: 'gp-badge-blue' };
+var PAYMENT_ACCOUNT_TYPE_SUB_LABELS = { None: '—', Evc: 'EVC', Zaad: 'ZAAD', Somtel: 'SOMTEL' };
 
 function initPaymentAccountsTable() {
     paymentAccountsTable = $('#paymentAccountsDataTable').DataTable({
         data: paymentAccounts,
         columns: [
-            { data: 'name', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            { data: 'name', render: function (v, type) { return type === 'display' ? '<span style="font-weight:700;color:#1e293b;">' + escapeHtml(v) + '</span>' : v; } },
             { data: 'accountType', render: function (v) { return '<span class="gp-badge ' + (PAYMENT_ACCOUNT_TYPE_BADGE[v] || 'gp-badge-gray') + '">' + (PAYMENT_ACCOUNT_TYPE_LABELS[v] || v) + '</span>'; } },
-            { data: 'phoneOrAccountNumber', render: function (v) { return v || '—'; } },
-            { data: 'isActive', render: function (v) { return v ? '<span class="gp-badge gp-badge-green">Active</span>' : '<span class="gp-badge gp-badge-gray">Inactive</span>'; } },
+            { data: 'accountTypeSub', render: function (v) { return escapeHtml(PAYMENT_ACCOUNT_TYPE_SUB_LABELS[v] || v || '—'); } },
+            { data: 'number', render: function (v, type) { return type === 'display' ? escapeHtml(v || '—') : (v || ''); } },
+            { data: 'monthlyBudgetEstimate', render: function (v) { return (v || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); } },
+            {
+                data: 'isActive', orderable: false, render: function (v, type, row) {
+                    if (type !== 'display') return v ? 1 : 0;
+                    return '<div class="form-check form-switch mb-0">'
+                        + '<input class="form-check-input" type="checkbox" ' + (v ? 'checked' : '') + ' style="width:38px;height:20px;cursor:pointer;" onchange="togglePaymentAccountStatus(' + row.id + ', this)">'
+                        + '</div>';
+                }
+            },
             {
                 data: null, orderable: false, searchable: false, render: function (v, type, row) {
                     return '<div style="display:flex;gap:6px;">'
@@ -1257,6 +1294,72 @@ function refreshPaymentAccountsTable() {
     paymentAccountsTable.clear().rows.add(paymentAccounts).draw();
 }
 
+// Master Card is always a plain card number; Cash/Merchant only need a number when tied to a
+// mobile-money carrier (Account Type Sub != None) so the payment can be traced to a real wallet.
+function onPaymentAccountTypeChange() {
+    var type = document.getElementById('paType').value;
+    var subGroup = document.getElementById('paTypeSubGroup');
+    var subField = document.getElementById('paTypeSub');
+    var numberField = document.getElementById('paNumber');
+    var label = document.getElementById('paNumberLabel');
+
+    if (type === 'MasterCard') {
+        subGroup.style.display = 'none';
+        subField.value = 'None';
+        numberField.disabled = false;
+        numberField.placeholder = 'Card number';
+        label.textContent = 'Account No';
+        label.classList.add('required');
+    } else {
+        subGroup.style.display = '';
+        updatePaymentAccountNumberRequirement();
+    }
+}
+
+function updatePaymentAccountNumberRequirement() {
+    var type = document.getElementById('paType').value;
+    if (type === 'MasterCard') return;
+    var sub = document.getElementById('paTypeSub').value;
+    var numberField = document.getElementById('paNumber');
+    var label = document.getElementById('paNumberLabel');
+    if (sub === 'None') {
+        numberField.placeholder = 'Not required for a plain Cash/Merchant account';
+        label.classList.remove('required');
+    } else {
+        numberField.placeholder = sub === 'Somtel' || sub === 'Evc' || sub === 'Zaad' ? 'e.g. +252-61-234-5678' : 'Account No';
+        label.classList.add('required');
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    var subSelect = document.getElementById('paTypeSub');
+    if (subSelect) subSelect.addEventListener('change', updatePaymentAccountNumberRequirement);
+});
+
+function togglePaymentAccountStatus(id, checkbox) {
+    var a = paymentAccounts.find(function (x) { return x.id === id; });
+    if (!a) return;
+    var body = {
+        name: a.name,
+        accountType: a.accountType,
+        accountTypeSub: a.accountTypeSub,
+        number: a.number,
+        monthlyBudgetEstimate: a.monthlyBudgetEstimate,
+        isActive: checkbox.checked
+    };
+    fetch('/Settings/UpdatePaymentAccount?id=' + id, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+    }).then(function (result) {
+        if (!result.ok) { toastr.error(result.data.message || 'Could not update status'); checkbox.checked = a.isActive; return; }
+        var idx = paymentAccounts.findIndex(function (x) { return x.id === id; });
+        if (idx >= 0) paymentAccounts[idx] = result.data;
+        toastr.success(result.data.isActive ? 'Account turned on' : 'Account turned off');
+    });
+}
+
 function openPaymentAccountModal(id) {
     editingPaymentAccountId = id || null;
     document.getElementById('paymentAccountModalTitle').textContent = id ? 'Edit Payment Account' : 'Add Payment Account';
@@ -1264,25 +1367,39 @@ function openPaymentAccountModal(id) {
         var a = paymentAccounts.find(function (x) { return x.id === id; });
         document.getElementById('paName').value = a.name;
         document.getElementById('paType').value = a.accountType;
-        document.getElementById('paPhoneOrAccount').value = a.phoneOrAccountNumber || '';
+        document.getElementById('paTypeSub').value = a.accountTypeSub || 'None';
+        document.getElementById('paNumber').value = a.number || '';
+        document.getElementById('paMonthlyBudget').value = a.monthlyBudgetEstimate || 0;
         document.getElementById('paActive').checked = a.isActive;
     } else {
         document.getElementById('paName').value = '';
         document.getElementById('paType').value = 'Cash';
-        document.getElementById('paPhoneOrAccount').value = '';
+        document.getElementById('paTypeSub').value = 'None';
+        document.getElementById('paNumber').value = '';
+        document.getElementById('paMonthlyBudget').value = '';
         document.getElementById('paActive').checked = true;
     }
+    onPaymentAccountTypeChange();
     new bootstrap.Modal(document.getElementById('paymentAccountModal')).show();
 }
 
 function savePaymentAccount() {
     var name = document.getElementById('paName').value.trim();
+    var accountType = document.getElementById('paType').value;
+    var accountTypeSub = accountType === 'MasterCard' ? 'None' : document.getElementById('paTypeSub').value;
+    var number = document.getElementById('paNumber').value.trim() || null;
+    var monthlyBudget = parseFloat(document.getElementById('paMonthlyBudget').value) || 0;
+    var numberRequired = accountType === 'MasterCard' || accountTypeSub !== 'None';
     if (!name) { toastr.error('Account name is required'); return; }
+    if (numberRequired && !number) { toastr.error('An Account No is required for ' + (accountType === 'MasterCard' ? 'Master Card' : accountTypeSub) + ' accounts'); return; }
+    if (monthlyBudget < 0) { toastr.error('Monthly budget estimate cannot be negative'); return; }
 
     var body = {
         name: name,
-        accountType: document.getElementById('paType').value,
-        phoneOrAccountNumber: document.getElementById('paPhoneOrAccount').value.trim() || null,
+        accountType: accountType,
+        accountTypeSub: accountTypeSub,
+        number: number,
+        monthlyBudgetEstimate: monthlyBudget,
         isActive: document.getElementById('paActive').checked
     };
 
@@ -1308,17 +1425,19 @@ function savePaymentAccount() {
 }
 
 function deletePaymentAccount(id) {
-    if (!confirm('Delete this payment account?')) return;
-    fetch('/Settings/DeletePaymentAccount?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete payment account'); return; }
-            paymentAccounts = paymentAccounts.filter(function (a) { return a.id !== id; });
-            toastr.success('Deleted');
-            refreshPaymentAccountsTable();
-        });
+    confirmDelete('This payment account will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Settings/DeletePaymentAccount?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete payment account'); return; }
+                paymentAccounts = paymentAccounts.filter(function (a) { return a.id !== id; });
+                deletedAlert('Payment account deleted.');
+                refreshPaymentAccountsTable();
+            });
+    });
 }
 
 // ── Port number input guard: digits only ──
@@ -1350,13 +1469,13 @@ function renderGatewaysTable() {
     tbody.innerHTML = gateways.length ? gateways.map(function (g) {
         return `
         <tr>
-            <td style="font-weight:700;color:#1e293b;">${g.providerName}</td>
+            <td style="font-weight:700;color:#1e293b;">${escapeHtml(g.providerName)}</td>
             <td>${maskSecret(g.apiKey)}</td>
             <td>${maskSecret(g.apiSecret)}</td>
-            <td>${g.senderId || '<span class="text-muted">—</span>'}</td>
+            <td>${g.senderId ? escapeHtml(g.senderId) : '<span class="text-muted">—</span>'}</td>
             <td>${g.isActive ? '<span class="gp-badge gp-badge-green">Active</span>' : '<span class="gp-badge gp-badge-gray">Inactive</span>'}</td>
             <td>${g.channelType}</td>
-            <td>${g.hostName || '<span class="text-muted">—</span>'}</td>
+            <td>${g.hostName ? escapeHtml(g.hostName) : '<span class="text-muted">—</span>'}</td>
             <td>${g.portNumber || '<span class="text-muted">—</span>'}</td>
             <td><div style="display:flex;gap:6px;">
                 <button class="gp-btn-icon gp-btn-edit" onclick="openGatewayModal(${g.id})"><i class="ri-pencil-line"></i></button>
@@ -1426,21 +1545,52 @@ function saveGatewayConfig() {
         toastr.success('Configuration saved successfully.', 'Saved');
         bootstrap.Modal.getInstance(document.getElementById('gatewayModal')).hide();
         renderGatewaysTable();
+        populateTemplateChannelOptions();
     });
 }
 
 function deleteGatewayConfig(id) {
-    if (!confirm('Delete this configuration?')) return;
-    fetch('/Settings/DeleteSmsConfiguration?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete configuration'); return; }
-            gateways = gateways.filter(function (g) { return g.id !== id; });
-            toastr.success('Deleted');
-            renderGatewaysTable();
-        });
+    confirmDelete('This gateway configuration will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Settings/DeleteSmsConfiguration?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete configuration'); return; }
+                gateways = gateways.filter(function (g) { return g.id !== id; });
+                deletedAlert('Configuration deleted.');
+                renderGatewaysTable();
+                populateTemplateChannelOptions();
+            });
+    });
+}
+
+// Only channels with at least one active gateway can be picked for a template -- otherwise it
+// could never actually be sent. If a template's own channel later loses its last active gateway,
+// it's still added as a (labeled) option so editing it doesn't silently discard the value.
+function activeGatewayChannels() {
+    var channels = gateways.filter(function (g) { return g.isActive; }).map(function (g) { return g.channelType; });
+    return channels.filter(function (c, i) { return channels.indexOf(c) === i; });
+}
+
+function populateTemplateChannelOptions(selected) {
+    var select = document.getElementById('tplChannelType');
+    if (!select) return;
+    var channels = activeGatewayChannels();
+    var keep = selected || select.value;
+    if (keep && channels.indexOf(keep) === -1) {
+        select.innerHTML = channels.concat([keep]).map(function (c) {
+            return '<option value="' + c + '"' + (c === keep ? ' selected' : '') + '>' + c + (c === keep && activeGatewayChannels().indexOf(c) === -1 ? ' (no active gateway)' : '') + '</option>';
+        }).join('');
+        return;
+    }
+    if (!channels.length) {
+        select.innerHTML = '<option value="">No active gateway configured</option>';
+        return;
+    }
+    select.innerHTML = channels.map(function (c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
+    if (keep && channels.indexOf(keep) !== -1) select.value = keep;
 }
 
 // ── SMS Templates ──
@@ -1486,11 +1636,12 @@ function initTemplatesTable() {
         data: templates,
         columns: [
             { data: null, orderable: false, searchable: false, render: function (v, type, row, meta) { return meta.row + 1; } },
-            { data: 'templateName', render: function (v) { return '<span style="font-weight:700;color:#1e293b;">' + v + '</span>'; } },
+            { data: 'templateName', render: function (v, type) { return type === 'display' ? '<span style="font-weight:700;color:#1e293b;">' + escapeHtml(v) + '</span>' : v; } },
+            { data: 'channelType', render: function (v) { return '<span class="gp-badge gp-badge-purple">' + v + '</span>'; } },
             {
-                data: 'messageBody', render: function (v) {
+                data: 'messageBody', render: function (v, type) {
                     var preview = v.length > 70 ? v.slice(0, 70) + '…' : v;
-                    return '<span style="color:#64748b;">' + preview + '</span>';
+                    return type === 'display' ? '<span style="color:#64748b;">' + escapeHtml(preview) + '</span>' : v;
                 }
             },
             { data: 'createdAt', render: function (v) { return relativeTime(v); } },
@@ -1523,6 +1674,7 @@ function editTemplate(id) {
     editingTemplateId = id;
     document.getElementById('tplName').value = t.templateName;
     document.getElementById('tplMessage').value = t.messageBody;
+    populateTemplateChannelOptions(t.channelType);
     onTplMessageInput();
     document.getElementById('tplFormTitle').textContent = 'Edit Template';
     document.getElementById('tplSaveBtnLabel').textContent = 'Update Template';
@@ -1533,6 +1685,7 @@ function cancelTemplateEdit() {
     editingTemplateId = null;
     document.getElementById('tplName').value = '';
     document.getElementById('tplMessage').value = '';
+    populateTemplateChannelOptions();
     onTplMessageInput();
     document.getElementById('tplFormTitle').textContent = 'New Template';
     document.getElementById('tplSaveBtnLabel').textContent = 'Save Template';
@@ -1542,13 +1695,14 @@ function cancelTemplateEdit() {
 function saveTemplate() {
     var name = document.getElementById('tplName').value.trim();
     var message = document.getElementById('tplMessage').value.trim();
+    var channelType = document.getElementById('tplChannelType').value;
     if (!name) { toastr.error('Template name is required'); return; }
     if (!message) { toastr.error('Message content is required'); return; }
+    if (!channelType) { toastr.error('Configure an active SMS Gateway channel before creating a template'); return; }
 
     var body = {
         templateName: name,
-        templateTypeId: editingTemplateId ? templates.find(function (x) { return x.id === editingTemplateId; }).templateTypeId : 4,
-        channelType: 'SMS',
+        channelType: channelType,
         messageBody: message,
         isActive: true
     };
@@ -1575,18 +1729,20 @@ function saveTemplate() {
 }
 
 function deleteTemplate(id) {
-    if (!confirm('Delete this template?')) return;
-    fetch('/Settings/DeleteSmsTemplate?id=' + id, { method: 'POST' })
-        .then(function (res) {
-            return res.json().then(function (data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function (result) {
-            if (!result.ok) { toastr.error(result.data.message || 'Could not delete template'); return; }
-            templates = templates.filter(function (t) { return t.id !== id; });
-            if (editingTemplateId === id) cancelTemplateEdit();
-            toastr.success('Deleted');
-            refreshTemplatesTable();
-        });
+    confirmDelete('This template will be permanently deleted.').then(function (confirmResult) {
+        if (!confirmResult.isConfirmed) return;
+        fetch('/Settings/DeleteSmsTemplate?id=' + id, { method: 'POST' })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (result) {
+                if (!result.ok) { toastr.error(result.data.message || 'Could not delete template'); return; }
+                templates = templates.filter(function (t) { return t.id !== id; });
+                if (editingTemplateId === id) cancelTemplateEdit();
+                deletedAlert('Template deleted.');
+                refreshTemplatesTable();
+            });
+    });
 }
 
 function sendTemplate(id) {

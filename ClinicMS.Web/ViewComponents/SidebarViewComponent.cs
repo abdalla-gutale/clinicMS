@@ -20,13 +20,13 @@ namespace ClinicMS.Web.ViewComponents
             ["/treatment-plans"] = "/MedicalServices/TreatmentPlans",
             ["/patient-cycles"] = "/MedicalServices/PatientCycles",
             ["/walk-in-sale"] = "/MedicalServices/WalkInSale",
+            ["/notifications"] = "/Notifications",
 
             ["/invoices"] = "/Payments/Invoices",
             ["/payments"] = "/Payments",
             ["/product-refunds"] = "/Payments/ProductRefunds",
-            ["/expense-categories"] = "/Expenses/Categories",
+            ["/expense-setup"] = "/Expenses/Setup",
             ["/expenses"] = "/Expenses",
-            ["/recurring-expenses"] = "/Expenses/RecurringExpenses",
 
             ["/product-categories"] = "/SupplyChain/ProductCategories",
             ["/products"] = "/SupplyChain/Products",
@@ -34,7 +34,7 @@ namespace ClinicMS.Web.ViewComponents
             ["/stock-movements"] = "/SupplyChain/StockMovements",
             ["/suppliers"] = "/SupplyChain/Suppliers",
             ["/purchase-orders"] = "/SupplyChain/PurchaseOrders",
-            ["/vendors"] = "/SupplyChain/Vendors",
+            ["/purchase-returns"] = "/SupplyChain/PurchaseReturns",
 
             ["/settings/clinic"] = "/Settings/General",
 
@@ -44,20 +44,8 @@ namespace ClinicMS.Web.ViewComponents
             ["/admin/nav-pages"] = "/Administration/NavPages",
             ["/admin/report-pages"] = "/Administration/ReportPages",
             ["/admin/audit"] = "/Activity",
-        };
 
-        // Keyed on the module names actually seeded on the live database (Registration, Finance,
-        // Supply Chain, Configuration, Administration, Reports) -- confirmed directly against the
-        // Modules table rather than DataSeeder.cs's current source, since this DB was seeded before
-        // that source's module names were last changed and never re-seeded.
-        private static readonly Dictionary<string, string> IconByModuleName = new(StringComparer.OrdinalIgnoreCase)
-        {
-            ["Registration"] = "ri-file-list-3-line",
-            ["Finance"] = "ri-bank-card-line",
-            ["Supply Chain"] = "ri-truck-line",
-            ["Configuration"] = "ri-settings-3-line",
-            ["Administration"] = "ri-shield-user-line",
-            ["Reports"] = "ri-bar-chart-box-line",
+            ["/reports/balance-sheet"] = "/Reports/BalanceSheet",
         };
 
         public SidebarViewComponent(IAuthApiClient authApiClient)
@@ -82,7 +70,7 @@ namespace ClinicMS.Web.ViewComponents
 
                     if (items.Count > 0)
                     {
-                        var icon = IconByModuleName.GetValueOrDefault(module.ModuleName, "ri-folder-3-line");
+                        var icon = string.IsNullOrWhiteSpace(module.ModuleIcon) ? "ri-folder-3-line" : module.ModuleIcon;
                         modules.Add(new SidebarModule(module.ModuleName, icon, items));
                     }
                 }

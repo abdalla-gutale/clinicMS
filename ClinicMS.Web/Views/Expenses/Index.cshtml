@@ -1,7 +1,7 @@
 @{
-    ViewData["Title"] = "Expenses";
+    ViewData["Title"] = "Expense Entry";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.pTitle = "Expenses";
+    ViewBag.pTitle = "Expense Entry";
 }
 
 @section styles {
@@ -31,6 +31,7 @@
 .gp-badge-teal { background:#ccfbf1; color:#0f766e; }
 .gp-badge-purple { background:#ede9fe; color:#6d28d9; }
 .gp-badge-orange { background:#ffedd5; color:#c2410c; }
+.gp-badge-amber { background:#fef3c7; color:#b45309; }
 .gp-btn-icon { width:32px; height:32px; border-radius:8px; border:none; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .15s; }
 .gp-btn-edit { background:#f0fdfa; color:#0d9488; }
 .gp-btn-edit:hover { background:#0d9488; color:#fff; }
@@ -57,12 +58,20 @@
 <div class="gp-page">
     <div class="gp-header">
         <div>
-            <h4 class="gp-title">Expenses</h4>
-            <p class="gp-sub">Track gym operational expenses</p>
+            <h4 class="gp-title">Expense Entry</h4>
+            <p class="gp-sub">Record and review individual expense transactions</p>
         </div>
-        <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
-            <i class="ri-add-line me-1"></i> Add Expense
-        </button>
+        <div class="d-flex gap-2">
+            <a href="/Expenses/Setup" class="btn btn-sm px-3 py-2 fw-700" style="border:1.5px solid #e2e8f0;color:#475569;border-radius:10px;">
+                <i class="ri-settings-3-line me-1"></i> Expense Setup
+            </a>
+            <button id="btnGenerateRecurring" class="btn btn-sm px-3 py-2 fw-700" style="border:1.5px solid #e2e8f0;color:#475569;border-radius:10px;" onclick="generateRecurring()" title="Check Setup Expenses schedules for anything due (by frequency and date) and generate entries">
+                <i class="ri-refresh-line me-1"></i> Generate Setup Expenses
+            </button>
+            <button class="btn btn-sm px-3 py-2 fw-700 text-white" style="background:#0d9488;border-radius:10px;" onclick="openModal()">
+                <i class="ri-add-line me-1"></i> Add Expense
+            </button>
+        </div>
     </div>
 
     <div class="row g-3 mb-4">
@@ -86,6 +95,16 @@
         </div>
     </div>
 
+    <div class="gp-card mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+                <h6 class="mb-0" style="font-weight:800;color:#1e293b;">Monthly Budget by Account</h6>
+                <p class="mb-0" style="font-size:.78rem;color:#94a3b8;">How much of each account's estimate is left this month</p>
+            </div>
+        </div>
+        <div class="row g-3" id="budgetSummaryRow"></div>
+    </div>
+
     <div class="gp-card">
         <div class="gp-filters">
             <div class="gp-search">
@@ -101,6 +120,7 @@
                 <option value="CreditCard">Credit Card</option>
                 <option value="BankTransfer">Bank Transfer</option>
                 <option value="WalletCredit">Wallet Credit</option>
+                <option value="Unassigned">Needs Review (auto-generated)</option>
             </select>
         </div>
         <div style="overflow-x:auto;">
@@ -116,6 +136,7 @@
                         <th>Method</th>
                         <th>Account</th>
                         <th>Receipt #</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="expensesTableBody"></tbody>
@@ -138,15 +159,15 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-6">
-                        <label class="form-label">Category</label>
+                        <label class="form-label required">Category</label>
                         <select class="form-select" id="fCategory"></select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Amount</label>
+                        <label class="form-label required">Amount</label>
                         <input type="number" class="form-control" id="fAmount">
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Title</label>
+                        <label class="form-label required">Title</label>
                         <input type="text" class="form-control" id="fTitle" placeholder="e.g. Monthly electricity bill">
                     </div>
                     <div class="col-6">
@@ -190,10 +211,11 @@
 
 @section Scripts {
 <script>
-    var EXPENSES_DATA   = @Html.Raw(ViewBag.ExpensesJson);
+    var EXPENSES_PAGE_DATA = @Html.Raw(ViewBag.ExpensesPageJson);
     var EXP_CATEGORIES  = @Html.Raw(ViewBag.CategoriesJson);
     var EXP_VENDORS     = @Html.Raw(ViewBag.VendorsJson);
     var EXP_ACCOUNTS    = @Html.Raw(ViewBag.PaymentAccountsJson);
+    var EXP_BUDGET_SUMMARY = @Html.Raw(ViewBag.BudgetSummaryJson ?? "[]");
 </script>
 <script src="~/scripts/Features/expenses.js"></script>
 }

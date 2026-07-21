@@ -111,7 +111,7 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Plan Name</label>
+                        <label class="form-label required">Plan Name</label>
                         <input type="text" class="form-control" id="fPlanName" placeholder="e.g. Acne Clearance Program">
                     </div>
                     <div class="col-12 col-md-6">
@@ -122,7 +122,7 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-6" id="fixedPriceWrap">
-                        <label class="form-label">Fixed Package Price</label>
+                        <label class="form-label required">Fixed Package Price</label>
                         <div class="input-suffix-wrap">
                             <input type="text" inputmode="decimal" autocomplete="off" class="form-control" id="fFixedPrice"
                                    onkeypress="return isPriceKeyAllowed(event)" oninput="sanitizePrice(this)">
@@ -138,7 +138,7 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label">Total Sessions</label>
+                        <label class="form-label required">Total Sessions</label>
                         <input type="text" inputmode="numeric" autocomplete="off" class="form-control" id="fTotalSessions" maxlength="3"
                                onkeypress="return isSessionsKeyAllowed(event)" oninput="onTotalSessionsInput(this)">
                     </div>
@@ -179,17 +179,17 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Patient</label>
+                        <label class="form-label required">Patient</label>
                         <select class="form-select" id="aPatient">
                             <option value="">Select a patient…</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Treatment Plan</label>
+                        <label class="form-label required">Treatment Plan</label>
                         <select class="form-select" id="aTreatmentPlan" disabled></select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label">Start Date</label>
+                        <label class="form-label required">Start Date</label>
                         <input type="date" class="form-control" id="aStartDate" onchange="onAssignStartDateChange()">
                     </div>
 

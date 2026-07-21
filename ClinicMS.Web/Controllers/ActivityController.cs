@@ -7,28 +7,29 @@ namespace ClinicMS.Web.Controllers
     [RequireAuth]
     public class ActivityController : Controller
     {
-        private readonly IAuditApiClient _auditApiClient;
-        private readonly IUsersApiClient _usersApiClient;
+        private const int DefaultPageSize = 12;
 
-        public ActivityController(IAuditApiClient auditApiClient, IUsersApiClient usersApiClient)
+        private readonly IAuditApiClient _auditApiClient;
+
+        public ActivityController(IAuditApiClient auditApiClient)
         {
             _auditApiClient = auditApiClient;
-            _usersApiClient = usersApiClient;
         }
 
+        [RequirePermission("/admin/audit", PermissionAction.View)]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var trail = await _auditApiClient.GetTrailAsync(1, 100, cancellationToken);
-            var userLogs = await _auditApiClient.GetUserLogsAsync(1, 100, cancellationToken);
-            var users = await _usersApiClient.GetAllAsync(cancellationToken);
-
-            var usernameById = users.ToDictionary(u => u.Id, u => u.Username);
-
-            ViewBag.AuditTrailJson = ViewJson.Serialize(trail.Items);
-            ViewBag.UserLogsJson = ViewJson.Serialize(userLogs.Items);
-            ViewBag.UsernamesJson = ViewJson.Serialize(usernameById);
-
+            var initialPage = await _auditApiClient.GetActivityFeedAsync(1, DefaultPageSize, null, null, cancellationToken);
+            ViewBag.ActivityPageJson = ViewJson.Serialize(initialPage);
             return View();
+        }
+
+        [HttpGet]
+        [RequirePermission("/admin/audit", PermissionAction.View)]
+        public async Task<IActionResult> GetPage(int page, int pageSize, string? search, string? action, CancellationToken cancellationToken)
+        {
+            var result = await _auditApiClient.GetActivityFeedAsync(page, pageSize, search, action, cancellationToken);
+            return Json(result);
         }
     }
 }

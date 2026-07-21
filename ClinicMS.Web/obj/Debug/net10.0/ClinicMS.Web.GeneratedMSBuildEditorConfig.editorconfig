@@ -20,281 +20,229 @@ build_property.TargetFrameworkVersion = v10.0
 build_property.EntryPointFilePath = 
 build_property.RootNamespace = ClinicMS.Web
 build_property.RootNamespace = ClinicMS.Web
-build_property.ProjectDir = D:\clinicMS\ClinicMS.Web\
+build_property.ProjectDir = C:\Users\abdal\OneDrive\Desktop\clinicMS\ClinicMS.Web\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\clinicMS\ClinicMS.Web
+build_property.MSBuildProjectDirectory = C:\Users\abdal\OneDrive\Desktop\clinicMS\ClinicMS.Web
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Account/Login.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Account/Otp.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/Otp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxPdHAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Account/Profile.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Activity/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Activity/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0aXZpdHlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Administration/Modules.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Administration/Modules.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cTW9kdWxlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Administration/NavPages.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Administration/NavPages.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cTmF2UGFnZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Administration/ReportPages.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Administration/ReportPages.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cUmVwb3J0UGFnZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Employees/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Employees/Types.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXFR5cGVzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Equipment/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXF1aXBtZW50XEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Expenses/Categories.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcQ2F0ZWdvcmllcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Expenses/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Expenses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Expenses/RecurringExpenses.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcUmVjdXJyaW5nRXhwZW5zZXMuY3NodG1s
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Expenses/Setup.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcU2V0dXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Home/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Home/NotFound.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Home/NotFound.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb3RGb3VuZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Home/ServerError.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Home/ServerError.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZXJ2ZXJFcnJvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Layouts/layoutsDetached.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF5b3V0c1xsYXlvdXRzRGV0YWNoZWQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Layouts/layoutsHorizontal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF5b3V0c1xsYXlvdXRzSG9yaXpvbnRhbC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Layouts/layoutsTwoColumn.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF5b3V0c1xsYXlvdXRzVHdvQ29sdW1uLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Layouts/layoutsVerticalHovered.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF5b3V0c1xsYXlvdXRzVmVydGljYWxIb3ZlcmVkLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/MedicalServices/PatientCycles.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/MedicalServices/PatientCycles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVkaWNhbFNlcnZpY2VzXFBhdGllbnRDeWNsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/MedicalServices/Services.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/MedicalServices/Services.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVkaWNhbFNlcnZpY2VzXFNlcnZpY2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/MedicalServices/ServiceTypes.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/MedicalServices/ServiceTypes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVkaWNhbFNlcnZpY2VzXFNlcnZpY2VUeXBlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/MedicalServices/TreatmentPlans.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/MedicalServices/TreatmentPlans.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVkaWNhbFNlcnZpY2VzXFRyZWF0bWVudFBsYW5zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/MedicalServices/WalkInSale.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/MedicalServices/WalkInSale.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVkaWNhbFNlcnZpY2VzXFdhbGtJblNhbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Membership/Members.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFxNZW1iZXJzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Membership/Packages.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFxQYWNrYWdlcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Membership/Subscriptions.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFxTdWJzY3JpcHRpb25zLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Notifications/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Notifications/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Patients/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Patients/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Payments/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Payments/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Payments/Invoices.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Payments/Invoices.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcSW52b2ljZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Payments/ProductRefunds.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Payments/ProductRefunds.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcUHJvZHVjdFJlZnVuZHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Roles/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Reports/BalanceSheet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xCYWxhbmNlU2hlZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Roles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Settings/Branches.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcQnJhbmNoZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Settings/General.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Settings/General.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcR2VuZXJhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Components/Branding/Default.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/Components/Branding/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQnJhbmRpbmdcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Components/SidebarBrand/Default.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/Components/SidebarBrand/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhckJyYW5kXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Components/Sidebar/Default.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/Components/Sidebar/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Error.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Layouts/_layout_detached.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX2xheW91dF9kZXRhY2hlZC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Layouts/_layout_horizontal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX2xheW91dF9ob3Jpem9udGFsLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Layouts/_layout_twocolumn.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX2xheW91dF90d29jb2x1bW4uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Shared/Layouts/_layout_vertical_hovered.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dHNcX2xheW91dF92ZXJ0aWNhbF9ob3ZlcmVkLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_AuthLayout.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_AuthLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BdXRoTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_BlankLayout.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_BlankLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CbGFua0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_ComingSoonCard.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_ComingSoonCard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db21pbmdTb29uQ2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_customizerLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9jdXN0b21pemVyTGF5b3V0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_footer.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9mb290ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_head_css.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_head_css.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9oZWFkX2Nzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_Layout.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_page_title.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_page_title.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9wYWdlX3RpdGxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_sidebar.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_sidebar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9zaWRlYmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_title_meta.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_title_meta.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF90aXRsZV9tZXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_topbar.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_topbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF90b3BiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shared/_vendor_scripts.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Shared/_vendor_scripts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF92ZW5kb3Jfc2NyaXB0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Shifts/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hpZnRzXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/ProductCategories.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/ProductCategories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cUHJvZHVjdENhdGVnb3JpZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/Products.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/Products.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/ProductSkus.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/ProductSkus.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cUHJvZHVjdFNrdXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/PurchaseOrders.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/PurchaseOrders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cUHVyY2hhc2VPcmRlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/StockMovements.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/PurchaseReturns.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cUHVyY2hhc2VSZXR1cm5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/StockMovements.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cU3RvY2tNb3ZlbWVudHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/Suppliers.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/Suppliers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cU3VwcGxpZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/SupplyChain/Vendors.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/SupplyChain/Vendors.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGx5Q2hhaW5cVmVuZG9ycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/Users/Index.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/Users/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/_ViewImports.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/clinicMS/ClinicMS.Web/Views/_ViewStart.cshtml]
+[C:/Users/abdal/OneDrive/Desktop/clinicMS/ClinicMS.Web/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

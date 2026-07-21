@@ -19,6 +19,7 @@ namespace ClinicMS.Web.Controllers
             _settingsApiClient = settingsApiClient;
         }
 
+        [RequirePermission("/service-types", PermissionAction.View)]
         public async Task<IActionResult> ServiceTypes(CancellationToken cancellationToken)
         {
             var types = await _medicalServicesApiClient.GetServiceTypesAsync(cancellationToken);
@@ -27,6 +28,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/service-types", PermissionAction.Create)]
         public async Task<IActionResult> CreateServiceType([FromBody] CreateServiceTypeRequest request, CancellationToken cancellationToken)
         {
             try
@@ -41,6 +43,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/service-types", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateServiceType(int id, [FromBody] UpdateServiceTypeRequest request, CancellationToken cancellationToken)
         {
             try
@@ -55,6 +58,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/service-types", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteServiceType(int id, CancellationToken cancellationToken)
         {
             try
@@ -68,6 +72,7 @@ namespace ClinicMS.Web.Controllers
             }
         }
 
+        [RequirePermission("/services", PermissionAction.View)]
         public async Task<IActionResult> Services(CancellationToken cancellationToken)
         {
             var services = await _medicalServicesApiClient.GetServicesAsync(cancellationToken);
@@ -78,6 +83,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/services", PermissionAction.Create)]
         public async Task<IActionResult> CreateService([FromBody] CreateServiceRequest request, CancellationToken cancellationToken)
         {
             try
@@ -92,6 +98,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/services", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateService(int id, [FromBody] UpdateServiceRequest request, CancellationToken cancellationToken)
         {
             try
@@ -106,6 +113,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/services", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteService(int id, CancellationToken cancellationToken)
         {
             try
@@ -119,6 +127,7 @@ namespace ClinicMS.Web.Controllers
             }
         }
 
+        [RequirePermission("/treatment-plans", PermissionAction.View)]
         public async Task<IActionResult> TreatmentPlans(CancellationToken cancellationToken)
         {
             var plans = await _medicalServicesApiClient.GetTreatmentPlansAsync(cancellationToken);
@@ -135,6 +144,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/treatment-plans", PermissionAction.Create)]
         public async Task<IActionResult> CreateTreatmentPlan([FromBody] CreateTreatmentPlanRequest request, CancellationToken cancellationToken)
         {
             try
@@ -149,6 +159,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/treatment-plans", PermissionAction.Edit)]
         public async Task<IActionResult> UpdateTreatmentPlan(int id, [FromBody] UpdateTreatmentPlanRequest request, CancellationToken cancellationToken)
         {
             try
@@ -163,6 +174,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/treatment-plans", PermissionAction.Delete)]
         public async Task<IActionResult> DeleteTreatmentPlan(int id, CancellationToken cancellationToken)
         {
             try
@@ -176,6 +188,7 @@ namespace ClinicMS.Web.Controllers
             }
         }
 
+        [RequirePermission("/patient-cycles", PermissionAction.View)]
         public async Task<IActionResult> PatientCycles(CancellationToken cancellationToken)
         {
             var cycles = await _medicalServicesApiClient.GetPatientCyclesAsync(cancellationToken);
@@ -201,6 +214,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Create)]
         public async Task<IActionResult> AssignPatientCycle([FromBody] AssignPatientCycleRequest request, CancellationToken cancellationToken)
         {
             try
@@ -215,6 +229,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Edit)]
         public async Task<IActionResult> UpdatePatientCycleSessions(int id, [FromBody] UpdatePatientCycleSessionsRequest request, CancellationToken cancellationToken)
         {
             try
@@ -229,6 +244,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Edit)]
         public async Task<IActionResult> ReschedulePatientCycleSession(int id, [FromBody] ReschedulePatientCycleSessionRequest request, CancellationToken cancellationToken)
         {
             try
@@ -243,6 +259,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Edit)]
         public async Task<IActionResult> CompletePatientCycleSession(int id, [FromBody] CompletePatientCycleSessionRequest request, CancellationToken cancellationToken)
         {
             try
@@ -257,6 +274,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Edit)]
         public async Task<IActionResult> RecordCyclePayment(int id, [FromBody] RecordCyclePaymentRequest request, CancellationToken cancellationToken)
         {
             try
@@ -271,6 +289,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/patient-cycles", PermissionAction.Delete)]
         public async Task<IActionResult> DeletePatientCycle(int id, CancellationToken cancellationToken)
         {
             try
@@ -284,6 +303,7 @@ namespace ClinicMS.Web.Controllers
             }
         }
 
+        [RequirePermission("/walk-in-sale", PermissionAction.View)]
         public async Task<IActionResult> WalkInSale(CancellationToken cancellationToken)
         {
             var patients = await _patientsApiClient.GetAllAsync(cancellationToken);
@@ -303,6 +323,7 @@ namespace ClinicMS.Web.Controllers
         }
 
         [HttpPost]
+        [RequirePermission("/walk-in-sale", PermissionAction.Create)]
         public async Task<IActionResult> CreateWalkInSale([FromBody] CreateWalkInSaleRequest request, CancellationToken cancellationToken)
         {
             try

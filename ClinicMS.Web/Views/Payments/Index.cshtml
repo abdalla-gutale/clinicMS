@@ -141,11 +141,11 @@
                 <div class="row g-3">
                     <input type="hidden" id="fInvoiceId">
                     <div class="col-12">
-                        <label class="form-label">Patient</label>
+                        <label class="form-label required">Patient</label>
                         <select class="form-select" id="fPatient"></select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Amount</label>
+                        <label class="form-label required">Amount</label>
                         <input type="number" class="form-control" id="fAmount">
                     </div>
                     <div class="col-6">
@@ -179,11 +179,12 @@
 
 @section Scripts {
 <script>
-    var OUTSTANDING_DATA = @Html.Raw(ViewBag.OutstandingJson);
+    var PAYMENTS_PAGE_DATA = @Html.Raw(ViewBag.OutstandingPageJson);
     var MONTH_TOTAL = @Json.Serialize(ViewBag.MonthTotal);
     var TODAY_TOTAL = @Json.Serialize(ViewBag.TodayTotal);
     var PAYMENT_ACCOUNTS_DATA = @Html.Raw(ViewBag.PaymentAccountsJson);
     var ACCOUNT_BREAKDOWN_DATA = @Html.Raw(ViewBag.AccountBreakdownJson);
+    var ALL_PATIENTS_DATA = @Html.Raw(ViewBag.AllPatientsJson);
 </script>
 <script src="~/scripts/Features/payments.js"></script>
 }
